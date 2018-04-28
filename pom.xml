@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.5.8.RELEASE</version>
+    </parent>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+        <flower.version>1.0-SNAPSHOT</flower.version>
+    </properties>
+
+    <groupId>com.flower</groupId>
+    <artifactId>flower</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <name>flower</name>
+    <modules>
+        <module>flower-back</module>
+        <module>flower-online</module>
+        <module>flower-domain</module>
+        <module>flower-db</module>
+    </modules>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.flower</groupId>
+                <artifactId>flower-back</artifactId>
+                <version>${flower.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.flower</groupId>
+                <artifactId>flower-online</artifactId>
+                <version>${flower.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.flower</groupId>
+                <artifactId>flower-domain</artifactId>
+                <version>${flower.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.flower</groupId>
+                <artifactId>flower-db</artifactId>
+                <version>${flower.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.shiro</groupId>
+                <artifactId>shiro-spring</artifactId>
+                <version>1.4.0</version>
+            </dependency>
+            <!-- shiro 引入缓存-->
+            <dependency>
+                <groupId>org.apache.shiro</groupId>
+                <artifactId>shiro-ehcache</artifactId>
+                <version>1.2.3</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.theborakompanioni</groupId>
+                <artifactId>thymeleaf-extras-shiro</artifactId>
+                <version>1.2.1</version>
+            </dependency>
+            <!--输出运行sql-->
+            <dependency>
+                <groupId>com.googlecode.log4jdbc</groupId>
+                <artifactId>log4jdbc</artifactId>
+                <version>1.2</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+</project>
