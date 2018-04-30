@@ -17,7 +17,7 @@
             <div class="collapse navbar-collapse" id="left-nav">
                 <ul class="nav nav-pills nav-stacked">
                     <li class="active">
-                        <a th:href="@{/sysUser}"><span class="glyphicon glyphicon-leaf btn"></span>用户管理
+                        <a th:href="@{/sysUser}"><span class="glyphicon glyphicon-leaf btn-sm"></span>用户管理
                         </a>
                     </li>
                     <li><a th:href="@{/role}"><span
@@ -25,11 +25,15 @@
                     </li>
                     <li><a th:href="@{/permission}"><span class="glyphicon glyphicon-leaf btn left-menu-icon"></span>权限管理</a>
                     </li>
-                    <li><a href=""><span class="glyphicon glyphicon-leaf btn left-menu-icon"></span>会员管理</a></li>
-                    <li><a href=""><span class="glyphicon glyphicon-leaf btn left-menu-icon"></span>商品管理</a></li>
-                    <li><a href=""><span class="glyphicon glyphicon-leaf btn left-menu-icon"></span>商品类别管理</a></li>
+                    <li><a href="" th:href="@{/user}"><span class="glyphicon glyphicon-leaf btn left-menu-icon"></span>会员管理</a>
+                    </li>
+                    <li><a href=""><span
+                            class="glyphicon glyphicon-leaf btn left-menu-icon"></span>商品管理</a></li>
+                    <li><a href="" th:href="@{/category}"><span
+                            class="glyphicon glyphicon-leaf btn left-menu-icon"></span>商品类别管理</a></li>
                     <li><a href=""><span class="glyphicon glyphicon-leaf btn left-menu-icon"></span>评价管理</a></li>
-                    <li><a href=""><span class="glyphicon glyphicon-leaf btn left-menu-icon"></span>公告管理</a></li>
+                    <li><a href="" th:href="@{/notice}"><span
+                            class="glyphicon glyphicon-leaf btn left-menu-icon"></span>公告管理</a></li>
                     <li><a href=""><span class="glyphicon glyphicon-leaf btn left-menu-icon"></span>商品库存管理</a></li>
                     <li><a href=""><span class="glyphicon glyphicon-leaf btn left-menu-icon"></span>供应商管理</a></li>
                     <li><a href=""><span class="glyphicon glyphicon-leaf btn left-menu-icon"></span>统计分析</a></li>

@@ -1,46 +1,44 @@
 package com.flower.entity;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 
 /**
- * Created by yumaoying on 2018/3/25.
- * 商品信息
+ * Created by yumaoying on 2018/4/29.
  */
 @Entity
-public class Goods implements Serializable {
-    private int goodsId;     //商品编号
-    private String goodsName;  //商品名称
-    private String goodsDesc;  //商品描述
-    private String goodsPic;   //商品图片
-    private String goodsColor;  //商品颜色
-    private Double goodsShijia;  //商品市场价
-    private Double goodsPrice;  //商品售价
-    private Integer goodsCatelogId;  //商品类别id
-    private Double goodsPurchasePrice;  //进货单价
-    private BigDecimal goodsDiscount;  //商品折扣
-    private String goodsMean;  //花语
-    private List<Car> carList;
-    private Category category;
-    private List<OrderDetail> orderDetails;
+public class Goods {
+    private Integer goodsId;
+    private String goodsName;
+    private String goodsDesc;
+    private String goodsPic;
+    private String goodsColor;
+    private BigDecimal goodsShijia;
+    private BigDecimal goodsPrice;
+    private BigDecimal goodsPurchasePrice;
+    private BigDecimal goodsDiscount;
+    private String goodsMean;
+    private List<Car> cars;
+    private List<Comments> comments;
+    private List<GoodsCategory> goodsCategories;
+    private List<OrderDetail> orderDetailsByGoodsId;
     private List<Purchase> purchases;
     private List<Stock> stocks;
 
     @Id
     @Column(name = "goods_id", nullable = false)
     @GeneratedValue
-    public int getGoodsId() {
+    public Integer getGoodsId() {
         return goodsId;
     }
 
-    public void setGoodsId(int goodsId) {
+    public void setGoodsId(Integer goodsId) {
         this.goodsId = goodsId;
     }
 
-    @Basic
+
     @Column(name = "goods_name", nullable = true, length = 50)
     public String getGoodsName() {
         return goodsName;
@@ -50,7 +48,7 @@ public class Goods implements Serializable {
         this.goodsName = goodsName;
     }
 
-    @Basic
+
     @Column(name = "goods_desc", nullable = true, length = 1000)
     public String getGoodsDesc() {
         return goodsDesc;
@@ -60,7 +58,7 @@ public class Goods implements Serializable {
         this.goodsDesc = goodsDesc;
     }
 
-    @Basic
+
     @Column(name = "goods_pic", nullable = true, length = 50)
     public String getGoodsPic() {
         return goodsPic;
@@ -70,7 +68,7 @@ public class Goods implements Serializable {
         this.goodsPic = goodsPic;
     }
 
-    @Basic
+
     @Column(name = "goods_color", nullable = true, length = 50)
     public String getGoodsColor() {
         return goodsColor;
@@ -80,47 +78,37 @@ public class Goods implements Serializable {
         this.goodsColor = goodsColor;
     }
 
-    @Basic
+
     @Column(name = "goods_shijia", nullable = true, precision = 0)
-    public Double getGoodsShijia() {
+    public BigDecimal getGoodsShijia() {
         return goodsShijia;
     }
 
-    public void setGoodsShijia(Double goodsShijia) {
+    public void setGoodsShijia(BigDecimal goodsShijia) {
         this.goodsShijia = goodsShijia;
     }
 
-    @Basic
+
     @Column(name = "goods_price", nullable = true, precision = 0)
-    public Double getGoodsPrice() {
+    public BigDecimal getGoodsPrice() {
         return goodsPrice;
     }
 
-    public void setGoodsPrice(Double goodsPrice) {
+    public void setGoodsPrice(BigDecimal goodsPrice) {
         this.goodsPrice = goodsPrice;
     }
 
-    @Basic
-    @Column(name = "goods_catelog_id", nullable = true)
-    public Integer getGoodsCatelogId() {
-        return goodsCatelogId;
-    }
 
-    public void setGoodsCatelogId(Integer goodsCatelogId) {
-        this.goodsCatelogId = goodsCatelogId;
-    }
-
-    @Basic
     @Column(name = "goods_purchase_price", nullable = true, precision = 0)
-    public Double getGoodsPurchasePrice() {
+    public BigDecimal getGoodsPurchasePrice() {
         return goodsPurchasePrice;
     }
 
-    public void setGoodsPurchasePrice(Double goodsPurchasePrice) {
+    public void setGoodsPurchasePrice(BigDecimal goodsPurchasePrice) {
         this.goodsPurchasePrice = goodsPurchasePrice;
     }
 
-    @Basic
+
     @Column(name = "goods_discount", nullable = true, precision = 2)
     public BigDecimal getGoodsDiscount() {
         return goodsDiscount;
@@ -130,7 +118,7 @@ public class Goods implements Serializable {
         this.goodsDiscount = goodsDiscount;
     }
 
-    @Basic
+
     @Column(name = "goods_mean", nullable = true, length = 1000)
     public String getGoodsMean() {
         return goodsMean;
@@ -152,7 +140,6 @@ public class Goods implements Serializable {
                 Objects.equals(goodsColor, goods.goodsColor) &&
                 Objects.equals(goodsShijia, goods.goodsShijia) &&
                 Objects.equals(goodsPrice, goods.goodsPrice) &&
-                Objects.equals(goodsCatelogId, goods.goodsCatelogId) &&
                 Objects.equals(goodsPurchasePrice, goods.goodsPurchasePrice) &&
                 Objects.equals(goodsDiscount, goods.goodsDiscount) &&
                 Objects.equals(goodsMean, goods.goodsMean);
@@ -161,52 +148,60 @@ public class Goods implements Serializable {
     @Override
     public int hashCode() {
 
-        return Objects.hash(goodsId, goodsName, goodsDesc, goodsPic, goodsColor, goodsShijia, goodsPrice, goodsCatelogId, goodsPurchasePrice, goodsDiscount, goodsMean);
-    }
-
-    @OneToMany(mappedBy = "goods", fetch = FetchType.LAZY)
-    public List<Car> getCarList() {
-        return carList;
-    }
-
-    public void setCarList(List<Car> carList) {
-        this.carList = carList;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "goods_catelog_id", referencedColumnName = "category_id")
-    public Category getcategory() {
-        return category;
-    }
-
-    public void setcategory(Category category) {
-        this.category = category;
+        return Objects.hash(goodsId, goodsName, goodsDesc, goodsPic, goodsColor, goodsShijia, goodsPrice, goodsPurchasePrice, goodsDiscount, goodsMean);
     }
 
     @OneToMany(mappedBy = "goods")
-    public List<OrderDetail> getorderDetails() {
-        return orderDetails;
+    public List<Car> getCars() {
+        return cars;
     }
 
-    public void setorderDetails(List<OrderDetail> orderDetails) {
-        this.orderDetails = orderDetails;
+    public void setCars(List<Car> cars) {
+        this.cars = cars;
     }
 
     @OneToMany(mappedBy = "goods")
-    public List<Purchase> getpurchases() {
+    public List<Comments> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comments> comments) {
+        this.comments = comments;
+    }
+
+    @OneToMany(mappedBy = "goods")
+    public List<GoodsCategory> getGoodsCategories() {
+        return goodsCategories;
+    }
+
+    public void setGoodsCategories(List<GoodsCategory> goodsCategories) {
+        this.goodsCategories = goodsCategories;
+    }
+
+    @OneToMany(mappedBy = "goods")
+    public List<OrderDetail> getOrderDetailsByGoodsId() {
+        return orderDetailsByGoodsId;
+    }
+
+    public void setOrderDetailsByGoodsId(List<OrderDetail> orderDetailsByGoodsId) {
+        this.orderDetailsByGoodsId = orderDetailsByGoodsId;
+    }
+
+    @OneToMany(mappedBy = "goods")
+    public List<Purchase> getPurchases() {
         return purchases;
     }
 
-    public void setpurchases(List<Purchase> purchases) {
+    public void setPurchases(List<Purchase> purchases) {
         this.purchases = purchases;
     }
 
     @OneToMany(mappedBy = "goods")
-    public List<Stock> getstocks() {
+    public List<Stock> getStocks() {
         return stocks;
     }
 
-    public void setstocks(List<Stock> stocks) {
+    public void setStocks(List<Stock> stocks) {
         this.stocks = stocks;
     }
 }

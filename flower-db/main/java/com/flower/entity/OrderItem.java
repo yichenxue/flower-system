@@ -1,36 +1,35 @@
 package com.flower.entity;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
-import java.util.Collection;
+import java.math.BigDecimal;
+import java.util.List;
 import java.util.Objects;
 
 /**
- * Created by yumaoying on 2018/3/25.
- * 订单信息
+ * Created by yumaoying on 2018/4/29.
  */
 @Entity
-public class Order {
-    private int orderId; //编号
-    private String orderNo;  //订单号
-    private Integer orderUserId; //订单用户id
-    private Integer orderNumber; //订单总量
-    private Double orderAmount; //订单总额
-    private Timestamp orderDate; //订单日期
-    private Collection<OrderDetail> orderDetails;
+public class OrderItem {
+    private Integer orderId;
+    private String orderNo;
+    private Integer orderUserId;
+    private Integer orderNumber;
+    private BigDecimal orderAmount;
+    private String orderDate;
+    private List<OrderDetail> orderDetails;
 
     @Id
     @Column(name = "order_id", nullable = false)
     @GeneratedValue
-    public int getOrderId() {
+    public Integer getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(int orderId) {
+    public void setOrderId(Integer orderId) {
         this.orderId = orderId;
     }
 
-    @Basic
+
     @Column(name = "order_no", nullable = true, length = 100)
     public String getOrderNo() {
         return orderNo;
@@ -40,7 +39,7 @@ public class Order {
         this.orderNo = orderNo;
     }
 
-    @Basic
+
     @Column(name = "order_user_id", nullable = true)
     public Integer getOrderUserId() {
         return orderUserId;
@@ -50,7 +49,7 @@ public class Order {
         this.orderUserId = orderUserId;
     }
 
-    @Basic
+
     @Column(name = "order_number", nullable = true)
     public Integer getOrderNumber() {
         return orderNumber;
@@ -60,23 +59,23 @@ public class Order {
         this.orderNumber = orderNumber;
     }
 
-    @Basic
+
     @Column(name = "order_amount", nullable = true, precision = 0)
-    public Double getOrderAmount() {
+    public BigDecimal getOrderAmount() {
         return orderAmount;
     }
 
-    public void setOrderAmount(Double orderAmount) {
+    public void setOrderAmount(BigDecimal orderAmount) {
         this.orderAmount = orderAmount;
     }
 
-    @Basic
+
     @Column(name = "order_date", nullable = true)
-    public Timestamp getOrderDate() {
+    public String getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(Timestamp orderDate) {
+    public void setOrderDate(String orderDate) {
         this.orderDate = orderDate;
     }
 
@@ -84,13 +83,13 @@ public class Order {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Order order = (Order) o;
-        return orderId == order.orderId &&
-                Objects.equals(orderNo, order.orderNo) &&
-                Objects.equals(orderUserId, order.orderUserId) &&
-                Objects.equals(orderNumber, order.orderNumber) &&
-                Objects.equals(orderAmount, order.orderAmount) &&
-                Objects.equals(orderDate, order.orderDate);
+        OrderItem orderItem = (OrderItem) o;
+        return orderId == orderItem.orderId &&
+                Objects.equals(orderNo, orderItem.orderNo) &&
+                Objects.equals(orderUserId, orderItem.orderUserId) &&
+                Objects.equals(orderNumber, orderItem.orderNumber) &&
+                Objects.equals(orderAmount, orderItem.orderAmount) &&
+                Objects.equals(orderDate, orderItem.orderDate);
     }
 
     @Override
@@ -99,12 +98,12 @@ public class Order {
         return Objects.hash(orderId, orderNo, orderUserId, orderNumber, orderAmount, orderDate);
     }
 
-    @OneToMany(mappedBy = "order")
-    public Collection<OrderDetail> getorderDetails() {
+    @OneToMany(mappedBy = "orderItem")
+    public List<OrderDetail> getOrderDetails() {
         return orderDetails;
     }
 
-    public void setorderDetails(Collection<OrderDetail> orderDetails) {
+    public void setOrderDetails(List<OrderDetail> orderDetails) {
         this.orderDetails = orderDetails;
     }
 }

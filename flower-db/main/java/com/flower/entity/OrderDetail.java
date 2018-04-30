@@ -1,54 +1,49 @@
 package com.flower.entity;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.sql.Timestamp;
+import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
- * Created by yumaoying on 2018/3/25.
- * 订单明细
+ * Created by yumaoying on 2018/4/29.
  */
 @Entity
-@Table(name = "order_detail", schema = "hua", catalog = "")
-public class OrderDetail implements Serializable {
-    private int orderId;  //编号
-    private String orderNo; //订单编号
-    private int goodsId; //商品id
-    private Double goodsPerPrice; //商品单价
-    private Integer orderNumber; //订单数量
-    private Double orderAmount; //订单金额
-    private int orderUserId; //订单用户id
-    private String orderPayWay; //付款方式
-    private Timestamp orderDate; //订单生成日期
-    private String orderStatus; //订单状态(00-未支付,02-支付失败,03-支付成功,04-已受理,待发货,05-已发货,运输中,07-待收货,08-已收货,09-待评价,10-已评价,11-订单已取消,12-订单已删除)
-    private String orderAddress; //收款人地址
-    private String orderUserName; //收货人姓名
-    private String orderUserPhone; //收货人联系方式
-    private Timestamp orderDeliver; //送货日期
-    private String orderSenderName; //送货人姓名
-    private String orderSenderTel; //送货人联系方式
-    private Timestamp orderFinishDate; //订单完成日期(最后收货日期)
-    private String orderRemark; //订单备注
-    private String orderExpress; //快递公司
-    private Integer orderParentId; //父订单id
-    private String orderExpressStatus; //物流状态
-    private Goods goods; //
-    private User user; //
-    private Order order; //
+@Table(name = "order_detail")
+public class OrderDetail {
+    private Integer id;
+    private String orderNo;
+    private BigDecimal goodsPerPrice;
+    private Integer orderNumber;
+    private BigDecimal orderAmount;
+    private String orderPayWay;
+    private String orderDate;
+    private String orderStatus;
+    private String orderAddress;
+    private String orderUserName;
+    private String orderUserPhone;
+    private String orderDeliver;
+    private String orderSenderName;
+    private String orderSenderTel;
+    private String orderFinishDate;
+    private String orderRemark;
+    private String orderExpress;
+    private String orderExpressStatus;
+    private Goods goods;
+    private User user;
+    private OrderItem orderItem;
 
     @Id
-    @Column(name = "order_id", nullable = false)
+    @Column(name = "id", nullable = false)
     @GeneratedValue
-    public int getOrderId() {
-        return orderId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setOrderId(int orderId) {
-        this.orderId = orderId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    @Basic
+
     @Column(name = "order_no", nullable = false, length = 32)
     public String getOrderNo() {
         return orderNo;
@@ -58,27 +53,19 @@ public class OrderDetail implements Serializable {
         this.orderNo = orderNo;
     }
 
-    @Basic
-    @Column(name = "goods_id", nullable = false)
-    public int getGoodsId() {
-        return goodsId;
-    }
 
-    public void setGoodsId(int goodsId) {
-        this.goodsId = goodsId;
-    }
 
-    @Basic
+
     @Column(name = "goods_per_price", nullable = true, precision = 0)
-    public Double getGoodsPerPrice() {
+    public BigDecimal getGoodsPerPrice() {
         return goodsPerPrice;
     }
 
-    public void setGoodsPerPrice(Double goodsPerPrice) {
+    public void setGoodsPerPrice(BigDecimal goodsPerPrice) {
         this.goodsPerPrice = goodsPerPrice;
     }
 
-    @Basic
+
     @Column(name = "order_number", nullable = true)
     public Integer getOrderNumber() {
         return orderNumber;
@@ -88,27 +75,17 @@ public class OrderDetail implements Serializable {
         this.orderNumber = orderNumber;
     }
 
-    @Basic
+
     @Column(name = "order_amount", nullable = true, precision = 0)
-    public Double getOrderAmount() {
+    public BigDecimal getOrderAmount() {
         return orderAmount;
     }
 
-    public void setOrderAmount(Double orderAmount) {
+    public void setOrderAmount(BigDecimal orderAmount) {
         this.orderAmount = orderAmount;
     }
 
-    @Basic
-    @Column(name = "order_user_id", nullable = false)
-    public int getOrderUserId() {
-        return orderUserId;
-    }
 
-    public void setOrderUserId(int orderUserId) {
-        this.orderUserId = orderUserId;
-    }
-
-    @Basic
     @Column(name = "order_pay_way", nullable = true, length = 100)
     public String getOrderPayWay() {
         return orderPayWay;
@@ -118,17 +95,17 @@ public class OrderDetail implements Serializable {
         this.orderPayWay = orderPayWay;
     }
 
-    @Basic
+
     @Column(name = "order_date", nullable = true)
-    public Timestamp getOrderDate() {
+    public String getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(Timestamp orderDate) {
+    public void setOrderDate(String orderDate) {
         this.orderDate = orderDate;
     }
 
-    @Basic
+
     @Column(name = "order_status", nullable = true, length = 4)
     public String getOrderStatus() {
         return orderStatus;
@@ -138,7 +115,7 @@ public class OrderDetail implements Serializable {
         this.orderStatus = orderStatus;
     }
 
-    @Basic
+
     @Column(name = "order_address", nullable = true, length = 150)
     public String getOrderAddress() {
         return orderAddress;
@@ -148,7 +125,6 @@ public class OrderDetail implements Serializable {
         this.orderAddress = orderAddress;
     }
 
-    @Basic
     @Column(name = "order_user_name", nullable = true, length = 100)
     public String getOrderUserName() {
         return orderUserName;
@@ -158,7 +134,7 @@ public class OrderDetail implements Serializable {
         this.orderUserName = orderUserName;
     }
 
-    @Basic
+
     @Column(name = "order_user_phone", nullable = true, length = 20)
     public String getOrderUserPhone() {
         return orderUserPhone;
@@ -168,17 +144,17 @@ public class OrderDetail implements Serializable {
         this.orderUserPhone = orderUserPhone;
     }
 
-    @Basic
+
     @Column(name = "order_deliver", nullable = true)
-    public Timestamp getOrderDeliver() {
+    public String getOrderDeliver() {
         return orderDeliver;
     }
 
-    public void setOrderDeliver(Timestamp orderDeliver) {
+    public void setOrderDeliver(String orderDeliver) {
         this.orderDeliver = orderDeliver;
     }
 
-    @Basic
+
     @Column(name = "order_sender_name", nullable = true, length = 50)
     public String getOrderSenderName() {
         return orderSenderName;
@@ -188,7 +164,7 @@ public class OrderDetail implements Serializable {
         this.orderSenderName = orderSenderName;
     }
 
-    @Basic
+
     @Column(name = "order_sender_tel", nullable = true, length = 20)
     public String getOrderSenderTel() {
         return orderSenderTel;
@@ -198,17 +174,17 @@ public class OrderDetail implements Serializable {
         this.orderSenderTel = orderSenderTel;
     }
 
-    @Basic
+
     @Column(name = "order_finish_date", nullable = true)
-    public Timestamp getOrderFinishDate() {
+    public String getOrderFinishDate() {
         return orderFinishDate;
     }
 
-    public void setOrderFinishDate(Timestamp orderFinishDate) {
+    public void setOrderFinishDate(String orderFinishDate) {
         this.orderFinishDate = orderFinishDate;
     }
 
-    @Basic
+
     @Column(name = "order_remark", nullable = true, length = 500)
     public String getOrderRemark() {
         return orderRemark;
@@ -218,7 +194,7 @@ public class OrderDetail implements Serializable {
         this.orderRemark = orderRemark;
     }
 
-    @Basic
+
     @Column(name = "order_express", nullable = true, length = 100)
     public String getOrderExpress() {
         return orderExpress;
@@ -228,17 +204,6 @@ public class OrderDetail implements Serializable {
         this.orderExpress = orderExpress;
     }
 
-    @Basic
-    @Column(name = "order_parent_id", nullable = true)
-    public Integer getOrderParentId() {
-        return orderParentId;
-    }
-
-    public void setOrderParentId(Integer orderParentId) {
-        this.orderParentId = orderParentId;
-    }
-
-    @Basic
     @Column(name = "order_express_status", nullable = true, length = 100)
     public String getOrderExpressStatus() {
         return orderExpressStatus;
@@ -253,9 +218,8 @@ public class OrderDetail implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         OrderDetail that = (OrderDetail) o;
-        return orderId == that.orderId &&
-                goodsId == that.goodsId &&
-                orderUserId == that.orderUserId &&
+        return id == that.id &&
+                goods == that.goods &&
                 Objects.equals(orderNo, that.orderNo) &&
                 Objects.equals(goodsPerPrice, that.goodsPerPrice) &&
                 Objects.equals(orderNumber, that.orderNumber) &&
@@ -272,43 +236,42 @@ public class OrderDetail implements Serializable {
                 Objects.equals(orderFinishDate, that.orderFinishDate) &&
                 Objects.equals(orderRemark, that.orderRemark) &&
                 Objects.equals(orderExpress, that.orderExpress) &&
-                Objects.equals(orderParentId, that.orderParentId) &&
                 Objects.equals(orderExpressStatus, that.orderExpressStatus);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(orderId, orderNo, goodsId, goodsPerPrice, orderNumber, orderAmount, orderUserId, orderPayWay, orderDate, orderStatus, orderAddress, orderUserName, orderUserPhone, orderDeliver, orderSenderName, orderSenderTel, orderFinishDate, orderRemark, orderExpress, orderParentId, orderExpressStatus);
+        return Objects.hash(id, orderNo, goodsPerPrice, orderNumber, orderAmount, orderPayWay, orderDate, orderStatus, orderAddress, orderUserName, orderUserPhone, orderDeliver, orderSenderName, orderSenderTel, orderFinishDate, orderRemark, orderExpress, orderExpressStatus);
     }
 
     @ManyToOne
     @JoinColumn(name = "goods_id", referencedColumnName = "goods_id", nullable = false)
-    public Goods getgoods() {
+    public Goods getGoods() {
         return goods;
     }
 
-    public void setgoods(Goods goods) {
+    public void setGoods(Goods goods) {
         this.goods = goods;
     }
 
     @ManyToOne
     @JoinColumn(name = "order_user_id", referencedColumnName = "user_id", nullable = false)
-    public User getuser() {
+    public User getUser() {
         return user;
     }
 
-    public void setuser(User user) {
+    public void setUser(User user) {
         this.user = user;
     }
 
     @ManyToOne
     @JoinColumn(name = "order_parent_id", referencedColumnName = "order_id")
-    public Order getorder() {
-        return order;
+    public OrderItem getOrderItem() {
+        return orderItem;
     }
 
-    public void setorder(Order order) {
-        this.order = order;
+    public void setOrderItem(OrderItem orderItem) {
+        this.orderItem = orderItem;
     }
 }

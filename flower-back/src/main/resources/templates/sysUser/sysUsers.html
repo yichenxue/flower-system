@@ -164,6 +164,8 @@
 <script src="../../static/js/jquery.dataTables.min.js" th:src="@{/js/jquery.dataTables.min.js}"></script>
 <script src="../../static/js/dataTables.bootstrap.min.js" th:src="@{/js/dataTables.bootstrap.min.js}"></script>
 <script src="../../static/js/layer.js" th:src="@{/js/layer.js}"></script>
+<script src="../../static/js/flower.js" th:src="@{/js/flower.js}"></script>
+
 <script type="text/javascript" th:inline="javascript">
     //封装查询参数
     function getQueryCondition(data) {
@@ -330,7 +332,7 @@
                     layer.msg('保存成功');
                     table.ajax.reload();
                     $('#addUser').modal('hide');
-                } else if (data = "fail") {
+                } else if (data == "fail") {
                     layer.msg('该用户已存在');
                     $('#addUser').modal('hide');
                 } else {

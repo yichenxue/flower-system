@@ -1,35 +1,32 @@
 package com.flower.entity;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
 /**
- * Created by yumaoying on 2018/3/25.
- * 供应商信息
+ * Created by yumaoying on 2018/4/29.
  */
 @Entity
-public class Supplier implements Serializable {
-    private int supId; //供应商编号
-    private String supName; //供应商名称
-    private String supAddress; //供应商地址
-    private String supTel; //供应商联系方式
-    private String supEamil; //供应商邮箱
+public class Supplier {
+    private Integer supId;
+    private String supName;
+    private String supAddress;
+    private String supTel;
+    private String supEamil;
     private List<Purchase> purchases;
 
     @Id
     @Column(name = "sup_id", nullable = false)
     @GeneratedValue
-    public int getSupId() {
+    public Integer getSupId() {
         return supId;
     }
 
-    public void setSupId(int supId) {
+    public void setSupId(Integer supId) {
         this.supId = supId;
     }
 
-    @Basic
     @Column(name = "sup_name", nullable = false, length = 50)
     public String getSupName() {
         return supName;
@@ -39,7 +36,7 @@ public class Supplier implements Serializable {
         this.supName = supName;
     }
 
-    @Basic
+
     @Column(name = "sup_address", nullable = true, length = 100)
     public String getSupAddress() {
         return supAddress;
@@ -49,7 +46,7 @@ public class Supplier implements Serializable {
         this.supAddress = supAddress;
     }
 
-    @Basic
+
     @Column(name = "sup_tel", nullable = true, length = 20)
     public String getSupTel() {
         return supTel;
@@ -59,7 +56,7 @@ public class Supplier implements Serializable {
         this.supTel = supTel;
     }
 
-    @Basic
+
     @Column(name = "sup_eamil", nullable = true, length = 50)
     public String getSupEamil() {
         return supEamil;
@@ -88,11 +85,11 @@ public class Supplier implements Serializable {
     }
 
     @OneToMany(mappedBy = "supplier")
-    public List<Purchase> getpurchases() {
+    public List<Purchase> getPurchases() {
         return purchases;
     }
 
-    public void setpurchases(List<Purchase> purchases) {
+    public void setPurchases(List<Purchase> purchases) {
         this.purchases = purchases;
     }
 }

@@ -1,34 +1,31 @@
 package com.flower.entity;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.Objects;
 
 /**
- * Created by yumaoying on 2018/3/25.
- * 公告信息
+ * Created by yumaoying on 2018/4/29.
  */
 @Entity
-public class Notice implements Serializable {
-    private int noticeId; //公告id
+public class Notice {
+    private Integer noticeId; //编号
     private String noticeTitle; //公告标题
-    private String noticeContent; //公告内容
-    private Timestamp noticeDate; //公告发布时间
-    private String noticeUserName; //公告发布用户名
+    private String noticeContent; //公告名称
+    private String noticeDate; //公告发布日期
+    private String noticeUserName;
 
     @Id
     @Column(name = "notice_id", nullable = false)
     @GeneratedValue
-    public int getNoticeId() {
+    public Integer getNoticeId() {
         return noticeId;
     }
 
-    public void setNoticeId(int noticeId) {
+    public void setNoticeId(Integer noticeId) {
         this.noticeId = noticeId;
     }
 
-    @Basic
+
     @Column(name = "notice_title", nullable = true, length = 20)
     public String getNoticeTitle() {
         return noticeTitle;
@@ -48,23 +45,23 @@ public class Notice implements Serializable {
         this.noticeContent = noticeContent;
     }
 
-    @Basic
+
     @Column(name = "notice_date", nullable = true)
-    public Timestamp getNoticeDate() {
+    public String getNoticeDate() {
         return noticeDate;
     }
 
-    public void setNoticeDate(Timestamp noticeDate) {
+    public void setNoticeDate(String noticeDate) {
         this.noticeDate = noticeDate;
     }
 
-    @Basic
-    @Column(name = "notice_user_name", nullable = true)
+
+    @Column(name = "notice_user_name", nullable = true, length = 11)
     public String getNoticeUserName() {
         return noticeUserName;
     }
 
-    public void setNoticeUserNamed(String noticeUserName) {
+    public void setNoticeUserName(String noticeUserName) {
         this.noticeUserName = noticeUserName;
     }
 

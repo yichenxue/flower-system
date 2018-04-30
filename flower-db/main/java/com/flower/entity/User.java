@@ -1,32 +1,31 @@
 package com.flower.entity;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 /**
- * Created by yumaoying on 2018/3/25.
- * 会员信息
+ * Created by yumaoying on 2018/4/29.
  */
 @Entity
-public class User implements Serializable {
-    private Integer userId;  //用户id
-    private String userName; //用户名
-    private String userPw; //用户密码
-    private String userRealname; //真实姓名
-    private String userAddress; //地址
-    private String userSex; //性别
-    private String userTel; //电话
-    private String userEamil; //邮箱
-    private String userQq; //用户qq
-    private Integer userCore; //用户积分
-    private String userLevel; //用户等级
-    private String userBirthday; //生日
-    private String userRegister; //注册日期
-    private String userLast; //用户最后登陆时间
-    private String userImg; //用户头像
-    private List<Car> cars; //购物车
-    private List<Comment> commons;
+public class User {
+    private Integer userId;
+    private String userName;
+    private String userPw;
+    private String userRealname;
+    private String userAddress;
+    private String userSex;
+    private String userTel;
+    private String userEamil;
+    private String userQq;
+    private Integer userCore;
+    private String userLevel;
+    private String userBirthday;
+    private String userRegister;
+    private String userLast;
+    private String userImg;
+    private List<Car> cars;
+    private List<Comments> comments;
     private List<OrderDetail> orderDetails;
 
     @Id
@@ -40,8 +39,7 @@ public class User implements Serializable {
         this.userId = userId;
     }
 
-    @Basic
-    @Column(name = "user_name", nullable = false, length = 50)
+    @Column(name = "user_name", unique = true, nullable = false, length = 50)
     public String getUserName() {
         return userName;
     }
@@ -50,7 +48,7 @@ public class User implements Serializable {
         this.userName = userName;
     }
 
-    @Basic
+
     @Column(name = "user_pw", nullable = false, length = 50)
     public String getUserPw() {
         return userPw;
@@ -60,7 +58,7 @@ public class User implements Serializable {
         this.userPw = userPw;
     }
 
-    @Basic
+
     @Column(name = "user_realname", nullable = true, length = 50)
     public String getUserRealname() {
         return userRealname;
@@ -70,7 +68,7 @@ public class User implements Serializable {
         this.userRealname = userRealname;
     }
 
-    @Basic
+
     @Column(name = "user_address", nullable = true, length = 50)
     public String getUserAddress() {
         return userAddress;
@@ -90,8 +88,7 @@ public class User implements Serializable {
         this.userSex = userSex;
     }
 
-    @Basic
-    @Column(name = "user_tel", nullable = true, length = 20)
+    @Column(name = "user_tel", unique = true, nullable = true, length = 20)
     public String getUserTel() {
         return userTel;
     }
@@ -100,8 +97,7 @@ public class User implements Serializable {
         this.userTel = userTel;
     }
 
-    @Basic
-    @Column(name = "user_eamil", nullable = true, length = 50)
+    @Column(name = "user_eamil", unique = true, nullable = true, length = 50)
     public String getUserEamil() {
         return userEamil;
     }
@@ -110,7 +106,7 @@ public class User implements Serializable {
         this.userEamil = userEamil;
     }
 
-    @Basic
+
     @Column(name = "user_qq", nullable = true, length = 50)
     public String getUserQq() {
         return userQq;
@@ -120,7 +116,6 @@ public class User implements Serializable {
         this.userQq = userQq;
     }
 
-    @Basic
     @Column(name = "user_core", nullable = true)
     public Integer getUserCore() {
         return userCore;
@@ -130,7 +125,6 @@ public class User implements Serializable {
         this.userCore = userCore;
     }
 
-    @Basic
     @Column(name = "user_level", nullable = true, length = 20)
     public String getUserLevel() {
         return userLevel;
@@ -140,7 +134,6 @@ public class User implements Serializable {
         this.userLevel = userLevel;
     }
 
-    @Basic
     @Column(name = "user_birthday", nullable = true, length = 10)
     public String getUserBirthday() {
         return userBirthday;
@@ -160,7 +153,7 @@ public class User implements Serializable {
         this.userRegister = userRegister;
     }
 
-    @Basic
+
     @Column(name = "user_last", nullable = true, length = 20)
     public String getUserLast() {
         return userLast;
@@ -170,7 +163,7 @@ public class User implements Serializable {
         this.userLast = userLast;
     }
 
-    @Basic
+
     @Column(name = "user_img", nullable = true, length = 50)
     public String getUserImg() {
         return userImg;
@@ -180,7 +173,35 @@ public class User implements Serializable {
         this.userImg = userImg;
     }
 
-    @OneToMany(mappedBy = "userByUserId", fetch = FetchType.LAZY)
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return userId == user.userId &&
+                Objects.equals(userName, user.userName) &&
+                Objects.equals(userPw, user.userPw) &&
+                Objects.equals(userRealname, user.userRealname) &&
+                Objects.equals(userAddress, user.userAddress) &&
+                Objects.equals(userSex, user.userSex) &&
+                Objects.equals(userTel, user.userTel) &&
+                Objects.equals(userEamil, user.userEamil) &&
+                Objects.equals(userQq, user.userQq) &&
+                Objects.equals(userCore, user.userCore) &&
+                Objects.equals(userLevel, user.userLevel) &&
+                Objects.equals(userBirthday, user.userBirthday) &&
+                Objects.equals(userRegister, user.userRegister) &&
+                Objects.equals(userLast, user.userLast) &&
+                Objects.equals(userImg, user.userImg);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(userId, userName, userPw, userRealname, userAddress, userSex, userTel, userEamil, userQq, userCore, userLevel, userBirthday, userRegister, userLast, userImg);
+    }
+
+    @OneToMany(mappedBy = "user")
     public List<Car> getCars() {
         return cars;
     }
@@ -189,21 +210,42 @@ public class User implements Serializable {
         this.cars = cars;
     }
 
-    @OneToMany(mappedBy = "userByCommentUserId")
-    public List<Comment> getcommons() {
-        return commons;
+    @OneToMany(mappedBy = "user")
+    public List<Comments> getComments() {
+        return comments;
     }
 
-    public void setcommons(List<Comment> commons) {
-        this.commons = commons;
+    public void setComments(List<Comments> comments) {
+        this.comments = comments;
     }
 
     @OneToMany(mappedBy = "user")
-    public List<OrderDetail> getorderDetails() {
+    public List<OrderDetail> getOrderDetails() {
         return orderDetails;
     }
 
-    public void setorderDetails(List<OrderDetail> orderDetails) {
+    public void setOrderDetails(List<OrderDetail> orderDetails) {
         this.orderDetails = orderDetails;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", userName='" + userName + '\'' +
+                ", userPw='" + userPw + '\'' +
+                ", userRealname='" + userRealname + '\'' +
+                ", userAddress='" + userAddress + '\'' +
+                ", userSex='" + userSex + '\'' +
+                ", userTel='" + userTel + '\'' +
+                ", userEamil='" + userEamil + '\'' +
+                ", userQq='" + userQq + '\'' +
+                ", userCore=" + userCore +
+                ", userLevel='" + userLevel + '\'' +
+                ", userBirthday='" + userBirthday + '\'' +
+                ", userRegister='" + userRegister + '\'' +
+                ", userLast='" + userLast + '\'' +
+                ", userImg='" + userImg + '\'' +
+                '}';
     }
 }

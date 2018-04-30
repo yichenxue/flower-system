@@ -1,35 +1,32 @@
 package com.flower.entity;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * Created by yumaoying on 2018/3/25.
- * 商品评论
+ * Created by yumaoying on 2018/4/29.
  */
 @Entity
-public class Comment implements Serializable {
-    private int commentId; //评价id
-    private String commentTitle;//评价标题
-    private String commentContent;//评价内容
-    private String commentDate;//评价日期
-    private Integer commentUserId;//评价用户id
-    private Goods goods; //评价商品
-    private User user;//评价用户id
+public class Comments {
+    private Integer commentId;
+    private String commentTitle;
+    private String commentContent;
+    private String commentDate;
+    private User user;
+    private Goods goods;
 
     @Id
     @Column(name = "comment_id", nullable = false)
     @GeneratedValue
-    public int getCommentId() {
+    public Integer getCommentId() {
         return commentId;
     }
 
-    public void setCommentId(int commentId) {
+    public void setCommentId(Integer commentId) {
         this.commentId = commentId;
     }
 
-    @Basic
+
     @Column(name = "comment_title", nullable = true, length = 50)
     public String getCommentTitle() {
         return commentTitle;
@@ -39,7 +36,7 @@ public class Comment implements Serializable {
         this.commentTitle = commentTitle;
     }
 
-    @Basic
+
     @Column(name = "comment_content", nullable = true, length = 300)
     public String getCommentContent() {
         return commentContent;
@@ -49,8 +46,8 @@ public class Comment implements Serializable {
         this.commentContent = commentContent;
     }
 
-    @Basic
-    @Column(name = "comment_date", nullable = true, length = 50)
+
+    @Column(name = "comment_date", nullable = true)
     public String getCommentDate() {
         return commentDate;
     }
@@ -59,36 +56,24 @@ public class Comment implements Serializable {
         this.commentDate = commentDate;
     }
 
-    @Basic
-    @Column(name = "comment_user_id", nullable = true)
-    public Integer getCommentUserId() {
-        return commentUserId;
-    }
-
-
-    public void setCommentUserId(Integer commentUserId) {
-        this.commentUserId = commentUserId;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Comment comments = (Comment) o;
+        Comments comments = (Comments) o;
         return commentId == comments.commentId &&
                 Objects.equals(commentTitle, comments.commentTitle) &&
                 Objects.equals(commentContent, comments.commentContent) &&
-                Objects.equals(commentDate, comments.commentDate) &&
-                Objects.equals(commentUserId, comments.commentUserId);
+                Objects.equals(commentDate, comments.commentDate);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(commentId, commentTitle, commentContent, commentDate, commentUserId);
+        return Objects.hash(commentId, commentTitle, commentContent, commentDate);
     }
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "comment_user_id", referencedColumnName = "user_id")
     public User getUser() {
         return user;
@@ -98,14 +83,13 @@ public class Comment implements Serializable {
         this.user = user;
     }
 
+    @ManyToOne
+    @JoinColumn(name = "comment_goods_id", referencedColumnName = "goods_id")
     public Goods getGoods() {
         return goods;
     }
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "comment_goods_id", referencedColumnName = "goods_id")
     public void setGoods(Goods goods) {
         this.goods = goods;
     }
-
 }
