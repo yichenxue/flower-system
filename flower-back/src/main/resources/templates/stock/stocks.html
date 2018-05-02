@@ -8,8 +8,9 @@
     <link rel="stylesheet" href="../../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}">
     <link rel="stylesheet" href="../../static/css/dataTables.bootstrap.min.css"
           th:href="@{/css/dataTables.bootstrap.min.css}">
+    <link rel="stylesheet" href="../../static/css/bootstrap-datepicker.min.css"
+          th:href="@{/css/bootstrap-datepicker.min.css}">
     <link rel="stylesheet" href="../../static/css/flower.css" th:href="@{/css/flower.css}">
-    <link rel="stylesheet" href="../../static/css/flower.css" th:href="@{/css/metroStyle.css}">
 
     <!--[if lt IE 9]>
     <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -25,7 +26,7 @@
         <ol class="breadcrumb">
             <li><a href="#"><span class="glyphicon glyphicon-home ">&nbsp;主页</span></a></li>
             <li><span class="glyphicon glyphicon-chevron-right"></span></li>
-            <li><a href="#"><span class="glyphicon glyphicon-tree-deciduous left-menu-icon">&nbsp;权限管理</span></a>
+            <li><a href="#"><span class="glyphicon glyphicon-tree-deciduous left-menu-icon">&nbsp;花卉库存管理</span></a>
             </li>
         </ol>
     </div>
@@ -33,7 +34,7 @@
     <div class="container-fluid">
         <div class="page panel-default">
             <div class="panel-heading">
-                <span class="glyphicon glyphicon-list left-menu-icon"></span>权限列表
+                <span class="glyphicon glyphicon-list left-menu-icon"></span>花卉库存列表
             </div>
             <!--search nav-->
             <div class="panel-body">
@@ -43,22 +44,23 @@
                         <input class="form-control" id="id-search" type="text" placeholder="编号">
                     </div>
                     <div class="form-group">
-                        <lable class="control-label">资源名称:</lable>
-                        <input class="form-control" id="name-search" type="text" placeholder="资源名称">
+                        <lable class="control-label">库存量&lt;=&nbsp;&nbsp;:</lable>
+                        <input class="form-control" id="stockNum-search" type="number" placeholder="库存量小于">
                     </div>
                     <div class="form-group">
-                        <label class="control-label">是否可分配</label>
-                        <select class="form-control" id="available-search">
+                        <label class="control-label">是否报警</label>
+                        <select class="form-control" id="isAlarm-search">
                             <option value>全部</option>
-                            <option value="1">可分配</option>
-                            <option value="0">不可分配</option>
+                            <option value="1">已报警</option>
+                            <option value="0">未报警</option>
                         </select>
                     </div>
                     <button type="button" class="btn btn-primary" onclick="search();">查询</button>
-                    <button type="button" class="btn btn-warning btn-stl" onclick="delPermisssionById()">删除权限</button>
-                    <button type="button" class="btn btn-primary btn-stl" onclick="findPermisssionByid()">修改权限</button>
-                    <button type="button" class="btn btn-primary btn-stl" onclick="$('#addPermisssion').modal();">添加权限
-                    </button>
+                    <div class="form-group navbar-form navbar-right">
+                        <a type="button" class="btn btn-primary btn-stl btn-warning" th:href="@{/purchase}">花卉采购管理</a>
+                        <button type="button" class="btn btn-primary btn-stl" onclick="findStock()">编辑库存信息</button>
+
+                    </div>
                 </form>
             </div>
         </div>
@@ -67,14 +69,12 @@
             <thead>
             <tr>
                 <th><input type="checkbox" class="checkall"/></th>
-                <th>ID</th>
-                <th>资源名称</th>
-                <th>资源路径</th>
-                <th>权限字符串</th>
-                <th>父编号</th>
-                <th>资源类型</th>
-                <th>是否可分配</th>
-                <th>排序</th>
+                <th>编号</th>
+                <th>花卉编号</th>
+                <th>花卉名称</th>
+                <th>库存量</th>
+                <th>是否报警</th>
+                <th>库存备注</th>
             </tr>
             </thead>
         </table>
@@ -82,82 +82,76 @@
     <div class="footer" style="height:40px;"></div>
 </div>
 
-<!--添加弹窗-->
-<div class="modal fade" id="addPermisssion" role="dialog" tabindex="-1" aria-labelledby="addPermisssionLabel"
+<!--修改库存弹窗-->
+<div class="modal fade" id="editStock" role="dialog" tabindex="-1" aria-labelledby="editStockLabel"
      aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" aria-hidden="true">&times;
                 </button>
-                <h4 class="modal-title" id="addPermisssionLabel">添加权限</h4>
+                <h4 class="modal-title" id="editStockLabel">修改库存</h4>
             </div>
             <div class="modal-body">
-                <form id="addPermisssionForm">
-                    <div id="edit-id" class="form-group"></div>
+                <form id="editStockForm" enctype="multipart/form-data" method="POST">
                     <div class="form-group">
-                        <label class="control-label">资源名称:</label>
-                        <input type="text" class="form-control" name="name" id="name" placeholder="请输入名称">
+                        <label class="control-label">库存编号:</label>
+                        <input type="text" class="form-control" name="id" id="editStock-id">
                     </div>
                     <div class="form-group">
-                        <label class="control-label">权限字符串:</label>
-                        <input type="text" class="form-control" name="permission" id="permission" placeholder="请输入资源描述">
+                        <label class="control-label">商品编号:</label>
+                        <input type="text" class="form-control" name="goodsId" id="editStock-goodsId" readonly>
                     </div>
                     <div class="form-group">
-                        <label class="control-label">资源路径:</label>
-                        <input type="text" class="form-control" name="url" id="url" placeholder="请输入资源路径">
+                        <label class="control-label">商品名称:</label>
+                        <input type="text" class="form-control" name="goodsName" id="editStock-goodsName" readonly>
                     </div>
                     <div class="form-group">
-                        <label class="control-label">父资源编号:</label>
-                        <input type="text" class="form-control" name="parentId" id="parentId" placeholder="请输入父ID资源编号">
+                        <label class="control-label">库存量:</label>
+                        <input type="number" class="form-control" name="stockNum" id="editStock-stockNum"
+                               placeholder="请输入库存量" min="0">
                     </div>
                     <div class="form-group">
-                        <label class="control-label">排序编号:</label>
-                        <input type="text" class="form-control" name="sort" id="sort" placeholder="请输入排序编号">
-                    </div>
-                    <label class="control-label">资源类型:</label>
-                    <div class="form-group">
-                        <label class="radio-inline" id="resourceType">
-                            <input type="radio" name="resourceType" value="1" class="resourceType" checked> 菜单
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="resourceType" class="resourceType" value="2"> 按钮
-                        </label>
+                        <label class="control-label">库存备注:</label>
+                        <input type="text" class="form-control" name="descri" id="editStock-descri"
+                               placeholder="请输入库存备注">
                     </div>
                     <div class="form-group">
-                        <label class="radio-inline" id="available">
-                            <input type="radio" name="available" value="1" class="available" checked> 可用
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="available" class="available" value="0"> 不可用
-                        </label>
+                        <label class="control-label">是否报警</label>
+                        <select class="form-control" name="isAlarm" id="">
+                            <option value="1" class="editStock-isAlarm">已报警</option>
+                            <option value="0" class="editStock-isAlarm" selected>未报警</option>
+                        </select>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary" onclick="addPermission();" id="btn-edit">添加权限</button>
+                <button type="button" class="btn btn-primary" onclick="editStock();" id="stock-btn--edit">添加库存记录
+                </button>
             </div>
         </div>
     </div>
 </div>
-
 <script src="../../static/js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
 <script src="../../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
 <script src="../../static/js/jquery.dataTables.min.js" th:src="@{/js/jquery.dataTables.min.js}"></script>
 <script src="../../static/js/dataTables.bootstrap.min.js" th:src="@{/js/dataTables.bootstrap.min.js}"></script>
+<!--<script src="../../static/js/moment-with-locales.min.js" th:src="@{/js/moment-with-locales.min.js}"></script>-->
+<script src="../../static/js/Moment.js" th:src="@{/js/Moment.js}"></script>
+<script src="../../static/js/locales/bootstrap-datepicker.zh-CN.min.js"
+        th:src="@{/js/locales/bootstrap-datepicker.zh-CN.min.js}"></script>
+<script src="../../static/js/bootstrap-datepicker.min.js" th:src="@{/js/bootstrap-datepicker.min.js}"></script>
 <script src="../../static/js/layer.js" th:src="@{/js/layer.js}"></script>
-<script type="text/javascript" th:src="@{/js/jquery.ztree.core.js}"></script>
-<script type="text/javascript" th:src="@{/js/jquery.ztree.excheck.js}"></script>
 <script src="../../static/js/flower.js" th:src="@{/js/flower.js}"></script>
 <script type="text/javascript" th:inline="javascript">
     //封装查询参数
     function getQueryCondition(data) {
         var param = {};
-        //组装排序参数
+        //组装查询参数
         param.id = $("#id-search").val();//查询条件
-        param.name = $("#name-search").val();//查询条件
-        param.available = $("#available-search").val();//查询条件
+        param.stockNum = $("#stockNum-search").val();//查询条件
+        param.isAlarm = $("#isAlarm-search").val();//查询条件
         //组装分页参数
         param.start = data.start; //第一条数据的起始位置，比如0代表第一条数据
         param.length = data.length;//告诉服务器每页显示的条数
@@ -185,8 +179,8 @@
             ajax: function (data, callback, settings) {
                 var param = getQueryCondition(data);
                 $.ajax({
-                    type: "GET",
-                    url: "/permission/perms",
+                    type: "POST",
+                    url: "/stock/stocks",
                     cache: false,  //禁用缓存
                     data: param,    //传入已封装的参数
                     dataType: "json",
@@ -218,13 +212,19 @@
                         'bSortable': false
                     },
                     {"data": "id"},
-                    {"data": "name"},
-                    {"data": "url"},
-                    {"data": "permission"},
-                    {"data": "parentId"},
-                    {"data": "resourceType"},
-                    {"data": "available"},
-                    {"data": "sort"},
+                    {
+                        "data": function (obj) {
+                            return obj.goods.goodsId
+                        },
+                    },
+                    {
+                        "data": function (obj) {
+                            return obj.goods.goodsName
+                        },
+                    },
+                    {"data": "stockNum"},
+                    {"data": "isAlarm"},
+                    {"data": "descri"},
                 ],
             columnDefs:
                 [
@@ -232,31 +232,20 @@
                     {"orderable": false, "targets": 2},
                     {"orderable": false, "targets": 3},
                     {"orderable": false, "targets": 4},
-                    {"orderable": false, "targets": 5},
                     {
                         "orderable": false,
                         "render": function (data, type, row) {
-                            if (data == 1)
-                                return "菜单";
-                            else
-                                return "按钮";
+                            if (data == 1) {
+                                return "已报警";
+                            } else {
+                                return "未报警";
+                            }
                         },
-                        "targets": 6
+                        "targets": 5
                     },
-                    {
-                        "orderable": false,
-                        "render": function (data, type, row) {
-                            if (data == 1)
-                                return "可分配";
-                            else
-                                return "不可分配";
-                        },
-                        "targets": 7
-                    },
-                    {"orderable": false, "targets": 8},
+                    {"orderable": false, "targets": 6},
                 ],
-        })
-        ;
+        });
     });
 
     //按条件查询
@@ -264,68 +253,54 @@
         table.ajax.reload();
     }
 
-    function vityfyData() {
-        var name = $("#name").val();
-        var url = $("#url").val();
-        var permission = $("#permission").val();
-        var parentId = $("#parentId").val();
-        var sort = $("#sort").val();
-        if (name == "" || name == undefined || name == null) {
-            return layer.msg('资源名称不能为空', function () {
+    var submit = false;
+
+    function vertify(id) {
+        submit = false;
+        var stockNum = $("#" + id + "-stockNum").val();
+        if (stockNum == "" || stockNum == undefined || stockNum == null) {
+            return layer.msg('库存量不能为空', function () {
                 //关闭后的操作
             });
         }
-        if (url == "" || url == undefined || url == null) {
-            return layer.msg('资源路径不能为空', function () {
-                //关闭后的操作
-            });
-        }
-        if (permission == "" || permission == undefined || permission == null) {
-            return layer.msg('权限字符串不能为空', function () {
-                //关闭后的操作
-            });
-        }
-        if (parentId == "" || parentId == undefined || parentId == null) {
-            return layer.msg('父编号不能为空', function () {
-                //关闭后的操作
-            });
-        }
-        if (sort == "" || sort == undefined || sort == null) {
-            return layer.msg('排序编号不能为空', function () {
-                //关闭后的操作
-            });
-        }
+        submit = true;
     }
 
-    //添加权限
-    function addPermission() {
-        vityfyData();
-        $.ajax({
-            cache: true,
-            type: "POST",
-            url: '/permission/add',
-            data: $('#addPermisssionForm').serialize(),//表单序列化
-            async: false,
-            success: function (data) {
-                if (data == "success") {
-                    layer.msg('保存成功');
-                    $('#addPermisssion').modal('hide');
-                    table.ajax.reload();
-                } else {
-                    layer.msg('保存失败');
-                    $('#addPermisssion').modal('hide');
+    //添加库存记录
+    function addStock() {
+        vertify("addStock");
+        if (submit) {
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: '/stock/add',
+                data: $('#addStockForm').serialize(),
+                async: false,
+                success: function (data) {
+                    if (data == "success") {
+                        layer.msg('保存成功');
+                        table.ajax.reload();
+                        $('#addStock').modal('hide');
+                    } else {
+                        layer.msg(data);
+                        $('#addStock').modal('hide');
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert("操作失败" + errorThrown);
                 }
-            }
-        });
+            });
+        }
     }
 
     //模态框清空
-    $('#addPermisssion').on('hidden.bs.modal', function () {
-        clearForm($('#addPermisssionForm'));
+    $('#addStock').on('hidden.bs.modal', function () {
+        clearForm($('#addStockForm'));
     });
 
-    //查找权限
-    function findPermisssionByid() {
+
+    //查找库存记录
+    function findStock() {
         var id = $(".checkchild:checked").val();
         if ($(".checkchild:checked").length < 1) {
             layer.msg('请选择一条数据');
@@ -335,62 +310,54 @@
             layer.msg('一次只能修改一条数据');
             return;
         }
-        $("#addPermisssionLabel").empty().html("修改权限信息");
-        $("#btn-edit").text('修改权限信息');
-        $("#btn-edit").unbind("click");
-        $("#btn-edit").attr('onclick', 'editPermisssion()');
         $.ajax({
             async: false,
             type: "POST",
             data: {id: id},
-            url: '/permission/findById',
+            url: '/stock/findById',
             dataType: "json",
             success: function (data) {
-                var html = "<div class='form-group'><label class='control-label'>编号:</label><input type='text' class='form-control' name='id' value='" + data.id + "' disabled></div>";
-                $("#edit-id").empty();
-                // $("#edit-uid").append(html)
-                $("#edit-id").append("<input type='hidden' name='id' id='id' value='" + data.id + "'>");
-                $("#name").val(data.name);
-                $("#url").val(data.url);
-                $("#permission").val(data.permission);
-                $("#parentId").val(data.parentId);
-                $("#sort").val(data.sort);
-                $("#description").val(data.description);
-                $("#resourceType option[value='" + data.resourceType + "']").attr("checked", true);
-                $("#available option[value='" + data.available + "']").attr("checked", true);
-
+                $("#editStock-id").val(data.id);
+                $("#editStock-stockNum").val(data.stockNum);
+                $("#editStock-descri").val(data.descri);
+                $("#editStock-isAlarm").val(data.isAlarm);
+                $("#editStock-goodsName").val(data.goods.goodsName);
+                $("#editStock-goodsId").val(data.goods.goodsId);
+                $(".editStock-isAlarm option[value='" + data.isAlarm + "']").attr("selected", true);
             }
         });
-        $('#addPermisssion').modal();
+        $('#editStock').modal();
     }
 
-    //修改权限信息
-    function editPermisssion() {
-        vityfyData();
-        $.ajax({
-            cache: true,
-            type: "POST",
-            url: '/permission/edit',
-            data: $('#addPermisssionForm').serialize(),
-            async: false,
-            success: function (data) {
-                layer.msg(data);
-                $('#addPermisssion').modal('hide');
-                if (data == "success") {
-                    layer.msg('保存成功');
-                    table.ajax.reload();
-                    $('#addPermisssion').modal('hide');
-                    table.ajax.reload();
-                } else {
-                    layer.msg('保存失败');
-                    $('#addPermisssion').modal('hide');
+
+    //修改库存信息
+    function editStock() {
+        vertify("editStock");
+        if (submit) {
+            $.ajax({
+                cache: true,
+                type: "POST",
+                url: '/stock/edit',
+                data: $('#editStockForm').serialize(),
+                async: false,
+                success: function (data) {
+                    if (data == "success") {
+                        layer.msg('修改成功');
+                        table.ajax.reload();
+                        $('#editStock').modal('hide');
+                    } else {
+                        layer.msg("修改失败,请检查输入是否正确");
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert("操作失败" + errorThrown);
                 }
-            }
-        });
+            });
+        }
     }
 
-    //删除权限
-    function delPermisssionById() {
+    //删除库存记录
+    function delStockById() {
         var id = $(".checkchild:checked").val();
         if ($(".checkchild:checked").length < 1) {
             layer.msg('请选择一条数据');
@@ -400,13 +367,13 @@
             layer.msg('一次只能修改一条数据');
             return;
         }
-        layer.confirm('您确定要删除该权限吗？', {
+        layer.confirm('您确定要删除该库存记录吗？', {
             btn: ['确认', '取消'] //按钮
         }, function () {
             $.ajax({
                 cache: true,
                 type: "POST",
-                url: '/permission/delete',
+                url: '/stock/delete',
                 data: {id: id},
                 async: false,
                 success: function (data) {
@@ -416,10 +383,29 @@
                     } else {
                         layer.msg('删除失败');
                     }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert("操作失败" + errorThrown);
                 }
             });
         });
     }
+
+    $('.purchaseDate').datepicker({
+        language: 'zh-CN',//显示中文
+        format: 'yyyy-mm-dd',//显示格式
+        minView: "month",//设置只显示到月份
+        todayHighlight: 1,
+        initialDate: new Date(),
+        autoclose: true,//选中自动关闭
+        todayBtn: true,//显示今日按钮
+        locale: moment.locale('zh-cn')
+    });
+    var date = new Date();
+    var mon = date.getMonth() + 1;
+    var day = date.getDate();
+    var mydate = date.getFullYear() + "-" + (mon < 10 ? "0" + mon : mon) + "-" + (day < 10 ? "0" + day : day);
+    $('#addPurchase-purchaseDate').val(mydate)
 </script>
 <div th:include="common/footer :: footer"></div>
 </body>

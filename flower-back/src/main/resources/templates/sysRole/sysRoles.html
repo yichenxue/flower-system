@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../../static/css/dataTables.bootstrap.min.css"
           th:href="@{/css/dataTables.bootstrap.min.css}">
     <link rel="stylesheet" href="../../static/css/flower.css" th:href="@{/css/flower.css}">
-    <link rel="stylesheet" href="../../static/css/flower.css" th:href="@{/css/metroStyle.css}">
+    <link rel="stylesheet" href="../../static/css/metroStyle.css" th:href="@{/css/metroStyle.css}">
 
     <!--[if lt IE 9]>
     <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -71,7 +71,6 @@
                 <th>角色名</th>
                 <th>角色描述</th>
                 <th>是否可分配</th>
-                <th>拥有权限</th>
             </tr>
             </thead>
         </table>
@@ -224,16 +223,6 @@
                     {"data": "role"},
                     {"data": "description"},
                     {"data": "available"},
-                    {
-                        "data": function (obj) {
-                            var html = "";
-
-                            for (var i = 0; i < obj.permissions.length; i++) {
-                                html += obj.permissions[i].permission + "&nbsp;|&nbsp;"
-                            }
-                            return html;
-                        }
-                    },
                 ],
             columnDefs:
                 [
@@ -252,7 +241,6 @@
                         },
                         "targets": 4
                     },
-                    {"orderable": false, "targets": 5},
                 ],
         })
         ;
@@ -292,6 +280,11 @@
             }
         });
     }
+
+    //模态框清空
+    $('#addRole').on('hidden.bs.modal', function () {
+        clearForm($('#addRoleForm'));
+    });
 
     //查找角色
     function findRoleByid() {
@@ -416,6 +409,10 @@
                     enable: true,
                     idKey: "id",
                     pIdKey: "parentId",
+                },
+                key: {
+                    name: "name",
+                    checked: "checked"
                 }
             }
         };
@@ -451,11 +448,11 @@
             success: function (data) {
                 if (data == "success") {
                     layer.msg('保存成功');
-                    $('#selectResources').modal('hide');
                     table.ajax.reload();
+                    $('#selectPermission').modal('hide');
                 } else {
                     layer.msg('保存失败');
-                    $('#selectResources').modal('hide');
+                    $('#selectPermission').modal('hide');
                 }
             }
         });

@@ -37,7 +37,7 @@ public class SysPermission implements Serializable {
     private List<SysRole> roles;
 
     @Transient
-    private String checked;//是否选中
+    private String checked = "false";//是否选中
 
     public Integer getId() {
         return id;

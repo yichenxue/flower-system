@@ -30,8 +30,6 @@ public class MyShiroRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        System.out.println("权限配置:MyShiroRealm.doGetAuthorizationInfo");
-        // SysUser sysUser= (SysUser) SecurityUtils.getSubject().getPrincipal();
         SysUser sysUser = (SysUser) principals.getPrimaryPrincipal();
         // 权限信息对象authorizationInfo，用来存放查出的用户的所有的角色（role）及权限（permission）
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
@@ -49,7 +47,6 @@ public class MyShiroRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-        System.out.println("AuthorizationInfo.doGetAuthenticationInfo");
         //获取用户的输入的账号.
         String userName = (String) token.getPrincipal();
         //通过username从数据库中查找 User对象，如果找到，没找到.

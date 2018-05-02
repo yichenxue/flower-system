@@ -1,6 +1,7 @@
 package com.flower.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
@@ -9,7 +10,8 @@ import java.util.Objects;
  * Created by yumaoying on 2018/4/29.
  */
 @Entity
-public class OrderItem {
+public class OrderItem implements Serializable {
+    private static final long serialVersionUID = 2132787351937168546L;
     private Integer orderId;
     private String orderNo;
     private Integer orderUserId;

@@ -24,4 +24,6 @@ public interface CategoryDao extends JpaRepository<Category, Integer>, JpaSpecif
     public Category findByCategoryId(Integer categoryId);
 
     public Page<Category> findAll(Specification<Category> spec, Pageable pageable);
+
+
 }

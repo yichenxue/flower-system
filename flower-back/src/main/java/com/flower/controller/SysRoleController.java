@@ -57,7 +57,6 @@ public class SysRoleController {
     @RequestMapping("/edit")
     @ResponseBody
     public String add(SysRole sysRole) {
-        System.out.println("sysRole:" + sysRole);
         try {
             sysRoleService.add(sysRole);
             return "success";
@@ -109,7 +108,6 @@ public class SysRoleController {
     @RequestMapping("/savePermission")
     @ResponseBody
     public String savePermission(Integer rid, @RequestParam("permissionId") String permissionIds) {
-        System.out.println("==============rid" + rid + ", permissionIds:" + permissionIds);
         if (StringUtils.isEmpty(rid))
             return "error";
         try {

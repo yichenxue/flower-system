@@ -135,6 +135,10 @@
             </div>
             <div class="modal-body">
                 <form id="selectRoleForm">
+                    <div class="form-group">
+                        <label class="control-label">用户编号:</label>
+                        <input type="text" class="form-control" name="uid" id="addrole-uid" readonly>
+                    </div>
                     <div class="sysUser"></div>
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered" id="roleTable">
@@ -343,6 +347,12 @@
         });
     }
 
+    //模态框清空
+    $('#addUser').on('hidden.bs.modal', function () {
+        clearForm($('#addUser'));
+    });
+
+
     //查找用户
     function findUser() {
         var id = $(".checkchild:checked").val();
@@ -454,6 +464,7 @@
             layer.msg('一次只能修改一条数据');
             return;
         }
+        $("#addrole-uid").val(id);
         $.ajax({
             async: false,
             type: "POST",
@@ -462,7 +473,8 @@
             dataType: "json",
             success: function (data) {
                 $(".sysUser").empty();
-                $(".sysUser").append("<input type='hidden' name='uid' id='uid' value='" + id + "'>");
+
+                // $(".sysUser").append("<input type='hidden' name='uid' id='uid' value='" + id + "'>");
                 $("#roleTable tr:has(td)").remove();
                 var html = "";
                 for (var i = 0; i < data.length; i++) {
@@ -489,7 +501,7 @@
         $(".checkRole:checked").each(function (i) {
             roleId[i] = $(this).val();
         });
-        var uid = $("#uid").val();
+        var uid = $("#addrole-uid").val();
         $.ajax({
             cache: true,
             type: "POST",

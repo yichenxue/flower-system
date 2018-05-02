@@ -56,8 +56,6 @@ public class MailServiceTest {
         Context context = new Context();
         context.setVariable("username", "LingDu");
         String emailContent = templateEngine.process("email", context);
-
-        System.out.println(emailContent);
         mailService.sendHtmlMail("821300801@qq.com", "主题：这是模板邮件", emailContent);
     }
 }

@@ -1,21 +1,26 @@
 package com.flower.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * Created by yumaoying on 2018/4/29.
+ * 库存
  */
 @Entity
-public class Stock {
-    private Integer id;
-    private Integer stockNum;
-    private Integer isAlarm;
+public class Stock implements Serializable {
+    private static final long serialVersionUID = -2434693605586312508L;
+    private Integer id; //编号
+    private Integer stockNum; //库存量
+    private Integer isAlarm;//是否报警 1-已报警，0-未报警
     private String descri;
     private Goods goods;
 
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "id", nullable = false, unique = true)
     @GeneratedValue
     public Integer getId() {
         return id;
@@ -70,7 +75,7 @@ public class Stock {
         return Objects.hash(id, stockNum, isAlarm, descri);
     }
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "goods_id", referencedColumnName = "goods_id", nullable = false)
     public Goods getGoods() {
         return goods;
@@ -78,5 +83,16 @@ public class Stock {
 
     public void setGoods(Goods goods) {
         this.goods = goods;
+    }
+
+    @Override
+    public String toString() {
+        return "Stock{" +
+                "id=" + id +
+                ", stockNum=" + stockNum +
+                ", isAlarm=" + isAlarm +
+                ", descri='" + descri + '\'' +
+                ", goods=" + goods +
+                '}';
     }
 }

@@ -1,13 +1,15 @@
 package com.flower.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * Created by yumaoying on 2018/4/29.
  */
 @Entity
-public class Notice {
+public class Notice implements Serializable {
+    private static final long serialVersionUID = -4612184760578111454L;
     private Integer noticeId; //编号
     private String noticeTitle; //公告标题
     private String noticeContent; //公告名称

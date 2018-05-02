@@ -32,7 +32,6 @@ public class ShiroConfig {
      */
     @Bean
     public ShiroFilterFactoryBean shireFilter(SecurityManager securityManager) {
-        System.out.println("ShiroFilterFactoryBean.shireFilter");
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         //将自定义 的FormAuthenticationFilter注入shiroFilter中
         Map<String, Filter> filters = shiroFilterFactoryBean.getFilters();
@@ -166,7 +165,6 @@ public class ShiroConfig {
      */
     @Bean
     public EhCacheManager ehCacheManager() {
-        System.out.println("ShiroConfiguration.getEhCacheManager()");
         EhCacheManager cacheManager = new EhCacheManager();
         cacheManager.setCacheManagerConfigFile("classpath:config/ehcache-shiro.xml");
         return cacheManager;

@@ -1,13 +1,15 @@
 package com.flower.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * Created by yumaoying on 2018/4/29.
  */
 @Entity
-public class Car {
+public class Car implements Serializable {
+    private static final long serialVersionUID = 5764432676551916335L;
     private Integer carId;
     private Integer mount;
     private User user;

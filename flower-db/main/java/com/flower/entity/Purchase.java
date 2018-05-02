@@ -1,15 +1,18 @@
 package com.flower.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * Created by yumaoying on 2018/4/29.
+ * 采购信息
  */
 @Entity
-public class Purchase {
-    private Integer id;
-    private String pruchaseDate;
+public class Purchase implements Serializable {
+    private static final long serialVersionUID = 5053185158532884009L;
+    private Integer id; //编号
+    private String purchaseDate; //采购日期
     private Integer purchaseNumber;
     private Double purchasePrice;
     private String purchaseUser;
@@ -29,12 +32,12 @@ public class Purchase {
     }
 
     @Column(name = "pruchase_date", nullable = true)
-    public String getPruchaseDate() {
-        return pruchaseDate;
+    public String getPurchaseDate() {
+        return purchaseDate;
     }
 
-    public void setPruchaseDate(String pruchaseDate) {
-        this.pruchaseDate = pruchaseDate;
+    public void setPurchaseDate(String purchaseDate) {
+        this.purchaseDate = purchaseDate;
     }
 
 
@@ -82,7 +85,7 @@ public class Purchase {
         if (o == null || getClass() != o.getClass()) return false;
         Purchase purchase = (Purchase) o;
         return id == purchase.id &&
-                Objects.equals(pruchaseDate, purchase.pruchaseDate) &&
+                Objects.equals(purchaseDate, purchase.purchaseDate) &&
                 Objects.equals(purchaseNumber, purchase.purchaseNumber) &&
                 Objects.equals(purchasePrice, purchase.purchasePrice) &&
                 Objects.equals(purchaseUser, purchase.purchaseUser) &&
@@ -92,7 +95,7 @@ public class Purchase {
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, pruchaseDate, purchaseNumber, purchasePrice, purchaseUser, purchaseUserTel);
+        return Objects.hash(id, purchaseDate, purchaseNumber, purchasePrice, purchaseUser, purchaseUserTel);
     }
 
     @ManyToOne
@@ -113,5 +116,19 @@ public class Purchase {
 
     public void setSupplier(Supplier supplier) {
         this.supplier = supplier;
+    }
+
+    @Override
+    public String toString() {
+        return "Purchase{" +
+                "id=" + id +
+                ", purchaseDate='" + purchaseDate + '\'' +
+                ", purchaseNumber=" + purchaseNumber +
+                ", purchasePrice=" + purchasePrice +
+                ", purchaseUser='" + purchaseUser + '\'' +
+                ", purchaseUserTel='" + purchaseUserTel + '\'' +
+                ", goods=" + goods +
+                ", supplier=" + supplier +
+                '}';
     }
 }

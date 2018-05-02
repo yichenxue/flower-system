@@ -1,13 +1,15 @@
 package com.flower.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * Created by yumaoying on 2018/4/29.
  */
 @Entity
-public class Comments {
+public class Comments implements Serializable {
+    private static final long serialVersionUID = -6035774223202472298L;
     private Integer commentId;
     private String commentTitle;
     private String commentContent;

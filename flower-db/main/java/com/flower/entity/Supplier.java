@@ -1,19 +1,24 @@
 package com.flower.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
 /**
  * Created by yumaoying on 2018/4/29.
+ * 供应商
  */
 @Entity
-public class Supplier {
-    private Integer supId;
-    private String supName;
-    private String supAddress;
-    private String supTel;
-    private String supEamil;
+public class Supplier implements Serializable {
+    private static final long serialVersionUID = 1780113025926478070L;
+    private Integer supId; //编号
+    private String supName; //供应商名称
+    private String supAddress; //供应商地址
+    private String supTel; //供应商电话
+    private String supEmail; //供应商邮箱
     private List<Purchase> purchases;
 
     @Id
@@ -58,12 +63,12 @@ public class Supplier {
 
 
     @Column(name = "sup_eamil", nullable = true, length = 50)
-    public String getSupEamil() {
-        return supEamil;
+    public String getSupEmail() {
+        return supEmail;
     }
 
-    public void setSupEamil(String supEamil) {
-        this.supEamil = supEamil;
+    public void setSupEmail(String supEmail) {
+        this.supEmail = supEmail;
     }
 
     @Override
@@ -75,21 +80,33 @@ public class Supplier {
                 Objects.equals(supName, supplier.supName) &&
                 Objects.equals(supAddress, supplier.supAddress) &&
                 Objects.equals(supTel, supplier.supTel) &&
-                Objects.equals(supEamil, supplier.supEamil);
+                Objects.equals(supEmail, supplier.supEmail);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(supId, supName, supAddress, supTel, supEamil);
+        return Objects.hash(supId, supName, supAddress, supTel, supEmail);
     }
 
-    @OneToMany(mappedBy = "supplier")
+    @JsonBackReference
+    @OneToMany(mappedBy = "supplier", fetch = FetchType.LAZY)
     public List<Purchase> getPurchases() {
         return purchases;
     }
 
     public void setPurchases(List<Purchase> purchases) {
         this.purchases = purchases;
+    }
+
+    @Override
+    public String toString() {
+        return "Supplier{" +
+                "supId=" + supId +
+                ", supName='" + supName + '\'' +
+                ", supAddress='" + supAddress + '\'' +
+                ", supTel='" + supTel + '\'' +
+                ", supEmail='" + supEmail + '\'' +
+                '}';
     }
 }

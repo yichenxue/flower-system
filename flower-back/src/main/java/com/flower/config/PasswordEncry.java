@@ -35,6 +35,5 @@ public class PasswordEncry {
         userInfo.setPassword("123456");
         userInfo.setState(1);
         passwordEncry.encryPassword(userInfo);
-        System.out.println(userInfo);
     }
 }

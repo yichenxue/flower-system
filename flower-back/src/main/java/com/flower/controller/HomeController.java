@@ -40,10 +40,8 @@ public class HomeController {
     public String login(HttpServletRequest request, SysUser user, boolean rememberMe, Map<String, Object> map) {
         // 登录失败从request中获取shiro处理的异常信息
         // shiroLoginFailure:就是shiro异常类的全类名
-        System.out.println(user);
         String msg = "";
         String exception = (String) request.getAttribute("shiroLoginFailure");
-        System.out.println(exception);
         if (exception != null) {
             if ("kaptchaValidateFailed".equals(exception)) {
                 msg = "验证码错误";

@@ -1,7 +1,7 @@
 package com.flower.controller;
 
-import com.flower.entity.Category;
-import com.flower.service.CategoryService;
+import com.flower.entity.Supplier;
+import com.flower.service.SupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -12,35 +12,34 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
- * Created by yumaoying on 2018/4/30.
+ * Created by yumaoying on 2018/5/1.
+ * 供应商管理
  */
 @Controller
-@RequestMapping("/category")
-public class CategoryController {
-
+@RequestMapping("/supplier")
+public class SupplierController {
     @Autowired
-    private CategoryService categoryService;
+    private SupplierService supplierService;
 
+    //进入供应商页面
     @RequestMapping
-    public String categoryPage() {
-        return "category/categorys";
+    public String supplierPage() {
+        return "/supplier/suppliers";
     }
 
-    @RequestMapping("/categorys")
+    @RequestMapping("/suppliers")
     @ResponseBody
-    public Map<String, Object> get(Category category, String draw,
+    public Map<String, Object> get(Supplier supplier, String draw,
                                    @RequestParam(required = false, defaultValue = "0") int start,
                                    @RequestParam(required = false, defaultValue = "10") int length) {
         Map<String, Object> map = new HashMap<>();
-        Sort sort = new Sort(Sort.Direction.ASC, "categoryId");//按用户id降序排
+        Sort sort = new Sort(Sort.Direction.ASC, "supId");
         Pageable pageable = new PageRequest(start / length, length, sort);
-        Page page = categoryService.findAll(category, pageable);
+        Page page = supplierService.findAll(supplier, pageable);
         map.put("draw", draw);
         map.put("recordsTotal", page.getTotalElements());
         map.put("recordsFiltered", page.getTotalElements());
@@ -48,40 +47,49 @@ public class CategoryController {
         return map;
     }
 
-    //类别树显示
-    @RequestMapping("/findAll")
-    @ResponseBody
-    public List<Category> findAll() {
-        return categoryService.findAll();
-    }
 
     @RequestMapping("/findById")
     @ResponseBody
-    public Category findById(Integer id) {
-        return categoryService.findByCategoryId(id);
+    public Supplier findById(Integer id) {
+        return supplierService.findById(id);
     }
 
-    @RequestMapping(path = {"/add", "/edit"})
+    @RequestMapping("/add")
     @ResponseBody
-    public String save(Category category) {
+    public String add(Supplier supplier) {
         try {
-            categoryService.save(category);
+            supplierService.save(supplier);
             return "success";
         } catch (Exception e) {
             e.printStackTrace();
-            return "fail";
+            return "保存失败!";
         }
     }
 
-    @RequestMapping(path = "/delete")
+    @RequestMapping("/edit")
     @ResponseBody
-    public String delete(Integer id) {
+    public String edit(Supplier supplier) {
         try {
-            categoryService.delete(id);
+            supplierService.save(supplier);
             return "success";
         } catch (Exception e) {
             e.printStackTrace();
-            return "error";
+            return "修改失败!";
+        }
+    }
+
+    @RequestMapping("/delete")
+    @ResponseBody
+    public String delete(Integer id) {
+        try {
+            supplierService.delete(id);
+            return "success";
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (e.getMessage().contains("constraint"))
+                return "删除失败,该供应商与采购信息相关,暂无法删除!";
+            else
+                return "删除错误!";
         }
     }
 }

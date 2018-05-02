@@ -10,6 +10,7 @@
           th:href="@{/css/dataTables.bootstrap.min.css}">
     <link rel="stylesheet" href="../../static/css/bootstrap-datepicker.min.css"
           th:href="@{/css/bootstrap-datepicker.min.css}">
+    <link rel="stylesheet" href="../../static/css/metroStyle.css" th:href="@{/css/metroStyle.css}">
     <link rel="stylesheet" href="../../static/css/flower.css" th:href="@{/css/flower.css}">
 
     <!--[if lt IE 9]>
@@ -26,7 +27,7 @@
         <ol class="breadcrumb">
             <li><a href="#"><span class="glyphicon glyphicon-home ">&nbsp;主页</span></a></li>
             <li><span class="glyphicon glyphicon-chevron-right"></span></li>
-            <li><a href="#"><span class="glyphicon glyphicon-tree-deciduous left-menu-icon">&nbsp;商品管理</span></a>
+            <li><a href="#"><span class="glyphicon glyphicon-tree-deciduous left-menu-icon">&nbsp;商品花卉管理</span></a>
             </li>
         </ol>
     </div>
@@ -34,51 +35,50 @@
     <div class="container-fluid">
         <div class="page panel-default">
             <div class="panel-heading">
-                <span class="glyphicon glyphicon-list left-menu-icon"></span>会员列表
+                <span class="glyphicon glyphicon-list left-menu-icon"></span>商品花卉列表
             </div>
             <!--search nav-->
             <div class="panel-body">
                 <form class="form-inline" role="form">
                     <div class="form-group">
                         <lable class="control-label">编号:</lable>
-                        <input class="form-control" id="userId-search" type="text" placeholder="编号">
+                        <input class="form-control" id="noticeId-search" type="number" placeholder="编号" min="0">
                     </div>
                     <div class="form-group">
-                        <lable class="control-label">会员账户名:</lable>
-                        <input class="form-control" id="userName-search" type="text" placeholder="账户名">
+                        <lable class="control-label">花卉名称:</lable>
+                        <input class="form-control" id="goodsName-search" type="text" placeholder="花卉名称">
                     </div>
                     <div class="form-group">
-                        <lable class="control-label">会员邮箱:</lable>
-                        <input class="form-control" id="userEamil-search" type="text" placeholder="邮箱">
+                        <lable class="control-label">花卉价格:</lable>
+                        <input class="form-control" id="goodsPrice-search" type="text" placeholder="花卉价格">
                     </div>
                     <div class="form-group">
-                        <lable class="control-label">会员手机号:</lable>
-                        <input class="form-control" id="userTel-search" type="text" placeholder="手机号">
+                        <lable class="control-label">花卉折扣:</lable>
+                        <input class="form-control" id="goodsDiscount-search" type="number" placeholder="花卉折扣">
                     </div>
                     <button type="button" class="btn btn-primary" onclick="search();">查询</button>
                     <div class="form-group navbar-form navbar-right">
-                        <button type="button" class="btn btn-warning btn-stl" onclick="delUserById()">删除会员</button>
-                        <button type="button" class="btn btn-primary btn-stl" onclick="findUser()">编辑会员</button>
-                        <button type="button" class="btn btn-primary btn-stl" onclick="$('#addUser').modal();">添加会员
+                        <button type="button" class="btn btn-primary btn-stl btn-warning" onclick="allCategory()">花卉分类
+                        </button>
+                        <button type="button" class="btn btn-warning btn-stl" onclick="delGoodsById()">删除花卉</button>
+                        <button type="button" class="btn btn-primary btn-stl" onclick="findGoods()">编辑花卉</button>
+                        <button type="button" class="btn btn-primary btn-stl" onclick="$('#addGoods').modal();">添加花卉
                         </button>
                     </div>
                 </form>
             </div>
-
         </div>
         <!--table-->
         <table class="table table-striped table-bordered dataTable" cellspacing="0" width="100%" id="datatable">
             <thead>
             <tr>
                 <th><input type="checkbox" class="checkall"/></th>
-                <th>ID</th>
-                <th>账户名</th>
-                <th>用户真实姓名</th>
-                <th>邮箱</th>
-                <th>电话</th>
-                <th>积分</th>
-                <th>等级</th>
-                <th>最后登陆时间</th>
+                <th>编号</th>
+                <th>花卉名称</th>
+                <th>花卉市场价</th>
+                <th>进货单价</th>
+                <th>花卉售价</th>
+                <th>折扣</th>
             </tr>
             </thead>
         </table>
@@ -86,93 +86,205 @@
     <div class="footer" style="height:40px;"></div>
 </div>
 
-<!--添加用户弹窗-->
-<div class="modal fade" id="addUser" role="dialog" tabindex="-1" aria-labelledby="addUserLabel" aria-hidden="true">
+<!--添加商品弹窗-->
+<div class="modal fade" id="addGoods" role="dialog" tabindex="-1" aria-labelledby="addGoodsLabel"
+     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" aria-hidden="true">&times;
                 </button>
-                <h4 class="modal-title" id="addUserLabel">添加会员</h4>
+                <h4 class="modal-title" id="addGoodsLabel">添加花卉</h4>
             </div>
             <div class="modal-body">
-                <form id="addUserForm" enctype="multipart/form-data" method="POST">
-                    <div id="edit-uid" class="form-group"></div>
-                    <div id="edit-userimg" class="form-group"></div>
+                <form id="addGoodsForm" name="addGoodsForm" enctype="multipart/form-data" method="POST">
                     <div class="form-group">
-                        <label class="control-label">会员账户名:</label>
-                        <input type="text" class="form-control" name="userName" id="userName" placeholder="请输入用户名">
-                        <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip"
-                              data-placement="top" data-original-title="必填"><i></i></span>
-                    </div>
-                    <div class="form-group" id="password-form">
-                        <label class="control-label">会员密码:</label>
-                        <input type="password" class="form-control" name="userPw" id="userPw" placeholder="请输入密码">
+                        <label class="control-label">花卉名称:</label>
+                        <input type="text" class="form-control" name="goodsName" id="add-goodsName"
+                               placeholder="花卉名称">
                     </div>
                     <div class="form-group">
-                        <label class="control-label">会员邮箱:</label>
-                        <input type="text" class="form-control" name="userEamil" id="userEamil"
-                               placeholder="请输入邮箱">
+                        <label class="control-label">花卉描述:</label>
+                        <textarea name="goodsDesc" id="add-goodsDesc" class="form-control"
+                                  placeholder="花卉描述"></textarea>
                     </div>
                     <div class="form-group">
-                        <label class="control-label">会员手机号:</label>
-                        <input type="text" class="form-control" name="userTel" id="userTel"
-                               placeholder="请输入手机号">
+                        <label class="control-label">花语:</label>
+                        <textarea name="goodsMean" id="add-goodsMean" class="form-control"
+                                  placeholder="花语"></textarea>
                     </div>
                     <div class="form-group">
-                        <label class="control-label">会员真实姓名:</label>
-                        <input type="text" class="form-control" name="userRealname" id="userRealname"
-                               placeholder="请输入真实姓名">
-                    </div>
-                    <label class="control-label">会员性别:</label>
-                    <div class="form-group">
-                        <label class="radio-inline" id="userSex">
-                            <input type="radio" name="userSex" value="女" class="userSex"> 女
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="userSex" class="userSex" value="男"> 男
-                        </label>
+                        <label class="control-label">花卉市场价:</label>
+                        <input type="text" class="form-control" name="goodsShijia" id="add-goodsShijia"
+                               placeholder="花卉市场价">
                     </div>
                     <div class="form-group">
-                        <label class="control-label">地址:</label>
-                        <input type="text" class="form-control" name="userAddress" id="userAddress"
-                               placeholder="请输入地址">
+                        <label class="control-label">花卉进货单价:</label>
+                        <input type="text" class="form-control" name="goodsPurchasePrice" id="add-goodsPurchasePrice"
+                               placeholder="花卉进货单价">
                     </div>
                     <div class="form-group">
-                        <label class="control-label">qq号:</label>
-                        <input type="text" class="form-control" name="userQq" id="userQq"
-                               placeholder="请输入qq号">
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label">会员生日:</label>
-                        <div class="input-group date form_datetime" data-date-format="yyyy-mm-dd"
-                             data-link-format="yyyy-mm-dd">
-                            <input type="text" class="form-control" id='userBirthday' name="userBirthday">
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                        </div>
+                        <label class="control-label">花卉售价:</label>
+                        <input type="text" name="goodsPrice" id="add-goodsPrice" class="form-control"
+                               placeholder="花卉售价">
                     </div>
                     <div class="form-group">
-                        <label class="control-label">会员积分:</label>
-                        <input type="text" class="form-control" name="userCore" id="userCore" value="0"
-                               placeholder="请输入积分">
+                        <label class="control-label">花卉折扣:</label>
+                        <input type="text" name="goodsDiscount" id="add-goodsDiscount" class="form-control"
+                               placeholder="花卉折扣">
                     </div>
                     <div class="form-group">
-                        <label class="control-label">会员等级:</label>
-                        <select class="form-control" name="userLevel" id="userLevel-search">
-                            <option value="普通会员">普通会员</option>
-                            <option value="vip用户">vip用户</option>
-                        </select>
+                        <label class="control-label">花卉颜色:</label>
+                        <input type="text" name="goodsColor" id="add-goodsColor" class="form-control"
+                               placeholder="花卉颜色">
                     </div>
                     <div class="form-group">
-                        <label class="control-label">会员头像:</label>
-                        <input type="file" class="form-control" name="file" id="userFile">
+                        <label class="control-label">花卉材质:</label>
+                        <input type="text" name="goodsMaterial" id="add-goodsMaterial" class="form-control"
+                               placeholder="花卉材质">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">花卉品牌:</label>
+                        <input type="text" name="brand" id="add-brand" class="form-control"
+                               placeholder="花卉品牌">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">花卉包装:</label>
+                        <input type="text" name="pack" id="add-pack" class="form-control"
+                               placeholder="花卉包装">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">花卉说明:</label>
+                        <input type="text" name="remark" id="add-remark" class="form-control"
+                               placeholder="花卉说明">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">花卉图片:</label>
+                        <input type="file" class="form-control" name="file" id="goodsimgFile">
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary" onclick="addUser();" id="btn-edit">添加用户</button>
+                <button type="button" class="btn btn-primary" onclick="addGoods();" id="btn-add">添加花卉</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--修改商品弹窗-->
+<div class="modal fade" id="editGoods" role="dialog" tabindex="-1" aria-labelledby="editGoodsLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" aria-hidden="true">&times;
+                </button>
+                <h4 class="modal-title" id="editGoodsLabel">修改花卉信息</h4>
+            </div>
+            <div class="modal-body">
+                <form id="editGoodsForm" name="editGoodsForm" enctype="multipart/form-data" method="POST">
+                    <div class="form-group">
+                        <img id="edit-goodsPic" src="" title="暂无上传图片 " class='img-rounded goods-img'>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">花卉编号:</label>
+                        <input type="text" class="form-control" name="goodsId" id="edit-goodsId" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">花卉名称:</label>
+                        <input type="text" class="form-control" name="goodsName" id="edit-goodsName"
+                               placeholder="花卉名称">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">花卉描述:</label>
+                        <textarea name="goodsDesc" id="edit-goodsDesc" class="form-control"
+                                  placeholder="花卉描述"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">花语:</label>
+                        <textarea name="goodsMean" id="edit-goodsMean" class="form-control"
+                                  placeholder="花语"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">花卉市场价:</label>
+                        <input type="text" name="goodsShijia" id="edit-goodsShijia" class="form-control"
+                               placeholder="花卉市场价">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">花卉进货单价:</label>
+                        <input type="text" name="goodsPurchasePrice" id="edit-goodsPurchasePrice" class="form-control"
+                               placeholder="花卉进货单价">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">花卉售价:</label>
+                        <input type="text" name="goodsPrice" id="edit-goodsPrice" class="form-control"
+                               placeholder="花卉售价">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">花卉折扣:</label>
+                        <input type="text" name="goodsDiscount" id="edit-goodsDiscount" class="form-control"
+                               placeholder="花卉折扣">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">花卉颜色:</label>
+                        <input type="text" name="goodsColor" id="edit-goodsColor" class="form-control"
+                               placeholder="花卉颜色">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">花卉材质:</label>
+                        <input type="text" name="goodsMaterial" id="edit-goodsMaterial" class="form-control"
+                               placeholder="花卉材质">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">花卉品牌:</label>
+                        <input type="text" name="brand" id="edit-brand" class="form-control"
+                               placeholder="花卉品牌">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">花卉包装:</label>
+                        <input type="text" name="pack" id="edit-pack" class="form-control"
+                               placeholder="花卉包装">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">花卉说明:</label>
+                        <input type="text" name="remark" id="edit-remark" class="form-control"
+                               placeholder="花卉说明">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">花卉图片:</label>
+                        <input type="file" class="form-control" name="file" id="edit-file">
+                        <lable>若要重新上传图片请重新上传</lable>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="editGoods();" id="btn-edit">修改花卉信息</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--商品分配类别弹窗-->
+<div class="modal fade" id="selectCategorys" role="dialog" tabindex="-1" aria-labelledby="selectCategoryLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" aria-hidden="true">&times;
+                </button>
+                <h4 class="modal-title" id="selectCategoryLabel">花卉分类</h4>
+            </div>
+            <div class="modal-body">
+                <form id="boxCategoryForm">
+                    <ul id="tree_category" class="ztree"></ul>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="saveGoodsCategory();">保存分类</button>
             </div>
         </div>
     </div>
@@ -181,22 +293,22 @@
 <script src="../../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
 <script src="../../static/js/jquery.dataTables.min.js" th:src="@{/js/jquery.dataTables.min.js}"></script>
 <script src="../../static/js/dataTables.bootstrap.min.js" th:src="@{/js/dataTables.bootstrap.min.js}"></script>
-<!--<script src="../../static/js/moment-with-locales.min.js" th:src="@{/js/moment-with-locales.min.js}"></script>-->
-<script src="../../static/js/Moment.js" th:src="@{/js/Moment.js}"></script>
-<script src="../../static/js/locales/bootstrap-datepicker.zh-CN.min.js"
-        th:src="@{/js/locales/bootstrap-datepicker.zh-CN.min.js}"></script>
-<script src="../../static/js/bootstrap-datepicker.min.js" th:src="@{/js/bootstrap-datepicker.min.js}"></script>
 <script src="../../static/js/layer.js" th:src="@{/js/layer.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.ztree.core.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.ztree.excheck.js}"></script>
+<script src="../../static/js/Moment.js" th:src="@{/js/Moment.js}"></script>
+<!--<script src="../../static/js/locales/bootstrap-datepicker.zh-CN.min.js"-->
+<!--th:src="@{/js/locales/bootstrap-datepicker.zh-CN.min.js}"></script>-->
 <script src="../../static/js/flower.js" th:src="@{/js/flower.js}"></script>
 <script type="text/javascript" th:inline="javascript">
     //封装查询参数
     function getQueryCondition(data) {
         var param = {};
-        //组装排序参数
-        param.userId = $("#userId-search").val();//查询条件
-        param.userName = $("#userName-search").val();//查询条件
-        param.userEamil = $("#userEamil-search").val();//查询条件
-        param.userTel = $("#userTel-search").val();//查询条件
+        //组装查询参数
+        param.goodsId = $("#goodsId-search").val();//查询条件
+        param.goodsName = $("#goodsName-search").val();//查询条件
+        param.goodsPrice = $("#goodsPrice-search").val();//查询条件
+        param.goodsDiscount = $("#goodsDiscount-search").val();//查询条件
         //组装分页参数
         param.start = data.start; //第一条数据的起始位置，比如0代表第一条数据
         param.length = data.length;//告诉服务器每页显示的条数
@@ -224,8 +336,8 @@
             ajax: function (data, callback, settings) {
                 var param = getQueryCondition(data);
                 $.ajax({
-                    type: "GET",
-                    url: "/user/users",
+                    type: "POST",
+                    url: "/goods/goodslist",
                     cache: false,  //禁用缓存
                     data: param,    //传入已封装的参数
                     dataType: "json",
@@ -250,20 +362,18 @@
                 [
                     {
                         "sClass": "text-center",
-                        "data": "userId",
+                        "data": "goodsId",
                         "render": function (data, type, full, meta) {
                             return '<input type="checkbox"  class="checkchild"  value="' + data + '" />';
                         },
                         'bSortable': false
                     },
-                    {"data": "userId"},
-                    {"data": "userName"},
-                    {"data": "userRealname"},
-                    {"data": "userEamil"},
-                    {"data": "userTel"},
-                    {"data": "userCore"},
-                    {"data": "userLevel"},
-                    {"data": "userLast"},
+                    {"data": "goodsId"},
+                    {"data": "goodsName"},
+                    {"data": "goodsShijia"},
+                    {"data": "goodsPurchasePrice"},
+                    {"data": "goodsPrice"},
+                    {"data": "goodsDiscount"},
                 ],
             columnDefs:
                 [
@@ -273,8 +383,6 @@
                     {"orderable": false, "targets": 4},
                     {"orderable": false, "targets": 5},
                     {"orderable": false, "targets": 6},
-                    {"orderable": false, "targets": 7},
-                    {"orderable": false, "targets": 8},
                 ],
         });
     });
@@ -286,46 +394,34 @@
 
     var submit = false;
 
-    function vertify() {
+    function vertify(opp) {
         submit = false;
-        var userName = $("#userName").val();
-        var userPw = $("#userPw").val();
-        var userEamil = $("#userEamil").val();
-        var userTel = $("#userTel").val();
-        if (userName == "" || userName == undefined || userName == null) {
-            return layer.msg('用户名不能为空', function () {
+        var goodsName = $('#' + opp + '-goodsName').val();
+        var goodsPrice = $('#' + opp + '-goodsPrice').val();
+        if (goodsName == "" || goodsName == undefined || goodsName == null) {
+            return layer.msg('花卉名称不能为空', function () {
                 //关闭后的操作
             });
         }
-        if (userPw == "" || userPw == undefined || userPw == null) {
-            return layer.msg('密码不能为空', function () {
-                //关闭后的操作
-            });
-        }
-        if (userEamil == "" || userEamil == undefined || userEamil == null) {
-            return layer.msg('邮箱不能为空', function () {
-                //关闭后的操作
-            });
-        }
-        if (userTel == "" || userTel == undefined || userTel == null) {
-            return layer.msg('手机号不能为空', function () {
+        if (goodsPrice == "" || goodsPrice == undefined || goodsPrice == null) {
+            return layer.msg('花卉售价不能为空', function () {
                 //关闭后的操作
             });
         }
         submit = true;
     }
 
-    //添加用户
-    function addUser() {
-        vertify();
+
+    //添加花卉
+    function addGoods() {
+        vertify('add');
+        var formData = new FormData($('#addGoodsForm')[0]);
         if (submit) {
-            var formData = new FormData($('#addUserForm')[0]);
             $.ajax({
                 cache: false,
                 type: "POST",
-                url: '/user/add',
+                url: '/goods/add',
                 data: formData,
-                // data: $('#addUserForm').serialize(),
                 contentType: false,
                 processData: false,
                 async: false,
@@ -333,21 +429,26 @@
                     if (data == "success") {
                         layer.msg('保存成功');
                         table.ajax.reload();
-                        $('#addUser').modal('hide');
+                        $('#addGoods').modal('hide');
                     } else {
                         layer.msg(data);
-                        $('#addUser').modal('hide');
+                        //  $('#addGoods').modal('hide');
                     }
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    alert("操作失败" + errorThrown);
+                    alert("操作失败,请检查输入是否有误!" + errorThrown);
                 }
             });
         }
     }
 
-    //查找用户
-    function findUser() {
+    //模态框清空
+    $('#addGoods').on('hidden.bs.modal', function () {
+        clearForm($('#addGoodsForm'));
+    });
+
+    //查找类别
+    function findGoods() {
         var id = $(".checkchild:checked").val();
         if ($(".checkchild:checked").length < 1) {
             layer.msg('请选择一条数据');
@@ -357,80 +458,72 @@
             layer.msg('一次只能修改一条数据');
             return;
         }
-
-        $("#btn-edit").text('修改会员信息');
-        $("#btn-edit").unbind("click");
-        $("#btn-edit").attr('onclick', 'editUser()');
-        //$("#password-form").remove();
         $.ajax({
             async: false,
             type: "POST",
             data: {id: id},
-            url: '/user/findById',
+            url: '/goods/findById',
             dataType: "json",
             success: function (data) {
-                var html = "<div class='form-group'><label class='control-label'>编号:</label><input type='text' class='form-control' name='userId' value='" + data.userId + "' readonly></div>";
-                var img = "";
-                if (data.userImg != null && data.userImg != "") {
-                    img += "<img src='/" + data.userImg + "'class='img-rounded'/>";
+                $("#edit-goodsId").val(data.goodsId);
+                $("#edit-goodsName").val(data.goodsName);
+                $("#edit-goodsDesc").val(data.goodsDesc);
+                if (data.goodsPic != null && data.goodsPic != "") {
+                    $("#edit-goodsPic").attr("src", '/' + data.goodsPic);
+                    $("#edit-goodsPic").attr("title", '/' + data.goodsName);
                 }
-                $("#edit-uid").empty();
-                $("#edit-uid").append(html);
-                $("#edit-userimg").empty();
-
-                $("#edit-userimg").append("<input type='hidden' name='userImg' id='userImg' value='" + data.userImg + "'>");
-                $("#addUserLabel").empty();
-                $("#addUserLabel").append(img);
-                $("#addUserLabel").append("  修改会员信息");
-                //$("#edit-uid").append("<input type='hidden' name='uid' id='uid' value='" + data.uid + "'>");
-                $("#userName").val(data.userName);
-                $("#userPw").val(data.userPw);
-                $("#userEamil").val(data.userEamil);
-                $("#userTel").val(data.userTel);
-                $("#userRealname").val(data.userRealname);
-                $("#userAddress").val(data.userAddress);
-                $("#userQq").val(data.userQq);
-                $("#userBirthday").val(data.userBirthday);
-                $("#userCore").val(data.userCore);
-                $(".userSex option[value='" + data.userSex + "']").attr("checked", true);
-                $(".userLevel option[value='" + data.userLevel + "']").attr("selected", true);
+                $("#edit-goodsPic").empty();
+                $("#edit-goodsPic").append("<input type='hidden' name='goodsPic' id='goodsPic' value='" + data.goodsPic + "'>");
+                $("#edit-goodsColor").val(data.goodsColor);
+                $("#edit-goodsMean").val(data.goodsMean);
+                $("#edit-goodsShijia").val(data.goodsShijia);
+                $("#edit-goodsPurchasePrice").val(data.goodsPurchasePrice);
+                $("#edit-goodsPrice").val(data.goodsPrice);
+                $("#edit-goodsDiscount").val(data.goodsDiscount);
+                $("#edit-goodsMaterial").val(data.goodsMaterial);
+                $("#edit-brand").val(data.brand);
+                $("#edit-pack").val(data.pack);
+                $("#edit-remark").val(data.remark);
+                $("#edit-").val(data.remark);
+                $('#editGoods').modal();
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("操作失败,请检查输入是否有误!" + errorThrown);
             }
         });
-        $('#addUser').modal();
     }
 
-    //修改用户信息
-    function editUser() {
-        vertify();
+
+    //修改花卉信息
+    function editGoods() {
+        vertify('edit');
+        var formData = new FormData($('#editGoodsForm')[0]);
         if (submit) {
-            var formData = new FormData($('#addUserForm')[0]);
             $.ajax({
                 cache: true,
                 type: "POST",
-                url: '/user/edit',
+                url: '/goods/edit',
                 data: formData,
-                async: false,
                 contentType: false,
                 processData: false,
+                async: false,
                 success: function (data) {
-                    layer.msg(data);
-                    $('#addUser').modal('hide');
                     if (data == "success") {
                         layer.msg('修改成功');
                         table.ajax.reload();
-                        $('#addUser').modal('hide');
-                        table.ajax.reload();
+                        $('#editGoods').modal('hide');
                     } else {
                         layer.msg(data);
-                        $('#addUser').modal('hide');
+                        $('#editGoods').modal('hide');
                     }
                 }
             });
         }
+        $("#edit-file").val("");
     }
 
-    //删除用户
-    function delUserById() {
+    //删除花卉信息
+    function delGoodsById() {
         var id = $(".checkchild:checked").val();
         if ($(".checkchild:checked").length < 1) {
             layer.msg('请选择一条数据');
@@ -440,13 +533,13 @@
             layer.msg('一次只能修改一条数据');
             return;
         }
-        layer.confirm('您确定要删除该用户吗？', {
+        layer.confirm('您确定要删除该花卉信息吗？', {
             btn: ['确认', '取消'] //按钮
         }, function () {
             $.ajax({
                 cache: true,
                 type: "POST",
-                url: '/user/delete',
+                url: '/goods/delete',
                 data: {id: id},
                 async: false,
                 success: function (data) {
@@ -454,38 +547,96 @@
                         layer.msg('删除成功');
                         table.ajax.reload();
                     } else {
-                        layer.msg('删除失败');
+                        layer.msg(data);
                     }
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    alert("操作失败" + errorThrown);
+                    alert("操作失败,请检查输入是否有误!" + errorThrown);
                 }
             });
         });
     }
 
-    $('#userBirthday').datepicker({
-        language: 'zh-CN',//显示中文
-        format: 'yyyy-mm-dd',//显示格式
-        minView: "month",//设置只显示到月份
-        todayHighlight: 1,
-        // weekStart: 1, //以星期一作为开始
-        // startView: 2,//展示的样式，1小时，2日
-        // minView: 2,//选取到的时间，2天，1小时
-        initialDate: new Date(),
-        autoclose: true,//选中自动关闭
-        todayBtn: true,//显示今日按钮
-        locale: moment.locale('zh-cn')
-    });
-    //默认获取当前日期
-    // var today = new Date("19990101");
-    // var nowdate = (today.getFullYear()) + "-" + (today.getMonth() + 1) + "-" + today.getDate();
-    // //对日期格式进行处理
-    // var date = new Date(nowdate);
-    // var mon = date.getMonth() + 1;
-    // var day = date.getDate();
-    // var mydate = date.getFullYear() + "-" + (mon < 10 ? "0" + mon : mon) + "-" + (day < 10 ? "0" + day : day);
-    // document.getElementById("nowdate").value = mydate;
+
+    //加载花卉类别
+    var goodsId = ""
+
+    function allCategory() {
+        var id = $(".checkchild:checked").val();
+        goodsId = id;
+        if ($(".checkchild:checked").length < 1) {
+            layer.msg('请选择一条数据');
+            return;
+        }
+        if ($(".checkchild:checked").length > 1) {
+            layer.msg('一次只能修改一条数据');
+            return;
+        }
+        var setting = {
+            check: {
+                enable: true,
+                chkboxType: {"Y": "p", "N": "s"}
+            },
+            data: {
+                simpleData: {
+                    enable: true,
+                    idKey: "categoryId",
+                    pIdKey: "parentId",
+                },
+                key: {
+                    name: "categoryName",
+                    checked: "checked"
+                }
+            }
+        };
+        $.ajax({
+            async: false,
+            type: "POST",
+            data: {id: id},
+            url: '/goods/goodsCategory',
+            datatype: "json",
+            success: function (data) {
+                $.fn.zTree.init($("#tree_category"), setting, data);
+                var zTree = $.fn.zTree.getZTreeObj("tree_category");
+                zTree.expandAll(false);
+                $('#selectCategorys').modal();
+            }
+        });
+    }
+
+    //保存商品类别的权限
+    function saveGoodsCategory() {
+        var zTree = $.fn.zTree.getZTreeObj("tree_category"),
+            checkNode = zTree.getCheckedNodes(true);
+        var ids = new Array();
+        for (var i = 0; i < checkNode.length; i++) {
+            ids.push(checkNode[i].categoryId);
+        }
+        $.ajax({
+            async: false,
+            type: "POST",
+            data: {goodsId: goodsId, categoryId: ids.join(",")},
+            url: "/goods/saveCategorys",
+            success: function (data) {
+                if (data == "success") {
+                    layer.msg('保存成功');
+                    $('#selectCategorys').modal('hide');
+                    table.ajax.reload();
+                } else {
+                    layer.msg('保存失败');
+                    $('#selectCategorys').modal('hide');
+                }
+            }
+        });
+    }
+
+    // //重置
+    // function returnClear() {
+    //     tree.resetIds();
+    //     tree.isReset = true;
+    //     $("#dicids").attr("value", "");
+    //     $("#checkDic").attr("value", "");
+    // }
 </script>
 <div th:include="common/footer :: footer"></div>
 </body>

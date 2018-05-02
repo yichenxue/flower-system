@@ -1,8 +1,8 @@
 package com.flower.controller;
 
-
 import com.flower.entity.User;
 import com.flower.service.UserService;
+import com.flower.util.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -10,19 +10,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 
-import javax.servlet.http.HttpServletRequest;
-
-import java.io.File;
-
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -58,7 +51,6 @@ public class UserController {
         map.put("recordsTotal", page.getTotalElements());
         map.put("recordsFiltered", page.getTotalElements());
         map.put("data", page.getContent());
-        System.out.println(page.getContent());
         return map;
     }
 
@@ -68,52 +60,48 @@ public class UserController {
         return userService.findById(id);
     }
 
-    @RequestMapping(path = {"/add", "/edit"}, method = RequestMethod.POST)
+
+    @PostMapping("/add")
     @ResponseBody
-    public String add(User user, @RequestParam("file") MultipartFile file, HttpServletRequest request) {
+    public String add(User user, @RequestParam("file") MultipartFile file) {
         try {
-            System.out.println("=================user" + user);
-            if (file != null && !file.isEmpty()) {
-                String type = null;
-                String fileName = file.getOriginalFilename();
-                type = fileName.indexOf(".") != -1 ? fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length()) : null;
-                if (type != null) {
-                    if ("gif".equalsIgnoreCase(type) || "png".equalsIgnoreCase(type) || "jpg".equalsIgnoreCase(type)) {
-                        String name = String.valueOf(System.currentTimeMillis()) + "." + type;
-                        Path filePath = Paths.get(path + name);
-                        if (!filePath.toFile().getParentFile().exists()) filePath.toFile().getParentFile().mkdirs();
-                        file.transferTo(filePath.toFile());
-                        user.setUserImg(name);
-                    }
-                } else {
-                    return "图片格式错误!";
-                }
+            String msg = FileUploadUtil.upload(path, file);
+            if (!"图片格式错误".equals(msg) && !"图片上传错误".equals(msg)) {
+                user.setUserImg(msg);
+                SimpleDateFormat time = new SimpleDateFormat("yyyy-MM-dd");
+                user.setUserRegister(time.format(new Date()));
+                userService.saveUser(user);
+                return "success";
+            } else {
+                return msg;
             }
-            userService.saveUser(user);
-            return "success";
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (e.getMessage().contains("constraint"))
+                return "用户已存在,请检查是账户名,邮箱,手机号!";
+            return "添加失败!";
+        }
+    }
+
+    @PostMapping("/edit")
+    @ResponseBody
+    public String edit(User user, @RequestParam("file") MultipartFile file) {
+        try {
+            String msg = FileUploadUtil.upload(path, file);
+            if (!"图片格式错误".equals(msg) && !"图片上传错误".equals(msg)) {
+                user.setUserImg(msg);
+                userService.saveUser(user);
+                return "success";
+            } else {
+                return msg;
+            }
         } catch (Exception e) {
             e.printStackTrace();
             if (e.getMessage().contains("constraint"))
                 return "用户已存在";
-            else
-                return "保存失败";
+            return "修改失败";
         }
     }
-
-//    @RequestMapping("/edit")
-//    @ResponseBody
-//    public String edit(User user) {
-//        try {
-//            userService.saveUser(user);
-//            return "success";
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            if (e.getMessage().contains("constraint"))
-//                return "fail";
-//            else
-//                return "error";
-//        }
-//    }
 
     @RequestMapping("/delete")
     @ResponseBody

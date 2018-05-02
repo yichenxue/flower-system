@@ -127,7 +127,7 @@
                     <label class="control-label">会员性别:</label>
                     <div class="form-group">
                         <label class="radio-inline" id="userSex">
-                            <input type="radio" name="userSex" value="女" class="userSex"> 女
+                            <input type="radio" name="userSex" value="女" class="userSex" checked> 女
                         </label>
                         <label class="radio-inline">
                             <input type="radio" name="userSex" class="userSex" value="男"> 男
@@ -159,10 +159,14 @@
                     </div>
                     <div class="form-group">
                         <label class="control-label">会员等级:</label>
-                        <select class="form-control" name="userLevel" id="userLevel-search">
+                        <select class="form-control" name="userLevel" id="userLevel">
                             <option value="普通会员">普通会员</option>
                             <option value="vip用户">vip用户</option>
                         </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">会员注册时间:</label>
+                        <input type="text" class="form-control" name="userRegister" id="userRegister" readonly>
                     </div>
                     <div class="form-group">
                         <label class="control-label">会员头像:</label>
@@ -346,6 +350,11 @@
         }
     }
 
+    //模态框清空
+    $('#addUser').on('hidden.bs.modal', function () {
+        clearForm($('#addUser'));
+    });
+
     //查找用户
     function findUser() {
         var id = $(".checkchild:checked").val();
@@ -392,8 +401,9 @@
                 $("#userQq").val(data.userQq);
                 $("#userBirthday").val(data.userBirthday);
                 $("#userCore").val(data.userCore);
+                $("#userRegister").val(data.userRegister);
                 $(".userSex option[value='" + data.userSex + "']").attr("checked", true);
-                $(".userLevel option[value='" + data.userLevel + "']").attr("selected", true);
+                $("#userLevel option[value='" + data.userLevel + "']").attr("selected", true);
             }
         });
         $('#addUser').modal();

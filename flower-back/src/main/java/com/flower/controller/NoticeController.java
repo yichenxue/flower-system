@@ -36,7 +36,6 @@ public class NoticeController {
     public Map<String, Object> get(Notice notice, String draw,
                                    @RequestParam(required = false, defaultValue = "0") int start,
                                    @RequestParam(required = false, defaultValue = "10") int length) {
-        System.out.println("=================" + notice);
         Map<String, Object> map = new HashMap<>();
         Sort sort = new Sort(Sort.Direction.ASC, "noticeId");//按用户id降序排
         org.springframework.data.domain.Pageable pageable = new PageRequest(start / length, length, sort);
@@ -45,7 +44,6 @@ public class NoticeController {
         map.put("recordsTotal", page.getTotalElements());
         map.put("recordsFiltered", page.getTotalElements());
         map.put("data", page.getContent());
-        System.out.println(page.getContent());
         return map;
     }
 

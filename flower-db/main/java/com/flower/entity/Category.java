@@ -1,6 +1,9 @@
 package com.flower.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
@@ -8,13 +11,18 @@ import java.util.Objects;
  * Created by yumaoying on 2018/4/29.
  */
 @Entity
-public class Category {
+public class Category implements Serializable {
+
+    private static final long serialVersionUID = 3381563345442793504L;
     private Integer categoryId;
     private String categoryCode;
     private String categoryName;
     private String catagoryDesc;
-    private Integer parsentId;
-    private List<GoodsCategory> goodsCategories;
+    private Integer parentId;
+    private List<Goods> goodsList;
+
+    @Transient
+    private String checked = "false";//是否选中
 
     @Id
     @Column(name = "category_id", nullable = false)
@@ -58,39 +66,51 @@ public class Category {
     }
 
     @Column(name = "parsent_id", nullable = true)
-    public Integer getParsentId() {
-        return parsentId;
+    public Integer getParentId() {
+        return parentId;
     }
 
-    public void setParsentId(Integer parsentId) {
-        this.parsentId = parsentId;
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Category category = (Category) o;
-        return categoryId == category.categoryId &&
-                Objects.equals(categoryCode, category.categoryCode) &&
-                Objects.equals(categoryName, category.categoryName) &&
-                Objects.equals(catagoryDesc, category.catagoryDesc) &&
-                Objects.equals(parsentId, category.parsentId);
+
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (o == null || getClass() != o.getClass()) return false;
+//        Category category = (Category) o;
+//        return categoryId == category.categoryId &&
+//                Objects.equals(categoryCode, category.categoryCode) &&
+//                Objects.equals(categoryName, category.categoryName) &&
+//                Objects.equals(catagoryDesc, category.catagoryDesc) &&
+//                Objects.equals(parentId, category.parentId);
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//
+//        return Objects.hash(categoryId, categoryCode, categoryName, catagoryDesc, parentId);
+//    }
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "GoodsCategory", joinColumns = {@JoinColumn(name = "categoryId")}, inverseJoinColumns = {@JoinColumn(name = "goodsId")})
+    @JsonBackReference
+    public List<Goods> getGoodsList() {
+        return goodsList;
     }
 
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(categoryId, categoryCode, categoryName, catagoryDesc, parsentId);
+    public void setGoodsList(List<Goods> goodsList) {
+        this.goodsList = goodsList;
     }
 
-    @OneToMany(mappedBy = "category")
-    public List<GoodsCategory> getGoodsCategories() {
-        return goodsCategories;
+
+    public String getChecked() {
+        return checked;
     }
 
-    public void setGoodsCategories(List<GoodsCategory> goodsCategories) {
-        this.goodsCategories = goodsCategories;
+    public void setChecked(String checked) {
+        this.checked = checked;
     }
 
     @Override
@@ -100,7 +120,8 @@ public class Category {
                 ", categoryCode='" + categoryCode + '\'' +
                 ", categoryName='" + categoryName + '\'' +
                 ", catagoryDesc='" + catagoryDesc + '\'' +
-                ", parsentId=" + parsentId +
+                ", parentId=" + parentId +
+                ", checked='" + checked + '\'' +
                 '}';
     }
 }

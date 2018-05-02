@@ -1,6 +1,7 @@
 package com.flower.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
@@ -8,7 +9,8 @@ import java.util.Objects;
  * Created by yumaoying on 2018/4/29.
  */
 @Entity
-public class User {
+public class User implements Serializable {
+    private static final long serialVersionUID = -8207165732672998603L;
     private Integer userId;
     private String userName;
     private String userPw;

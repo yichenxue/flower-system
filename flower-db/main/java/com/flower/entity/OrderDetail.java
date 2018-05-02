@@ -1,6 +1,7 @@
 package com.flower.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 
@@ -9,7 +10,8 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "order_detail")
-public class OrderDetail {
+public class OrderDetail implements Serializable {
+    private static final long serialVersionUID = -6090122937654394880L;
     private Integer id;
     private String orderNo;
     private BigDecimal goodsPerPrice;
@@ -52,8 +54,6 @@ public class OrderDetail {
     public void setOrderNo(String orderNo) {
         this.orderNo = orderNo;
     }
-
-
 
 
     @Column(name = "goods_per_price", nullable = true, precision = 0)

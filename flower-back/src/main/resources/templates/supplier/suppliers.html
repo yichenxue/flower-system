@@ -27,7 +27,7 @@
         <ol class="breadcrumb">
             <li><a href="#"><span class="glyphicon glyphicon-home ">&nbsp;主页</span></a></li>
             <li><span class="glyphicon glyphicon-chevron-right"></span></li>
-            <li><a href="#"><span class="glyphicon glyphicon-tree-deciduous left-menu-icon">&nbsp;花卉类别管理</span></a>
+            <li><a href="#"><span class="glyphicon glyphicon-tree-deciduous left-menu-icon">&nbsp;供应商管理</span></a>
             </li>
         </ol>
     </div>
@@ -35,30 +35,25 @@
     <div class="container-fluid">
         <div class="page panel-default">
             <div class="panel-heading">
-                <span class="glyphicon glyphicon-list left-menu-icon"></span>花卉类别列表
+                <span class="glyphicon glyphicon-list left-menu-icon"></span>供应商列表
             </div>
             <!--search nav-->
             <div class="panel-body">
                 <form class="form-inline" role="form">
                     <div class="form-group">
-                        <lable class="control-label">类别编号:</lable>
-                        <input class="form-control" id="categoryId-search" type="text" placeholder="编号">
+                        <lable class="control-label">编号:</lable>
+                        <input class="form-control" id="supId-search" type="text" placeholder="编号">
                     </div>
                     <div class="form-group">
-                        <lable class="control-label">类别编码:</lable>
-                        <input class="form-control" id="categoryCode-search" type="text" placeholder="编码">
-                    </div>
-                    <div class="form-group">
-                        <lable class="control-label">类别名称:</lable>
-                        <input class="form-control" id="categoryName-search" type="text" placeholder="名称">
+                        <lable class="control-label">供应商名称:</lable>
+                        <input class="form-control" id="supName-search" type="text" placeholder="名称">
                     </div>
                     <button type="button" class="btn btn-primary" onclick="search();">查询</button>
                     <div class="form-group navbar-form navbar-right">
-                        <button type="button" class="btn btn-warning btn-stl" onclick="findCategoryZtree()">查看类别树
+                        <button type="button" class="btn btn-warning btn-stl" onclick="delSupplierById()">删除供应商
                         </button>
-                        <button type="button" class="btn btn-warning btn-stl" onclick="delCategoryById()">删除类别</button>
-                        <button type="button" class="btn btn-primary btn-stl" onclick="findCategory()">编辑类别</button>
-                        <button type="button" class="btn btn-primary btn-stl" onclick="$('#addCategory').modal();">添加类别
+                        <button type="button" class="btn btn-primary btn-stl" onclick="findSupplier()">编辑供应商</button>
+                        <button type="button" class="btn btn-primary btn-stl" onclick="$('#addSupplier').modal();">添加供应商
                         </button>
                     </div>
                 </form>
@@ -69,10 +64,10 @@
             <tr>
                 <th><input type="checkbox" class="checkall"/></th>
                 <th>编号</th>
-                <th>类别编码</th>
-                <th>类别名称</th>
-                <th>类别描述</th>
-                <th>父类别编号</th>
+                <th>供应商名称</th>
+                <th>供应商地址</th>
+                <th>供应商电话</th>
+                <th>供应商邮箱</th>
             </tr>
             </thead>
         </table>
@@ -81,67 +76,44 @@
     <div class="footer" style="height:40px;"></div>
 </div>
 
-<!--添加类别弹窗-->
-<div class="modal fade" id="addCategory" role="dialog" tabindex="-1" aria-labelledby="addCategoryLabel"
+<!--添加供应商弹窗-->
+<div class="modal fade" id="addSupplier" role="dialog" tabindex="-1" aria-labelledby="addSupplierLabel"
      aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" aria-hidden="true">&times;
                 </button>
-                <h4 class="modal-title" id="addCategoryLabel">添加类别</h4>
+                <h4 class="modal-title" id="addSupplierLabel">添加供应商</h4>
             </div>
             <div class="modal-body">
-                <form id="addCategoryForm" enctype="multipart/form-data" method="POST">
-                    <div id="edit-uid" class="form-group"></div>
+                <form id="addSupplierForm" enctype="multipart/form-data" method="POST">
+                    <div id="edit-supId" class="form-group"></div>
                     <div class="form-group">
-                        <label class="control-label">父类别编号:</label>
-                        <input type="text" class="form-control" name="parentId" id="parentId" placeholder="请输入父编号">
+                        <label class="control-label">供应商名称:</label>
+                        <input type="text" class="form-control" name="supName" id="supName"
+                               placeholder="供应商名称">
                     </div>
                     <div class="form-group">
-                        <label class="control-label">类别编码:</label>
-                        <input type="text" class="form-control" name="categoryCode" id="categoryCode"
-                               placeholder="请输入类别编码">
+                        <label class="control-label">供应商地址</label>
+                        <input type="text" class="form-control" name="supAddress" id="supAddress"
+                               placeholder="供应商地址">
                     </div>
                     <div class="form-group">
-                        <label class="control-label">类别名:</label>
-                        <input type="text" class="form-control" name="categoryName" id="categoryName"
-                               placeholder="请输入类别名">
+                        <label class="control-label">供应商电话</label>
+                        <input type="text" class="form-control" name="supTel" id="supTel"
+                               placeholder="供应商电话">
                     </div>
                     <div class="form-group">
-                        <label class="control-label">类别描述</label>
-                        <input type="text" class="form-control" name="catagoryDesc" id="catagoryDesc"
-                               placeholder="请输入类别描述">
+                        <label class="control-label">供应商邮箱</label>
+                        <input type="text" class="form-control" name="supEmail" id="supEmail"
+                               placeholder="供应商电话">
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary" onclick="addCategory();" id="btn-edit">添加类别</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<!--类别树弹窗-->
-<div class="modal fade" id="findCategorys" role="dialog" tabindex="-1" aria-labelledby="findCategoryLabel"
-     aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" aria-hidden="true">&times;
-                </button>
-                <h4 class="modal-title" id="findCategoryLabel">花卉分类</h4>
-            </div>
-            <div class="modal-body">
-                <form id="boxFindCategoryForm">
-                    <ul id="find_tree_category" class="ztree"></ul>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <!--<button type="button" class="btn btn-primary" onclick="saveGoodsCategory();">保存分类</button>-->
+                <button type="button" class="btn btn-primary" onclick="addSupplier();" id="btn-edit">添加供应商</button>
             </div>
         </div>
     </div>
@@ -164,9 +136,8 @@
     function getQueryCondition(data) {
         var param = {};
         //组装查询参数
-        param.categoryId = $("#categoryId-search").val();//查询条件
-        param.categoryCode = $("#categoryCode-search").val();//查询条件
-        param.categoryName = $("#categoryName-search").val();//查询条件
+        param.supId = $("#supId-search").val();//查询条件
+        param.supName = $("#supName-search").val();//查询条件
         //组装分页参数
         param.start = data.start; //第一条数据的起始位置，比如0代表第一条数据
         param.length = data.length;//告诉服务器每页显示的条数
@@ -194,8 +165,8 @@
             ajax: function (data, callback, settings) {
                 var param = getQueryCondition(data);
                 $.ajax({
-                    type: "GET",
-                    url: "/category/categorys",
+                    type: "POST",
+                    url: "/supplier/suppliers",
                     cache: false,  //禁用缓存
                     data: param,    //传入已封装的参数
                     dataType: "json",
@@ -220,17 +191,17 @@
                 [
                     {
                         "sClass": "text-center",
-                        "data": "categoryId",
+                        "data": "supId",
                         "render": function (data, type, full, meta) {
                             return '<input type="checkbox"  class="checkchild"  value="' + data + '" />';
                         },
                         'bSortable': false
                     },
-                    {"data": "categoryId"},
-                    {"data": "categoryCode"},
-                    {"data": "categoryName"},
-                    {"data": "catagoryDesc"},
-                    {"data": "parentId"},
+                    {"data": "supId"},
+                    {"data": "supName"},
+                    {"data": "supAddress"},
+                    {"data": "supTel"},
+                    {"data": "supEmail"},
                 ],
             columnDefs:
                 [
@@ -252,39 +223,33 @@
 
     function vertify() {
         submit = false;
-        var categoryName = $("#categoryName").val();
-        var categoryCode = $("#categoryCode").val();
-        if (categoryName == "" || categoryName == undefined || categoryName == null) {
-            return layer.msg('类别名不能为空', function () {
-                //关闭后的操作
-            });
-        }
-        if (categoryCode == "" || categoryCode == undefined || categoryCode == null) {
-            return layer.msg('类别编码不能为空', function () {
+        var supName = $("#supName").val();
+        if (supName == "" || supName == undefined || supName == null) {
+            return layer.msg('供应商名称不能为空', function () {
                 //关闭后的操作
             });
         }
         submit = true;
     }
 
-    //添加分类
-    function addCategory() {
+    //添加供应商
+    function addSupplier() {
         vertify();
         if (submit) {
             $.ajax({
                 cache: false,
                 type: "POST",
-                url: '/category/add',
-                data: $('#addCategoryForm').serialize(),
+                url: '/supplier/add',
+                data: $('#addSupplierForm').serialize(),
                 async: false,
                 success: function (data) {
                     if (data == "success") {
                         layer.msg('保存成功');
                         table.ajax.reload();
-                        $('#addCategory').modal('hide');
+                        $('#addSupplier').modal('hide');
                     } else {
                         layer.msg(data);
-                        $('#addCategory').modal('hide');
+                        $('#addSupplier').modal('hide');
                     }
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -295,8 +260,8 @@
     }
 
 
-    //查找类别
-    function findCategory() {
+    //查找供应商
+    function findSupplier() {
         var id = $(".checkchild:checked").val();
         if ($(".checkchild:checked").length < 1) {
             layer.msg('请选择一条数据');
@@ -306,49 +271,50 @@
             layer.msg('一次只能修改一条数据');
             return;
         }
-        $("#btn-edit").text('修改类别信息');
+
+        $("#btn-edit").text('修改供应商信息');
         $("#btn-edit").unbind("click");
-        $("#btn-edit").attr('onclick', 'editCategory()');
+        $("#btn-edit").attr('onclick', 'editSupplier()');
         $.ajax({
             async: false,
             type: "POST",
             data: {id: id},
-            url: '/category/findById',
+            url: '/supplier/findById',
             dataType: "json",
             success: function (data) {
-                var html = "<div class='form-group'><label class='control-label'>编号:</label><input type='text' class='form-control' name='categoryId' value='" + data.categoryId + "' readonly></div>";
-                $("#edit-uid").empty();
-                $("#edit-uid").append(html);
-                $("#addCategoryLabel").empty();
-                $("#addCategoryLabel").append("修改类别信息");
-                $("#categoryCode").val(data.categoryCode);
-                $("#categoryName").val(data.categoryName);
-                $("#catagoryDesc").val(data.catagoryDesc);
-                $("#parentId").val(data.parentId);
+                var html = "<div class='form-group'><label class='control-label'>编号:</label><input type='text' class='form-control' name='supId' value='" + data.supId + "' readonly></div>";
+                $("#edit-supId").empty();
+                $("#edit-supId").append(html);
+                $("#addSupplierLabel").empty();
+                $("#addSupplierLabel").append("修改供应商信息");
+                $("#supName").val(data.supName);
+                $("#supAddress").val(data.supAddress);
+                $("#supTel").val(data.supTel);
+                $("#supEmail").val(data.supEmail);
             }
         });
-        $('#addCategory').modal();
+        $('#addSupplier').modal();
     }
 
 
-    //修改信息
-    function editCategory() {
+    //修改分类信息
+    function editSupplier() {
         vertify();
         if (submit) {
             $.ajax({
                 cache: true,
                 type: "POST",
-                url: '/category/edit',
-                data: $('#addCategoryForm').serialize(),
+                url: '/supplier/edit',
+                data: $('#addSupplierForm').serialize(),
                 async: false,
                 success: function (data) {
                     if (data == "success") {
                         layer.msg('修改成功');
                         table.ajax.reload();
-                        $('#addCategory').modal('hide');
+                        $('#addSupplier').modal('hide');
                     } else {
                         layer.msg("修改失败");
-                        $('#addCategory').modal('hide');
+                        $('#addSupplier').modal('hide');
                     }
                 }
             });
@@ -356,7 +322,7 @@
     }
 
     //删除用户
-    function delCategoryById() {
+    function delSupplierById() {
         var id = $(".checkchild:checked").val();
         if ($(".checkchild:checked").length < 1) {
             layer.msg('请选择一条数据');
@@ -366,13 +332,13 @@
             layer.msg('一次只能修改一条数据');
             return;
         }
-        layer.confirm('您确定要删除该分类吗？', {
+        layer.confirm('您确定要删除该供应商吗？', {
             btn: ['确认', '取消'] //按钮
         }, function () {
             $.ajax({
                 cache: true,
                 type: "POST",
-                url: '/category/delete',
+                url: '/supplier/delete',
                 data: {id: id},
                 async: false,
                 success: function (data) {
@@ -380,7 +346,7 @@
                         layer.msg('删除成功');
                         table.ajax.reload();
                     } else {
-                        layer.msg('删除失败');
+                        layer.msg(data);
                     }
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -390,43 +356,9 @@
         });
     }
 
-    //类别树显示
-    function findCategoryZtree() {
-        var setting = {
-            check: {
-                enable: true,
-                chkboxType: {"Y": "p", "N": "s"}
-            },
-            data: {
-                simpleData: {
-                    enable: true,
-                    idKey: "categoryId",
-                    pIdKey: "parentId",
-                },
-                key: {
-                    name: "categoryName",
-                    checked: "checked"
-                }
-            }
-        };
-        $.ajax({
-            async: false,
-            type: "POST",
-            url: '/category/findAll',
-            datatype: "json",
-            success: function (data) {
-                $.fn.zTree.init($("#find_tree_category"), setting, data);
-                var zTree = $.fn.zTree.getZTreeObj("find_tree_category");
-                zTree.expandAll(true);
-                $('#findCategorys').modal();
-            }
-        });
-    }
-
-
     //模态框清空
-    $('#addCategory').on('hidden.bs.modal', function () {
-        clearForm($('#addCategoryForm'));
+    $('#addSupplier').on('hidden.bs.modal', function () {
+        clearForm($('#addSupplierForm'));
     });
 
 

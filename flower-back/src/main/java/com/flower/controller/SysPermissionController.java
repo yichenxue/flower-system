@@ -9,7 +9,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -48,16 +47,12 @@ public class SysPermissionController {
     public List<SysPermission> permisssionWithSelected(Integer id) {
         List<SysPermission> slist = sysPermissionService.findByParentIdAfterOrderBySortAsc(0);
         List<SysPermission> rs = sysRoleService.findPermissionsById(id);
-        for (int i = 0; i < slist.size(); i++) {
-            for (int j = 0; j < rs.size(); j++) {
-                if (rs.get(j).getId() == slist.get(i).getId()) {
-                    slist.get(i).setChecked("true");
+        for (SysPermission aSlist : slist)
+            for (SysPermission r : rs) {
+                if (r.getId().equals(aSlist.getId())) {
+                    aSlist.setChecked("true");
                 }
             }
-            slist.get(i).setChecked("false");
-        }
-        System.out.println("id:" + id);
-        System.out.println("slist" + slist);
         return slist;
     }
 
@@ -75,7 +70,6 @@ public class SysPermissionController {
         map.put("recordsTotal", page.getTotalElements());
         map.put("recordsFiltered", page.getTotalElements());
         map.put("data", page.getContent());
-        System.out.println("=================" + page.getContent());
         return map;
     }
 

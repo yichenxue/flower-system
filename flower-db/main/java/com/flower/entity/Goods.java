@@ -1,6 +1,10 @@
 package com.flower.entity;
 
+import com.fasterxml.jackson.annotation.JacksonInject;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
@@ -9,23 +13,29 @@ import java.util.Objects;
  * Created by yumaoying on 2018/4/29.
  */
 @Entity
-public class Goods {
-    private Integer goodsId;
-    private String goodsName;
-    private String goodsDesc;
-    private String goodsPic;
-    private String goodsColor;
-    private BigDecimal goodsShijia;
-    private BigDecimal goodsPrice;
-    private BigDecimal goodsPurchasePrice;
-    private BigDecimal goodsDiscount;
-    private String goodsMean;
+public class Goods implements Serializable {
+
+    private static final long serialVersionUID = -8980079766278329448L;
+    private Integer goodsId; //商品编号
+    private String goodsName; //商品名称
+    private String goodsDesc; //商品描述
+    private String goodsPic; //商品图片
+    private String goodsColor; //商品颜色
+    private BigDecimal goodsShijia; //商品市场价
+    private BigDecimal goodsPrice; //商品售价
+    private BigDecimal goodsPurchasePrice; //进货单价
+    private BigDecimal goodsDiscount; //商品折扣
+    private String goodsMean; //花语
+    private String goodsMaterial; //材质
+    private String brand;//鲜花品牌
+    private String pack; //包装
+    private String remark; //说明
+    private Stock stock;
     private List<Car> cars;
     private List<Comments> comments;
-    private List<GoodsCategory> goodsCategories;
+    private List<Category> categories;
     private List<OrderDetail> orderDetailsByGoodsId;
     private List<Purchase> purchases;
-    private List<Stock> stocks;
 
     @Id
     @Column(name = "goods_id", nullable = false)
@@ -39,7 +49,7 @@ public class Goods {
     }
 
 
-    @Column(name = "goods_name", nullable = true, length = 50)
+    @Column(name = "goods_name", nullable = false, length = 50)
     public String getGoodsName() {
         return goodsName;
     }
@@ -128,6 +138,44 @@ public class Goods {
         this.goodsMean = goodsMean;
     }
 
+
+    @Column(name = "goods_material", nullable = true, length = 50)
+    public String getGoodsMaterial() {
+        return goodsMaterial;
+    }
+
+
+    public void setGoodsMaterial(String goodsMaterial) {
+        this.goodsMaterial = goodsMaterial;
+    }
+
+    @Column(name = "goods_rand", nullable = true, length = 50)
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    @Column(name = "goods_pack", nullable = true, length = 50)
+    public String getPack() {
+        return pack;
+    }
+
+    public void setPack(String pack) {
+        this.pack = pack;
+    }
+
+    @Column(name = "goods_remark", nullable = true, length = 50)
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -142,16 +190,29 @@ public class Goods {
                 Objects.equals(goodsPrice, goods.goodsPrice) &&
                 Objects.equals(goodsPurchasePrice, goods.goodsPurchasePrice) &&
                 Objects.equals(goodsDiscount, goods.goodsDiscount) &&
-                Objects.equals(goodsMean, goods.goodsMean);
+                Objects.equals(goodsMean, goods.goodsMean) &&
+                Objects.equals(goodsMaterial, goods.goodsMaterial) &&
+                Objects.equals(brand, goods.brand) &&
+                Objects.equals(remark, goods.remark);
     }
 
     @Override
     public int hashCode() {
-
-        return Objects.hash(goodsId, goodsName, goodsDesc, goodsPic, goodsColor, goodsShijia, goodsPrice, goodsPurchasePrice, goodsDiscount, goodsMean);
+        return Objects.hash(goodsId, goodsName, goodsDesc, goodsPic, goodsColor, goodsShijia, goodsPrice, goodsPurchasePrice, goodsDiscount, goodsMean, goodsMaterial, goodsMaterial, remark);
     }
 
-    @OneToMany(mappedBy = "goods")
+    @JsonBackReference
+    @OneToOne(mappedBy = "goods")
+    public Stock getStock() {
+        return stock;
+    }
+
+    public void setStock(Stock stock) {
+        this.stock = stock;
+    }
+
+    @JsonBackReference
+    @OneToMany(mappedBy = "goods", fetch = FetchType.LAZY)
     public List<Car> getCars() {
         return cars;
     }
@@ -160,7 +221,8 @@ public class Goods {
         this.cars = cars;
     }
 
-    @OneToMany(mappedBy = "goods")
+    @JsonBackReference
+    @OneToMany(mappedBy = "goods", fetch = FetchType.LAZY)
     public List<Comments> getComments() {
         return comments;
     }
@@ -169,16 +231,18 @@ public class Goods {
         this.comments = comments;
     }
 
-    @OneToMany(mappedBy = "goods")
-    public List<GoodsCategory> getGoodsCategories() {
-        return goodsCategories;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "GoodsCategory", joinColumns = {@JoinColumn(name = "goodsId")}, inverseJoinColumns = {@JoinColumn(name = "categoryId")})
+    public List<Category> getCategories() {
+        return categories;
     }
 
-    public void setGoodsCategories(List<GoodsCategory> goodsCategories) {
-        this.goodsCategories = goodsCategories;
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
     }
 
-    @OneToMany(mappedBy = "goods")
+
+    @OneToMany(mappedBy = "goods", fetch = FetchType.LAZY)
     public List<OrderDetail> getOrderDetailsByGoodsId() {
         return orderDetailsByGoodsId;
     }
@@ -187,7 +251,8 @@ public class Goods {
         this.orderDetailsByGoodsId = orderDetailsByGoodsId;
     }
 
-    @OneToMany(mappedBy = "goods")
+    @JsonBackReference
+    @OneToMany(mappedBy = "goods", fetch = FetchType.LAZY)
     public List<Purchase> getPurchases() {
         return purchases;
     }
@@ -196,12 +261,25 @@ public class Goods {
         this.purchases = purchases;
     }
 
-    @OneToMany(mappedBy = "goods")
-    public List<Stock> getStocks() {
-        return stocks;
-    }
 
-    public void setStocks(List<Stock> stocks) {
-        this.stocks = stocks;
+    @Override
+    public String toString() {
+        return "Goods{" +
+                "goodsId=" + goodsId +
+                ", goodsName='" + goodsName + '\'' +
+                ", goodsDesc='" + goodsDesc + '\'' +
+                ", goodsPic='" + goodsPic + '\'' +
+                ", goodsColor='" + goodsColor + '\'' +
+                ", goodsShijia=" + goodsShijia +
+                ", goodsPrice=" + goodsPrice +
+                ", goodsPurchasePrice=" + goodsPurchasePrice +
+                ", goodsDiscount=" + goodsDiscount +
+                ", goodsMean='" + goodsMean + '\'' +
+                ", goodsMaterial='" + goodsMaterial + '\'' +
+                ", brand='" + brand + '\'' +
+                ", pack='" + pack + '\'' +
+                ", remark='" + remark + '\'' +
+                ", categories=" + categories +
+                '}';
     }
 }

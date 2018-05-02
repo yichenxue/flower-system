@@ -34,16 +34,13 @@ public class RetryLimitCredentialMatcher extends HashedCredentialsMatcher {
     public boolean doCredentialsMatch(AuthenticationToken token, AuthenticationInfo info) {
         //获取输入的账户名
         String username = (String) token.getPrincipal();
-        System.out.println("RetryLimitCredentialMatcher:" + username);
         //获取缓存的账户名
         AtomicInteger retryCount = passwordRetryCache.get(username);
         if (retryCount == null) {
             retryCount = new AtomicInteger(0);
-            System.out.println("retryCount:" + retryCount);
             passwordRetryCache.put(username, retryCount);
         }
         if (retryCount.incrementAndGet() > 2) {
-            System.out.println("retryCount:" + retryCount.incrementAndGet());
             throw new ExcessiveAttemptsException();
         }
         boolean matches = super.doCredentialsMatch(token, info);
