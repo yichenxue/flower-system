@@ -83,10 +83,10 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = {Exception.class})
     public void delete(Integer goodsId, Integer stockId) {
-        //删除商品信息
-        goodsDao.delete(goodsId);
         //删除库存信息
         stockDao.delete(stockId);
+        //删除商品信息
+        goodsDao.delete(goodsId);
     }
 
     public List<Goods> findAll() {
