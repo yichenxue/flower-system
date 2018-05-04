@@ -12,10 +12,6 @@
     <artifactId>flower-back</artifactId>
 
     <dependencies>
-        <!--<dependency>-->
-        <!--<groupId>com.flower</groupId>-->
-        <!--<artifactId>flower-domain</artifactId>-->
-        <!--</dependency>-->
         <dependency>
             <groupId>com.flower</groupId>
             <artifactId>flower-db</artifactId>

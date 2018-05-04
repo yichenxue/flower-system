@@ -24,7 +24,6 @@
     <modules>
         <module>flower-back</module>
         <module>flower-online</module>
-        <module>flower-domain</module>
         <module>flower-db</module>
     </modules>
     <dependencyManagement>
@@ -37,11 +36,6 @@
             <dependency>
                 <groupId>com.flower</groupId>
                 <artifactId>flower-online</artifactId>
-                <version>${flower.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.flower</groupId>
-                <artifactId>flower-domain</artifactId>
                 <version>${flower.version}</version>
             </dependency>
             <dependency>
