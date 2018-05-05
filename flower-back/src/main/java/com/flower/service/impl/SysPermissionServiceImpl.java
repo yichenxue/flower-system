@@ -43,7 +43,7 @@ public class SysPermissionServiceImpl implements SysPermissionService {
                 if (permission.getId() != null && !permission.getId().toString().trim().isEmpty()) {
                     predicates.add(cb.equal(root.get("id").as(Integer.class), permission.getId()));
                 }
-                if (permission.getName() != null && !permission.getName().toString().trim().isEmpty()) {
+                if (permission.getName() != null && !permission.getName().trim().isEmpty()) {
                     predicates.add(cb.like(root.get("name").as(String.class), "%" + permission.getName() + "%"));
                 }
                 if (permission.getPermission() != null && !permission.getPermission().toString().trim().isEmpty()) {
@@ -78,5 +78,9 @@ public class SysPermissionServiceImpl implements SysPermissionService {
 
     public SysPermission findById(Integer id) {
         return sysPermissionDao.findById(id);
+    }
+
+    public List<SysPermission> findAll() {
+        return sysPermissionDao.findAll();
     }
 }

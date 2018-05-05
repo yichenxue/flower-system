@@ -30,7 +30,6 @@
 
 body {
     background: #F0F8FF;
-
 }
 
 .navbar-inverse {
@@ -42,4 +41,107 @@ body {
     width: 200px;
     height: 100px;
     border: 1px solid;
+}
+
+body {
+    font-family: 'Dosis', sans-serif;
+    line-height: 30px;
+    font-size: 20px;
+}
+
+/*错误页面*/
+section {
+    padding-bottom: 50px;
+    padding-top: 50px;
+}
+
+.header-div {
+    background: url(../img/back.jpg);
+    -webkit-background-size: cover;
+    background-size: cover;
+    -webkit-animation: bgscroll 15s infinite linear; /* 15s - speed of scroll , you can change it */
+    animation: bgscroll 15s infinite linear;
+    -moz-animation: bgscroll 15s infinite linear;
+    -ms-animation: bgscroll 15s infinite linear;
+    color: #fff;
+}
+
+.header-div h1 {
+    font-size: 70px;
+    font-weight: 900;
+}
+
+.header-div .overlay {
+    min-height: 200px;
+/ / background: rgba(43, 77, 131, 0.9);
+    padding-top: 80px;
+    padding-bottom: 80px;
+}
+
+/*动画效果*/
+@-webkit-keyframes bgscroll {
+    from {
+        background-position: 0 0;
+    }
+
+    to {
+        background-position: 0 -400px;
+    }
+}
+
+@-moz-keyframes bgscroll {
+    from {
+        background-position: 0 0;
+    }
+
+    to {
+        background-position: 0 -400px;
+    }
+}
+
+@-ms-keyframes bgscroll {
+    from {
+        background-position: 0 0;
+    }
+    to {
+        background-position: 0 -400px;
+    }
+}
+
+@-o-keyframes bgscroll {
+    from {
+        background-position: 0 0
+    }
+    to {
+        background-position: 0 -400px;
+    }
+}
+
+@keyframes bgscroll {
+    from {
+        background-position: 0 0;
+    }
+
+    to {
+        background-position: 0 -400px;
+    }
+}
+
+.section-text {
+    background-color: #6381C3;
+    color: #fff;
+}
+
+footer {
+    padding: 20px;
+    font-size: 15px;
+    text-align: center;
+    font-weight: 900;
+    background-color: #6381C3;
+    color: #fff;
+}
+
+footer a, footer a:hover {
+    color: #fff;
+    text-decoration: none;
 }

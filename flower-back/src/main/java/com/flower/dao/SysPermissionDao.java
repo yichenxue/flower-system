@@ -25,4 +25,6 @@ public interface SysPermissionDao extends JpaRepository<SysPermission, Integer>,
     public void delete(Integer id);
 
     public SysPermission findById(Integer id);
+
+    public List<SysPermission> findAll();
 }

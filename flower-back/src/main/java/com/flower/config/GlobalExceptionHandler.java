@@ -1,5 +1,6 @@
 package com.flower.config;
 
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.tomcat.util.http.fileupload.FileUploadBase;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -11,10 +12,14 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tomcat.util.http.fileupload.FileUploadBase;
 import org.apache.tomcat.util.http.fileupload.FileUploadBase.FileSizeLimitExceededException;
 import org.apache.tomcat.util.http.fileupload.FileUploadBase.SizeLimitExceededException;
+
+import java.io.PrintWriter;
+import java.util.Map;
 
 
 /**
@@ -25,20 +30,6 @@ import org.apache.tomcat.util.http.fileupload.FileUploadBase.SizeLimitExceededEx
  */
 @ControllerAdvice
 public class GlobalExceptionHandler {
-
-//    /***
-//     * 自定义文件上传错误
-//     * @param e
-//     * @param redirectAttributes
-//     * @return
-//     */
-//
-//    @ExceptionHandler(MultipartException.class)
-//    public String handlerError(MultipartException e, RedirectAttributes redirectAttributes) {
-//        redirectAttributes.addFlashAttribute("message", e.getCause().getMessage());
-//        return "redirect:/uploadStatus";
-//    }
-
 
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MultipartException.class)
@@ -61,12 +52,24 @@ public class GlobalExceptionHandler {
         return message;
     }
 
+    /***
+     * 没有权限异常
+     * @return 没有权限提示
+     */
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(value = UnauthorizedException.class)
+    public ModelAndView unauthorizedHandler(HttpServletRequest req, Exception e) {
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("403");
+        return mv;
+    }
 
     @ExceptionHandler(value = Exception.class)
     public ModelAndView defaultErrorHandler(HttpServletRequest req, Exception e) {
         ModelAndView mv = new ModelAndView();
         mv.addObject("e", e.getMessage());
         mv.addObject("uri", req.getRequestURI());
+        mv.setViewName("error");
         return mv;
     }
 }

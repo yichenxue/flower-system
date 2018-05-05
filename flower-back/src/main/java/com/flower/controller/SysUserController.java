@@ -4,6 +4,7 @@ import com.flower.config.PasswordEncry;
 import com.flower.entity.SysUser;
 import com.flower.service.SysUserService;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,6 +29,7 @@ public class SysUserController {
 
     //用户管理页面
     @RequestMapping
+    @RequiresPermissions("/sysUser")
     public String userPage() {
         return "sysUser/sysUsers";
     }
@@ -78,6 +80,7 @@ public class SysUserController {
     //修改用户信息
     @RequestMapping("/edit")
     @ResponseBody
+    //@RequiresPermissions("/sysUser")
     public String edit(SysUser sysUser) {
         try {
             sysUserService.edit(sysUser.getUid(), sysUser.getUsername(), sysUser.getName(), sysUser.getState());
@@ -94,6 +97,7 @@ public class SysUserController {
     //添加用户
     @RequestMapping("/add")
     @ResponseBody
+    // @RequiresPermissions("/sysUser")
     public String add(SysUser sysUser) {
         SysUser user = sysUserService.findByUsername(sysUser.getUsername());
         if (user != null) {

@@ -29,4 +29,6 @@ public interface SysPermissionService {
     public void delete(Integer id);
 
     public SysPermission findById(Integer id);
+
+    public List<SysPermission> findAll();
 }

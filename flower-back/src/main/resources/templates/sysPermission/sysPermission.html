@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../../static/css/dataTables.bootstrap.min.css"
           th:href="@{/css/dataTables.bootstrap.min.css}">
     <link rel="stylesheet" href="../../static/css/flower.css" th:href="@{/css/flower.css}">
-    <link rel="stylesheet" href="../../static/css/flower.css" th:href="@{/css/metroStyle.css}">
+    <link rel="stylesheet" href="../../static/css/metroStyle.css" th:href="@{/css/metroStyle.css}">
 
     <!--[if lt IE 9]>
     <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -56,6 +56,8 @@
                     </div>
                     <button type="button" class="btn btn-primary" onclick="search();">查询</button>
                     <div class="form-group navbar-form navbar-right">
+                        <button type="button" class="btn btn-warning btn-stl" onclick="findPermissionZtree ()">查看权限树
+                        </button>
                         <button type="button" class="btn btn-warning btn-stl" onclick="delPermisssionById()">删除权限
                         </button>
                         <button type="button" class="btn btn-primary btn-stl" onclick="findPermisssionByid()">修改权限
@@ -147,6 +149,27 @@
     </div>
 </div>
 
+<!--权限树弹窗-->
+<div class="modal fade" id="findPermisssions" role="dialog" tabindex="-1" aria-labelledby="findPermisssionLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" aria-hidden="true">&times;
+                </button>
+                <h4 class="modal-title" id="findPermisssionLabel">系统权限</h4>
+            </div>
+            <div class="modal-body">
+                <form id="boxFindPermisssionForm">
+                    <ul id="find_tree_permisssion" class="ztree"></ul>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script src="../../static/js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
 <script src="../../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
 <script src="../../static/js/jquery.dataTables.min.js" th:src="@{/js/jquery.dataTables.min.js}"></script>
@@ -423,6 +446,44 @@
                     }
                 }
             });
+        });
+    }
+
+
+    //类别树显示
+    function findPermissionZtree() {
+        var setting = {
+            check: {
+                enable: true,
+                chkboxType: {"Y": "p", "N": "s"}
+            },
+            data: {
+                simpleData: {
+                    enable: true,
+                    idKey: "id",
+                    pIdKey: "parentId",
+                    checkable: false   //每个节点上是否显示 CheckBox
+                },
+                showTitle: true,
+                key: {
+                    name: "name",
+                    title: "permission",
+                    url: "#"
+                    // checked: "checked"
+                }
+            }
+        };
+        $.ajax({
+            async: false,
+            type: "POST",
+            url: '/permission/findAll',
+            dataType: "json",
+            success: function (data) {
+                $.fn.zTree.init($("#find_tree_permisssion"), setting, data);
+                var zTree = $.fn.zTree.getZTreeObj("find_tree_permisssion");
+                zTree.expandAll(true);
+                $('#findPermisssions').modal();
+            }
         });
     }
 </script>

@@ -56,6 +56,12 @@ public class SysPermissionController {
         return slist;
     }
 
+    @RequestMapping("/findAll")
+    @ResponseBody
+    public List<SysPermission> findAll() {
+        return sysPermissionService.findAll();
+    }
+
     //权限分页显示
     @RequestMapping("/perms")
     @ResponseBody
