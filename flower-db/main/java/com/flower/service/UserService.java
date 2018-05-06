@@ -11,12 +11,14 @@ public interface UserService {
     //分页查找
     public Page<User> getUserPage(User user, Pageable pageable);
 
-    public void saveUser(User user);
+    public User saveUser(User user);
 
     public void delete(Integer id);
 
-    public User findByUserEamilOrUserTel(String userEmail, String userTel);
+    public User findByUserEamilOrUserTelOrUserName(String userEmail, String userTel, String userName);
 
     public User findById(Integer id);
 
+    //更新用户登陆时间
+    public void updateLast(Integer id, String last);
 }

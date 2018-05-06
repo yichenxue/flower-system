@@ -1,0 +1,60 @@
+<div th:fragment="header">
+    <nav class="navbar navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <img src="../static/img/logo.png" th:src="@{/img/logo.png}"
+                     style="height:100px;width:179px;padding:10px;"><a class="navbar-brand navbar-right"
+                                                                       href="#"></a>
+            </div>
+            <div>
+                <!--向左对齐-->
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#"><span th:if="${session.loginUser!=null}"
+                                          th:text="${session.loginUser.userName}"></span>,你好!</a></li>
+                    <li><a href="">欢迎访问 CHUNZHIYU</a></li>
+                    <li><a href="#" th:href="@{/toLogin}">
+                        <span class="glyphicon glyphicon-log-in" style="color: #ee813a;"></span>&nbsp;登陆&nbsp;|&nbsp;注册</a>
+                    </li>
+                    <li><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span
+                            class="glyphicon glyphicon-tree-deciduous"
+                            style="color: #ee813a;"></span>我的春之语<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" th:href="@{/userInfo}"><span class="glyphicon glyphicon-user"
+                                                                         style="color: #ee813a;"></span>&nbsp;&nbsp;我的个人信息</a>
+                            </li>
+                            <li><a href="#"><span class="glyphicon glyphicon-heart" style="color: #ee813a;"></span>&nbsp;&nbsp;我的收藏</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a href=""><span><img src="../static/img/car.png" th:src="@{/img/car.png}"
+                                              style="width: 27px; height: 19px;"></span>&nbsp;购物车 <span
+                            class="badge">21</span></a>
+                    </li>
+                    <li><a href=""><span><img src="../static/img/002.png" th:src="@{/img/002.png}"
+                                              style="width: 27px; height: 19px;"></span>我的订单</a>
+                    </li>
+                    <li><a href="#" th:href="@{/logout}"><span class="glyphicon glyphicon-log-out"
+                                                               style="color: #ee813a;"></span>退出</a></li>
+
+                </ul>
+
+                <!--向右对齐-->
+                <ul class="nav  nav-tabs navbar-left top-menu">
+                    <li class="active"><a href="">首页</a></li>
+                    <li><a href="">鲜花订购</a></li>
+                    <li><a href="">最新资讯</a></li>
+                    <li><a href="">首页</a></li>
+                    <li><a href="">首页</a></li>
+                    <li><a href="">首页</a></li>
+                    <li>
+                        <form class="navbar-form navbar-left" role="search">
+                            <input class="form-control" id="userId-search" type="text"
+                                   placeholder="商品">
+                            <button type="button" class="btn btn-primary">查询</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>

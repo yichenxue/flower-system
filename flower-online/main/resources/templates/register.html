@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>春之语注册</title>
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" href="../static/css/flower.css" th:href="@{/css/flower.css}">
+</head>
+<body>
+<div th:include="common/header :: header"></div>
+<div class="register-body">
+    <div class="container text-center">
+        <div class="col-md-offset-4 col-md-4  text-center register" id="register_div">
+            <form class="form-horizontal" role="form" id="registerForm" method="post">
+                <h1>春之语</h1>
+                <p>欢迎注册(带<span style="color:red">*</span>号必须填写)</p>
+                <div class="form-group">
+                    <label for="userName" class="col-md-4 control-label">用户名</label>
+                    <div class="col-md-5">
+                        <input type="text" class="form-control" name="userName" id="userName" style="width:165px"
+                               value=""
+                               placeholder="请输入用户名">
+                    </div>
+                    <label class="col-md-2 control-label" style="color: red">*</label>
+                </div>
+                <hr>
+                <div class="form-group">
+                    <label for="userEamil" class="col-md-4 control-label">邮箱</label>
+                    <div class="col-md-5">
+                        <input type="text" class="form-control" name="userEamil" id="userEamil" style="width:165px"
+                               value=""
+                               placeholder="请输入邮箱">
+                    </div>
+                    <label class="col-md-2 control-label" style="color: red">*</label>
+                </div>
+                <hr>
+                <div class="form-group">
+                    <label for="userTel" class="col-md-4 control-label">手机号</label>
+                    <div class="col-md-5">
+                        <input type="text" class="form-control" name="userTel" id="userTel" style="width:165px"
+                               value=""
+                               placeholder="请输入手机号">
+                    </div>
+                    <label class="col-md-2 control-label" style="color: red">*</label>
+                </div>
+                <hr>
+                <div class="form-group">
+                    <label for="userPw" class="col-md-4 control-label">密码</label>
+                    <div class="col-md-5">
+                        <input type="password" name="userPw"
+                               class="form-control" style="width:165px"
+                               id="userPw" placeholder="请输入密码">
+                    </div>
+                    <label class="col-md-2 control-label" style="color: red">*</label>
+                </div>
+                <hr>
+                <div class="form-group">
+                    <label for="sureUserPw" class="col-md-4 control-label">确认密码</label>
+                    <div class="col-md-5">
+                        <input type="password" name="sureUserPw"
+                               class="form-control" style="width:165px"
+                               id="sureUserPw" placeholder="请输入确认密码">
+                    </div>
+                    <label class="col-md-2 control-label" style="color: red">*</label>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-1 col-md-10">
+                        <button type="button" class="btn btn-warning btn-lg" onclick="register()">注册</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!--footer-->
+<div th:include="common/footer :: footer"></div>
+<script src="../static/js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
+<script src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    function register() {
+        var username = $("#userName").val();
+        var password = $("#userPw").val();
+        var userEamil = $("#userEamil").val();
+        var userTel = $("#userTel").val();
+        var sureUserPw = $("#sureUserPw").val();
+        if (username == "" || username == undefined || username == null) {
+            alert('用户名不能为空!');
+            $("#userName").focus();
+            return false;
+        }
+        if (password == "" || password == undefined || password == null) {
+            alert('密码不能为空!');
+            $("#userPw").focus()
+            return false;
+        }
+        if (sureUserPw == "" || sureUserPw == undefined || sureUserPw == null || sureUserPw != password) {
+            alert('确认密码为空或与填写密码不一致!');
+            $("#sureUserPw").focus();
+            return false;
+        }
+        if (userEamil == "" || userEamil == undefined || userEamil == null) {
+            alert('邮箱不能为空!');
+            $("#userEamil").focus();
+            return false;
+        }
+        if (userTel == "" || userTel == undefined || userTel == null) {
+            alert('手机号不能为空!');
+            $("#userTel").focus();
+            return false;
+        }
+        $.ajax({
+            cache: true,
+            type: "POST",
+            url: /*[[@{/register}]]*/'#',
+            data: $('#registerForm').serialize(),
+            async: false,
+            success: function (data) {
+                if (data == '注册成功!') {
+                    window.location = /*[[@{/toLogin}]]*/'#'
+                } else {
+                    alert(data);
+                }
+            }
+        });
+    }
+
+    /*]]>*/
+</script>
+</body>
+
+</html>

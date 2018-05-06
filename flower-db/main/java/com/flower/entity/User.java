@@ -11,21 +11,21 @@ import java.util.Objects;
 @Entity
 public class User implements Serializable {
     private static final long serialVersionUID = -8207165732672998603L;
-    private Integer userId;
-    private String userName;
-    private String userPw;
-    private String userRealname;
-    private String userAddress;
-    private String userSex;
-    private String userTel;
-    private String userEamil;
-    private String userQq;
-    private Integer userCore;
-    private String userLevel;
-    private String userBirthday;
-    private String userRegister;
-    private String userLast;
-    private String userImg;
+    private Integer userId; //用户id
+    private String userName; //用户名
+    private String userPw;  //用户密码
+    private String userRealname; //真实姓名
+    private String userAddress;//地址
+    private String userSex;//性别
+    private String userTel;//电话
+    private String userEamil;//邮箱
+    private String userQq;//用户qq
+    private Integer userCore;//用户积分
+    private String userLevel;//用户等级
+    private String userBirthday;//生日
+    private String userRegister;//注册日期
+    private String userLast;//用户最后登陆时间
+    private String userImg;//用户头像
     private List<Car> cars;
     private List<Comments> comments;
     private List<OrderDetail> orderDetails;

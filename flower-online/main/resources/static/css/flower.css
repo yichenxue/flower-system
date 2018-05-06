@@ -1,0 +1,110 @@
+/*.header {*/
+/*width: 100%;*/
+/*height: 126px;*/
+/*position: fixed;*/
+/*z-index: 999;*/
+/*left: 0;*/
+/*background: #fff;*/
+/*}*/
+
+.login-body {
+    background: url(../img/pic01.jpg);
+    background-size: cover;
+    height: 780px;
+    padding-top: 187px;
+}
+
+.login-back {
+/ / background: url(../img/back.jpg);
+    background-color: #8cd900;
+    border-radius: 50%;
+    color: rgb(255, 255, 255);
+    width: 392px;
+    height: 370px;
+    margin-left: 380px;
+    padding: 0 15px;
+
+}
+
+.login-back > form {
+    width: 350px;
+    height: 350px;
+}
+
+.login-back > label {
+    width: 97px;
+    height: 20px;
+}
+
+/*.top-right {*/
+/*float: right;*/
+/*padding: 10px;*/
+/*}*/
+
+/*.logo {*/
+/*background: url(../img/logo.png) no-repeat;*/
+/*width: 229px;*/
+/*height: 193px;*/
+/*float: left;*/
+/*}*/
+
+/*.top-nav {*/
+/*height: 126px;*/
+/*width: 812px;*/
+/*float: right;*/
+/*}*/
+
+/*.top-menu {*/
+/*clear: right;*/
+/*float: right;*/
+/*font-size: 16px;*/
+/*}*/
+
+/*.top {*/
+/*height: 126px;*/
+/*margin: 0 auto;*/
+/*padding: 0px 0px;*/
+/*}*/
+.top-menu {
+    font-size: 20px;
+}
+
+.footer {
+    display: block;
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+.register-body {
+    background: url(../img/pic01.jpg);
+    background-size: cover;
+    height: 1200px;
+    padding-top: 187px;
+}
+
+.register {
+    background-color: #c3b3d7;
+    border-radius: 30%;
+    color: rgb(255, 255, 255);
+}
+
+.user_img {
+    margin-top: 31px;
+    width: 200px;
+    border-radius: 50%;
+    height: 200px;
+}
+
+.user_info {
+/ / background: url(../img/back.jpg) no-repeat;
+    background: url(../img/pic01.jpg);
+    background-size: cover;
+/ / border-radius: 30 %;
+/ / color: rgb(255, 255, 255);
+    margin-top: 187px;
+    height: 1200px;
+}
+
+.user_info_input {
+    background: #e8ada5;
+}

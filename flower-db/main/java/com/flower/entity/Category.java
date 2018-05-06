@@ -9,16 +9,17 @@ import java.util.Objects;
 
 /**
  * Created by yumaoying on 2018/4/29.
+ * 商品类别
  */
 @Entity
 public class Category implements Serializable {
 
     private static final long serialVersionUID = 3381563345442793504L;
-    private Integer categoryId;
-    private String categoryCode;
-    private String categoryName;
-    private String catagoryDesc;
-    private Integer parentId;
+    private Integer categoryId; //分类编号
+    private String categoryCode;//分类编码
+    private String categoryName;//分类名称
+    private String catagoryDesc;//分类描述
+    private Integer parentId; //父类别id
     private List<Goods> goodsList;
 
     @Transient

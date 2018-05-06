@@ -6,6 +6,7 @@ import java.util.Objects;
 
 /**
  * Created by yumaoying on 2018/4/29.
+ * 公告
  */
 @Entity
 public class Notice implements Serializable {
@@ -14,7 +15,7 @@ public class Notice implements Serializable {
     private String noticeTitle; //公告标题
     private String noticeContent; //公告名称
     private String noticeDate; //公告发布日期
-    private String noticeUserName;
+    private String noticeUserName; //发布公告人用户名
 
     @Id
     @Column(name = "notice_id", nullable = false)

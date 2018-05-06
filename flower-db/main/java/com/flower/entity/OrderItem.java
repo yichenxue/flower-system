@@ -8,16 +8,17 @@ import java.util.Objects;
 
 /**
  * Created by yumaoying on 2018/4/29.
+ * 订单
  */
 @Entity
 public class OrderItem implements Serializable {
     private static final long serialVersionUID = 2132787351937168546L;
-    private Integer orderId;
-    private String orderNo;
-    private Integer orderUserId;
-    private Integer orderNumber;
-    private BigDecimal orderAmount;
-    private String orderDate;
+    private Integer orderId; //编号
+    private String orderNo;//订单号
+    private Integer orderUserId;//订单用户id
+    private Integer orderNumber;//订单总量
+    private BigDecimal orderAmount;//订单总额
+    private String orderDate;//订单日期
     private List<OrderDetail> orderDetails;
 
     @Id

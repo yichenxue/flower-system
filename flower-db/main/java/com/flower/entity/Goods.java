@@ -1,6 +1,5 @@
 package com.flower.entity;
 
-import com.fasterxml.jackson.annotation.JacksonInject;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
@@ -11,6 +10,7 @@ import java.util.Objects;
 
 /**
  * Created by yumaoying on 2018/4/29.
+ * 商品
  */
 @Entity
 public class Goods implements Serializable {
@@ -30,9 +30,9 @@ public class Goods implements Serializable {
     private String brand;//鲜花品牌
     private String pack; //包装
     private String remark; //说明
-    private Stock stock;
-    private List<Car> cars;
-    private List<Comments> comments;
+    private Stock stock;//库存
+    private List<Car> cars; //购物车
+    private List<Comments> comments; //评论
     private List<Category> categories;
     private List<OrderDetail> orderDetailsByGoodsId;
     private List<Purchase> purchases;

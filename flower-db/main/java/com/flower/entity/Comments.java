@@ -6,16 +6,17 @@ import java.util.Objects;
 
 /**
  * Created by yumaoying on 2018/4/29.
+ * 评价
  */
 @Entity
 public class Comments implements Serializable {
     private static final long serialVersionUID = -6035774223202472298L;
-    private Integer commentId;
-    private String commentTitle;
-    private String commentContent;
-    private String commentDate;
-    private User user;
-    private Goods goods;
+    private Integer commentId;//评价id
+    private String commentTitle;//评价标题
+    private String commentContent;//评价内容
+    private String commentDate;//评价时间
+    private User user;//评价用户id
+    private Goods goods;//商品id
 
     @Id
     @Column(name = "comment_id", nullable = false)

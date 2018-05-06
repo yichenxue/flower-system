@@ -13,12 +13,12 @@ public class Purchase implements Serializable {
     private static final long serialVersionUID = 5053185158532884009L;
     private Integer id; //编号
     private String purchaseDate; //采购日期
-    private Integer purchaseNumber;
-    private Double purchasePrice;
-    private String purchaseUser;
-    private String purchaseUserTel;
-    private Goods goods;
-    private Supplier supplier;
+    private Integer purchaseNumber;//采购数量
+    private Double purchasePrice;//采购单价
+    private String purchaseUser;//采购人员姓名
+    private String purchaseUserTel;//采购人员联系方式
+    private Goods goods; //商品编号
+    private Supplier supplier;//供应商id
 
     @Id
     @Column(name = "id", nullable = false)

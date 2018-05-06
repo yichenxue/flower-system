@@ -7,32 +7,33 @@ import java.util.Objects;
 
 /**
  * Created by yumaoying on 2018/4/29.
+ * 订单明细
  */
 @Entity
 @Table(name = "order_detail")
 public class OrderDetail implements Serializable {
     private static final long serialVersionUID = -6090122937654394880L;
-    private Integer id;
-    private String orderNo;
-    private BigDecimal goodsPerPrice;
-    private Integer orderNumber;
-    private BigDecimal orderAmount;
-    private String orderPayWay;
-    private String orderDate;
-    private String orderStatus;
-    private String orderAddress;
-    private String orderUserName;
-    private String orderUserPhone;
-    private String orderDeliver;
-    private String orderSenderName;
-    private String orderSenderTel;
-    private String orderFinishDate;
-    private String orderRemark;
-    private String orderExpress;
-    private String orderExpressStatus;
-    private Goods goods;
-    private User user;
-    private OrderItem orderItem;
+    private Integer id; //编号
+    private String orderNo; //订单编号
+    private BigDecimal goodsPerPrice;//商品单价
+    private Integer orderNumber;//订单数量
+    private BigDecimal orderAmount;//订单金额
+    private String orderPayWay;//付款方式
+    private String orderDate;//订单生成日期
+    private String orderStatus;//订单状态(00-未支付,02-支付失败,03-支付成功,04-已受理,待发货,05-已发货,运输中,07-待收货,08-已收货,09-待评价,10-已评价,11-订单已取消,12-订单已删除)
+    private String orderAddress;//收货人地址
+    private String orderUserName;//收货人姓名
+    private String orderUserPhone;//收货人联系方式
+    private String orderDeliver;//送货日期
+    private String orderSenderName;//送货人姓名
+    private String orderSenderTel;//送货人联系方式
+    private String orderFinishDate;//订单完成日期(最后收货日期)
+    private String orderRemark;//订单备注
+    private String orderExpress;//快递公司
+    private String orderExpressStatus;//物流状态
+    private Goods goods; //商品id
+    private User user;//用户id
+    private OrderItem orderItem; //父订单id
 
     @Id
     @Column(name = "id", nullable = false)

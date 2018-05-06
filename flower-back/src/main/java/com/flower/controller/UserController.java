@@ -67,14 +67,16 @@ public class UserController {
         try {
             String msg = FileUploadUtil.upload(path, file);
             if (!"图片格式错误".equals(msg) && !"图片上传错误".equals(msg)) {
-                user.setUserImg(msg);
-                SimpleDateFormat time = new SimpleDateFormat("yyyy-MM-dd");
-                user.setUserRegister(time.format(new Date()));
-                userService.saveUser(user);
-                return "success";
+                if (!"".equals(msg)) {
+                    user.setUserImg(msg);
+                }
             } else {
                 return msg;
             }
+            SimpleDateFormat time = new SimpleDateFormat("yyyy-MM-dd");
+            user.setUserRegister(time.format(new Date()));
+            userService.saveUser(user);
+            return "success";
         } catch (Exception e) {
             e.printStackTrace();
             if (e.getMessage().contains("constraint"))
@@ -89,12 +91,14 @@ public class UserController {
         try {
             String msg = FileUploadUtil.upload(path, file);
             if (!"图片格式错误".equals(msg) && !"图片上传错误".equals(msg)) {
-                user.setUserImg(msg);
-                userService.saveUser(user);
-                return "success";
+                if (!"".equals(msg)) {
+                    user.setUserImg(msg);
+                }
             } else {
                 return msg;
             }
+            userService.saveUser(user);
+            return "success";
         } catch (Exception e) {
             e.printStackTrace();
             if (e.getMessage().contains("constraint"))

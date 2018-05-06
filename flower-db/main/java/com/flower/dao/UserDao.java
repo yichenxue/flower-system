@@ -6,6 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 
 
 /**
@@ -16,9 +18,14 @@ public interface UserDao extends JpaRepository<User, Integer>, JpaSpecificationE
 
     public void delete(Integer id);
 
-    public User findByUserEamilOrUserTel(String userEmail, String userTel);
+    public User findByUserEamilOrUserTelOrUserName(String userEmail, String userTel, String userName);
 
     public User findByUserId(Integer id);
 
     public Page<User> findAll(Specification<User> spec, Pageable pageable);
+
+    //更新用户登陆时间
+    @Modifying
+    @Query("update User u set  u.userLast=?2 where u.userId=?1")
+    public void updateLast(Integer id, String last);
 }

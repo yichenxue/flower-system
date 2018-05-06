@@ -6,14 +6,15 @@ import java.util.Objects;
 
 /**
  * Created by yumaoying on 2018/4/29.
+ * 购物车
  */
 @Entity
 public class Car implements Serializable {
     private static final long serialVersionUID = 5764432676551916335L;
-    private Integer carId;
-    private Integer mount;
-    private User user;
-    private Goods goods;
+    private Integer carId; //购物车编号
+    private Integer mount; //商品数量
+    private User user;//用户id
+    private Goods goods;//商品id
 
     @Id
     @Column(name = "car_id", nullable = false)

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>春之语欢迎你</title>
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" href="../static/css/flower.css" th:href="@{/css/flower.css}">
+</head>
+<body>
+<div th:include="common/header :: header"></div>
+<div class="login-body">
+    <div class="container text-center">
+        <div class="col-md-offset-4 col-md-4  text-center login-back" id="login_div">
+            <form class="form-horizontal" role="form" id="loginForm" method="post">
+                <h1>春之语</h1>
+                <div class="form-group">
+                    <label for="userName" class="col-md-4 control-label">手机号/邮箱</label>
+                    <div class="col-md-7">
+                        <input type="text" class="form-control" name="userName" id="userName" style="width:165px"
+                               value=""
+                               placeholder="请输入手机号/邮箱">
+                    </div>
+                </div>
+                <hr>
+                <div class="form-group">
+                    <label for="userPw" class="col-md-4 control-label">密码</label>
+                    <div class="col-md-7">
+                        <input type="password" name="userPw"
+                               class="form-control" style="width:165px"
+                               id="userPw" placeholder="请输入密码">
+                    </div>
+                </div>
+                <hr>
+                <div class="form-group">
+                    <label for="randomCode" class="col-md-4 control-label">验证码</label>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" name="randomCode" style="width:160px" id="randomCode"
+                               placeholder="请输入验证码">
+                    </div>
+                    <div class="col-md-4">
+                        <img th:src="@{/createImage}" height="40px" width="90px" id="randomCode-img"
+                             onclick="random(this)"
+                             style="height: 34px;"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="">
+                        <div class="checkbox">
+                            <label>
+                                <input name="rememberMe" type="checkbox" value="1">请记住我
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-1 col-md-10">
+                        <button type="button" class="btn btn-warning btn-lg" onclick="login()">登录</button>
+                        <a href="#" th:href="@{/toRegister}" class="">&nbsp;&nbsp;<strong>>>>去注册</strong></a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div></div>
+</div>
+
+<!--footer-->
+<div th:include="common/footer :: footer"></div>
+<script src="../static/js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
+<script src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    function random(tmp) {
+        var context = [[${#httpServletRequest.getContextPath()}]]
+        tmp.src = context + "/createImage?rnd=" + Math.random();
+    }
+
+    function login() {
+        var username = $("#userName").val();
+        var password = $("#userPw").val();
+        var randomCode = $("#randomCode").val();
+        if (username == "" || username == undefined || username == null) {
+            alert('用户名不能为空!');
+            $("#username").focus();
+            return false;
+        }
+        if (password == "" || password == undefined || password == null) {
+            alert('密码不能为空!');
+            $("#userPw").focus()
+            return false;
+        }
+        if (randomCode == "" || randomCode == undefined || randomCode == null) {
+            alert('验证码不能为空!');
+            $("#randomCode").focus();
+            return false;
+        }
+        $.ajax({
+            cache: true,
+            type: "POST",
+            url: /*[[@{/login}]]*/'#',
+            data: $('#loginForm').serialize(),
+            async: false,
+            success: function (data) {
+                if (data == '登陆成功!') {
+                    window.location = /*[[@{/index}]]*/'#'
+                } else if (data == '用户不存在!') {
+                    $("#userName").val("").focus();
+                    alert(data);
+                    $("#randomCode").val("");
+                    $("#randomCode-img").click();
+                } else if (data == '密码错误!') {
+                    $("#userPw").val("").focus;
+                    alert(data);
+                    $("#randomCode").val("");
+                    $("#randomCode-img").click();
+                } else {
+                    alert(data);
+                    $("#randomCode").val("");
+                    $("#randomCode-img").click();
+                }
+            }
+        });
+    }
+
+    /*]]>*/
+</script>
+</body>
+
+</html>

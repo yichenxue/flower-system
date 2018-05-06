@@ -50,8 +50,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Transactional
-    public void saveUser(User user) {
-        userDao.save(user);
+    public User saveUser(User user) {
+        return userDao.save(user);
     }
 
     @Transactional
@@ -59,11 +59,16 @@ public class UserServiceImpl implements UserService {
         userDao.delete(id);
     }
 
-    public User findByUserEamilOrUserTel(String userEmail, String userTel) {
-        return userDao.findByUserEamilOrUserTel(userEmail, userTel);
+    public User findByUserEamilOrUserTelOrUserName(String userEmail, String userTel, String userName) {
+        return userDao.findByUserEamilOrUserTelOrUserName(userEmail, userTel, userName);
     }
 
     public User findById(Integer id) {
         return userDao.findByUserId(id);
+    }
+
+    @Transactional
+    public void updateLast(Integer id, String last) {
+        userDao.updateLast(id, last);
     }
 }

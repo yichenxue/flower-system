@@ -1,7 +1,5 @@
 package com.flower.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -16,8 +14,8 @@ public class Stock implements Serializable {
     private Integer id; //编号
     private Integer stockNum; //库存量
     private Integer isAlarm;//是否报警 1-已报警，0-未报警
-    private String descri;
-    private Goods goods;
+    private String descri; //备注信息
+    private Goods goods;//商品编号
 
     @Id
     @Column(name = "id", nullable = false, unique = true)
