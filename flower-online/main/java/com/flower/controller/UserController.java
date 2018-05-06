@@ -62,7 +62,6 @@ public class UserController {
     @ResponseBody
     public String register(User user) {
         try {
-            System.out.println("==========user" + user);
             SimpleDateFormat time = new SimpleDateFormat("yyyy-MM-dd");
             user.setUserRegister(time.format(new Date()));
             userService.saveUser(user);
@@ -79,7 +78,6 @@ public class UserController {
     @ResponseBody
     public String login(User user, String randomCode, String rememberMe, HttpServletRequest request, HttpServletResponse response) {
         try {
-            System.out.println("==============" + user + ",randomCode:" + randomCode);
             String validateCode = (String) request.getSession().getAttribute("validateCode");
             if (!randomCode.equalsIgnoreCase(validateCode)) {
                 return "验证码不正确!";
@@ -124,8 +122,6 @@ public class UserController {
     @ResponseBody
     public String edit(User user, @RequestParam("file") MultipartFile file, HttpServletRequest request) {
         try {
-
-            System.out.println("====================user" + user);
             String msg = FileUploadUtil.upload(path, file);
             if ("图片格式错误".equals(msg) && "图片上传错误".equals(msg)) {
                 return msg;
@@ -141,8 +137,7 @@ public class UserController {
             //修改登陆时间
             user.setUserLast(time.format(new Date()));
             User u = userService.saveUser(user);
-            System.out.println("============================u" + u);
-            //   request.getSession().setAttribute("loginUser",u);
+            request.getSession().setAttribute("loginUser", u);
             return "修改成功";
         } catch (Exception e) {
             e.printStackTrace();
