@@ -87,7 +87,7 @@ public class UserController {
             User loginUser = userService.findByUserEamilOrUserTelOrUserName(user.getUserName(), user.getUserName(), user.getUserName());
             if (loginUser == null) {
                 return "用户不存在!";
-            } else if (loginUser != null && loginUser.getUserPw().equals(user.getUserPw())) {
+            } else if (loginUser.getUserPw().equals(user.getUserPw())) {
                 //更新用户登陆时间
                 SimpleDateFormat time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 userService.updateLast(user.getUserId(), time.format(new Date()));
@@ -142,7 +142,7 @@ public class UserController {
             user.setUserLast(time.format(new Date()));
             User u = userService.saveUser(user);
             System.out.println("============================u" + u);
-            request.getSession().setAttribute("loginUser", u);
+            //   request.getSession().setAttribute("loginUser",u);
             return "修改成功";
         } catch (Exception e) {
             e.printStackTrace();
