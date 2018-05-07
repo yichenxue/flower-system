@@ -1,17 +1,370 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta http-equiv="x-ua-compatible" content="ie=7"/>
-    <title>花之语欢迎你</title>
-    <link href="images/css_whir.css" rel="stylesheet" type="text/css"/>
-    <script type="text/javascript" src="script/jquery.min.js"></script>
-    <script type="text/javascript" src="script/nav.js"></script>
-    <script type="text/javascript" src="script/script.js"></script>
+    <meta charset="UTF-8">
+    <title>春之语欢迎你</title>
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" href="../static/css/flower.css" th:href="@{/css/flower.css}">
+    <script src="../static/js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
+    <script src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
 </head>
 <body>
 <div th:include="common/header :: header"></div>
+<!--banner广告位-->
+<div class="container-fluid banner">
+    <img src="../static/img/nybanner.jpg" th:src="@{/img/nybanner.jpg}">
+</div>
+<div class="container-fluid content">
+    <div class="row">
+        <div class="col-md-3 ">
+            <!--左侧导航页面-->
+            <div th:include="common/left :: left_menu"></div>
+        </div>
+
+        <!--右侧主体-->
+        <div class="col-md-9  panel panel-danger">
+            <div class="col-md-12 btn-group btn-group-md panel-heading" data-toggle="buttons">
+                <label class="btn btn-danger">
+                    <input type="radio" name="options" id="option1"> 综合
+                </label>
+                <label class="btn btn-default">
+                    <input type="radio" name="options" id="option2"> 人气
+                </label>
+                <label class="btn btn-default ">
+                    <input type="radio" name="options" id="option3"> 价格
+                </label>
+                <label class="btn btn-default">
+                    <input type="radio" name="options" id="option4"> 最新
+                </label>
+            </div>
+            <!--推荐end-->
+            <div class="col-md-12 pro_show">
+                <ul class="pro_ul">
+                    <li class="list-group-item pro_list">
+                        <div class="pro_img">
+                            <a href="" type="button"><img
+                                    src="../static/product/pro1.jpg" th:src="@{/product/pro1.jpg}"/></a>
+                        </div>
+                        <div class="pro_title">
+                            <a href="" th:href="@{/goods/findById}" class="text-center">Unicorn-粉色巨型玫瑰园（永生花）</a>
+                        </div>
+                        <div class="pro_info">
+                            <span class="price">￥1000.00</span>
+                            <a href="#" class="btn btn-sm btn-default add_heart"><span class="glyphicon glyphicon-heart"
+                            ></span>&nbsp;&nbsp;收藏&nbsp;&nbsp;</a>
+                            <a href="#" class="btn btn-sm btn-default add_car"><span><img src="../static/img/car.png"
+                                                                                          th:src="@{/img/car.png}"
+                                                                                          style="width: 27px; height: 19px;"></span>&nbsp;&nbsp;购物车</a>
+                        </div>
+                    </li>
+                    <li class="list-group-item pro_list">
+                        <div class="pro_img">
+                            <a href="" type="button"><img
+                                    src="../static/product/pro1.jpg" th:src="@{/product/pro1.jpg}"/></a>
+                        </div>
+                        <div class="pro_title">
+                            <a href="" class="text-center">Unicorn-粉色巨型玫瑰园（永生花）</a>
+                        </div>
+                        <div class="pro_info">
+                            <span class="price">￥1000.00</span>
+                            <a href="#" class="btn btn-sm btn-default add_heart"><span class="glyphicon glyphicon-heart"
+                            ></span>&nbsp;&nbsp;收藏&nbsp;&nbsp;</a>
+                            <a href="#" class="btn btn-sm btn-default add_car"><span><img src="../static/img/car.png"
+                                                                                          th:src="@{/img/car.png}"
+                                                                                          style="width: 27px; height: 19px;"></span>&nbsp;&nbsp;购物车</a>
+                        </div>
+                    </li>
+
+                    <li class="list-group-item pro_list">
+                        <div class="pro_img">
+                            <a href="" type="button"><img
+                                    src="../static/product/pro1.jpg" th:src="@{/product/pro1.jpg}"/></a>
+                        </div>
+                        <div class="pro_title">
+                            <a href="" class="text-center">Unicorn-粉色巨型玫瑰园（永生花）</a>
+                        </div>
+                        <div class="pro_info">
+                            <span class="price">￥1000.00</span>
+                            <a href="#" class="btn btn-sm btn-default add_heart"><span class="glyphicon glyphicon-heart"
+                            ></span>&nbsp;&nbsp;收藏&nbsp;&nbsp;</a>
+                            <a href="#" class="btn btn-sm btn-default add_car"><span><img src="../static/img/car.png"
+                                                                                          th:src="@{/img/car.png}"
+                                                                                          style="width: 27px; height: 19px;"></span>&nbsp;&nbsp;购物车</a>
+                        </div>
+                    </li>
+
+                    <li class="list-group-item pro_list">
+                        <div class="pro_img">
+                            <a href="" type="button"><img
+                                    src="../static/product/pro1.jpg" th:src="@{/product/pro1.jpg}"/></a>
+                        </div>
+                        <div class="pro_title">
+                            <a href="" class="text-center">Unicorn-粉色巨型玫瑰园（永生花）</a>
+                        </div>
+                        <div class="pro_info">
+                            <span class="price">￥1000.00</span>
+                            <a href="#" class="btn btn-sm btn-default add_heart"><span class="glyphicon glyphicon-heart"
+                            ></span>&nbsp;&nbsp;收藏&nbsp;&nbsp;</a>
+                            <a href="#" class="btn btn-sm btn-default add_car"><span><img src="../static/img/car.png"
+                                                                                          th:src="@{/img/car.png}"
+                                                                                          style="width: 27px; height: 19px;"></span>&nbsp;&nbsp;购物车</a>
+                        </div>
+                    </li>
+
+
+                    <li class="list-group-item pro_list">
+                        <div class="pro_img">
+                            <a href="" type="button"><img
+                                    src="../static/product/pro1.jpg" th:src="@{/product/pro1.jpg}"/></a>
+                        </div>
+                        <div class="pro_title">
+                            <a href="" class="text-center">Unicorn-粉色巨型玫瑰园（永生花）</a>
+                        </div>
+                        <div class="pro_info">
+                            <span class="price">￥1000.00</span>
+                            <a href="#" class="btn btn-sm btn-default add_heart"><span class="glyphicon glyphicon-heart"
+                            ></span>&nbsp;&nbsp;收藏&nbsp;&nbsp;</a>
+                            <a href="#" class="btn btn-sm btn-default add_car"><span><img src="../static/img/car.png"
+                                                                                          th:src="@{/img/car.png}"
+                                                                                          style="width: 27px; height: 19px;"></span>&nbsp;&nbsp;购物车</a>
+                        </div>
+                    </li>
+
+
+                    <li class="list-group-item pro_list">
+                        <div class="pro_img">
+                            <a href="" type="button"><img
+                                    src="../static/product/pro1.jpg" th:src="@{/product/pro1.jpg}"/></a>
+                        </div>
+                        <div class="pro_title">
+                            <a href="" class="text-center">Unicorn-粉色巨型玫瑰园（永生花）</a>
+                        </div>
+                        <div class="pro_info">
+                            <span class="price">￥1000.00</span>
+                            <a href="#" class="btn btn-sm btn-default add_heart"><span class="glyphicon glyphicon-heart"
+                            ></span>&nbsp;&nbsp;收藏&nbsp;&nbsp;</a>
+                            <a href="#" class="btn btn-sm btn-default add_car"><span><img src="../static/img/car.png"
+                                                                                          th:src="@{/img/car.png}"
+                                                                                          style="width: 27px; height: 19px;"></span>&nbsp;&nbsp;购物车</a>
+                        </div>
+                    </li>
+
+
+                    <li class="list-group-item pro_list">
+                        <div class="pro_img">
+                            <a href="" type="button"><img
+                                    src="../static/product/pro1.jpg" th:src="@{/product/pro1.jpg}"/></a>
+                        </div>
+                        <div class="pro_title">
+                            <a href="" class="text-center">Unicorn-粉色巨型玫瑰园（永生花）</a>
+                        </div>
+                        <div class="pro_info">
+                            <span class="price">￥1000.00</span>
+                            <a href="#" class="btn btn-sm btn-default add_heart"><span class="glyphicon glyphicon-heart"
+                            ></span>&nbsp;&nbsp;收藏&nbsp;&nbsp;</a>
+                            <a href="#" class="btn btn-sm btn-default add_car"><span><img src="../static/img/car.png"
+                                                                                          th:src="@{/img/car.png}"
+                                                                                          style="width: 27px; height: 19px;"></span>&nbsp;&nbsp;购物车</a>
+                        </div>
+                    </li>
+
+
+                    <li class="list-group-item pro_list">
+                        <div class="pro_img">
+                            <a href="" type="button"><img
+                                    src="../static/product/pro1.jpg" th:src="@{/product/pro1.jpg}"/></a>
+                        </div>
+                        <div class="pro_title">
+                            <a href="" class="text-center">Unicorn-粉色巨型玫瑰园（永生花）</a>
+                        </div>
+                        <div class="pro_info">
+                            <span class="price">￥1000.00</span>
+                            <a href="#" class="btn btn-sm btn-default add_heart"><span class="glyphicon glyphicon-heart"
+                            ></span>&nbsp;&nbsp;收藏&nbsp;&nbsp;</a>
+                            <a href="#" class="btn btn-sm btn-default add_car"><span><img src="../static/img/car.png"
+                                                                                          th:src="@{/img/car.png}"
+                                                                                          style="width: 27px; height: 19px;"></span>&nbsp;&nbsp;购物车</a>
+                        </div>
+                    </li>
+                    <li class="list-group-item pro_list">
+                        <div class="pro_img">
+                            <a href="" type="button"><img
+                                    src="../static/product/pro1.jpg" th:src="@{/product/pro1.jpg}"/></a>
+                        </div>
+                        <div class="pro_title">
+                            <a href="" class="text-center">Unicorn-粉色巨型玫瑰园（永生花）</a>
+                        </div>
+                        <div class="pro_info">
+                            <span class="price">￥1000.00</span>
+                            <a href="#" class="btn btn-sm btn-default add_heart"><span class="glyphicon glyphicon-heart"
+                            ></span>&nbsp;&nbsp;收藏&nbsp;&nbsp;</a>
+                            <a href="#" class="btn btn-sm btn-default add_car"><span><img src="../static/img/car.png"
+                                                                                          th:src="@{/img/car.png}"
+                                                                                          style="width: 27px; height: 19px;"></span>&nbsp;&nbsp;购物车</a>
+                        </div>
+                    </li>
+
+                    <li class="list-group-item pro_list">
+                        <div class="pro_img">
+                            <a href="" type="button"><img
+                                    src="../static/product/pro1.jpg" th:src="@{/product/pro1.jpg}"/></a>
+                        </div>
+                        <div class="pro_title">
+                            <a href="" class="text-center">Unicorn-粉色巨型玫瑰园（永生花）</a>
+                        </div>
+                        <div class="pro_info">
+                            <span class="price">￥1000.00</span>
+                            <a href="#" class="btn btn-sm btn-default add_heart"><span class="glyphicon glyphicon-heart"
+                            ></span>&nbsp;&nbsp;收藏&nbsp;&nbsp;</a>
+                            <a href="#" class="btn btn-sm btn-default add_car"><span><img src="../static/img/car.png"
+                                                                                          th:src="@{/img/car.png}"
+                                                                                          style="width: 27px; height: 19px;"></span>&nbsp;&nbsp;购物车</a>
+                        </div>
+                    </li>
+
+                    <li class="list-group-item pro_list">
+                        <div class="pro_img">
+                            <a href="" type="button"><img
+                                    src="../static/product/pro1.jpg" th:src="@{/product/pro1.jpg}"/></a>
+                        </div>
+                        <div class="pro_title">
+                            <a href="" class="text-center">Unicorn-粉色巨型玫瑰园（永生花）</a>
+                        </div>
+                        <div class="pro_info">
+                            <span class="price">￥1000.00</span>
+                            <a href="#" class="btn btn-sm btn-default add_heart"><span class="glyphicon glyphicon-heart"
+                            ></span>&nbsp;&nbsp;收藏&nbsp;&nbsp;</a>
+                            <a href="#" class="btn btn-sm btn-default add_car"><span><img src="../static/img/car.png"
+                                                                                          th:src="@{/img/car.png}"
+                                                                                          style="width: 27px; height: 19px;"></span>&nbsp;&nbsp;购物车</a>
+                        </div>
+                    </li>
+
+                    <li class="list-group-item pro_list">
+                        <div class="pro_img">
+                            <a href="" type="button"><img
+                                    src="../static/product/pro1.jpg" th:src="@{/product/pro1.jpg}"/></a>
+                        </div>
+                        <div class="pro_title">
+                            <a href="" class="text-center">Unicorn-粉色巨型玫瑰园（永生花）</a>
+                        </div>
+                        <div class="pro_info">
+                            <span class="price">￥1000.00</span>
+                            <a href="#" class="btn btn-sm btn-default add_heart"><span class="glyphicon glyphicon-heart"
+                            ></span>&nbsp;&nbsp;收藏&nbsp;&nbsp;</a>
+                            <a href="#" class="btn btn-sm btn-default add_car"><span><img src="../static/img/car.png"
+                                                                                          th:src="@{/img/car.png}"
+                                                                                          style="width: 27px; height: 19px;"></span>&nbsp;&nbsp;购物车</a>
+                        </div>
+                    </li>
+
+                    <li class="list-group-item pro_list">
+                        <div class="pro_img">
+                            <a href="" type="button"><img
+                                    src="../static/product/pro1.jpg" th:src="@{/product/pro1.jpg}"/></a>
+                        </div>
+                        <div class="pro_title">
+                            <a href="" class="text-center">Unicorn-粉色巨型玫瑰园（永生花）</a>
+                        </div>
+                        <div class="pro_info">
+                            <span class="price">￥1000.00</span>
+                            <a href="#" class="btn btn-sm btn-default add_heart"><span class="glyphicon glyphicon-heart"
+                            ></span>&nbsp;&nbsp;收藏&nbsp;&nbsp;</a>
+                            <a href="#" class="btn btn-sm btn-default add_car"><span><img src="../static/img/car.png"
+                                                                                          th:src="@{/img/car.png}"
+                                                                                          style="width: 27px; height: 19px;"></span>&nbsp;&nbsp;购物车</a>
+                        </div>
+                    </li>
+
+                    <li class="list-group-item pro_list">
+                        <div class="pro_img">
+                            <a href="" type="button"><img
+                                    src="../static/product/pro1.jpg" th:src="@{/product/pro1.jpg}"/></a>
+                        </div>
+                        <div class="pro_title">
+                            <a href="" class="text-center">Unicorn-粉色巨型玫瑰园（永生花）</a>
+                        </div>
+                        <div class="pro_info">
+                            <span class="price">￥1000.00</span>
+                            <a href="#" class="btn btn-sm btn-default add_heart"><span class="glyphicon glyphicon-heart"
+                            ></span>&nbsp;&nbsp;收藏&nbsp;&nbsp;</a>
+                            <a href="#" class="btn btn-sm btn-default add_car"><span><img src="../static/img/car.png"
+                                                                                          th:src="@{/img/car.png}"
+                                                                                          style="width: 27px; height: 19px;"></span>&nbsp;&nbsp;购物车</a>
+                        </div>
+                    </li>
+
+                    <li class="list-group-item pro_list">
+                        <div class="pro_img">
+                            <a href="" type="button"><img
+                                    src="../static/product/pro1.jpg" th:src="@{/product/pro1.jpg}"/></a>
+                        </div>
+                        <div class="pro_title">
+                            <a href="" class="text-center">Unicorn-粉色巨型玫瑰园（永生花）</a>
+                        </div>
+                        <div class="pro_info">
+                            <span class="price">￥1000.00</span>
+                            <a href="#" class="btn btn-sm btn-default add_heart"><span class="glyphicon glyphicon-heart"
+                            ></span>&nbsp;&nbsp;收藏&nbsp;&nbsp;</a>
+                            <a href="#" class="btn btn-sm btn-default add_car"><span><img src="../static/img/car.png"
+                                                                                          th:src="@{/img/car.png}"
+                                                                                          style="width: 27px; height: 19px;"></span>&nbsp;&nbsp;购物车</a>
+                        </div>
+                    </li>
+
+                    <li class="list-group-item pro_list">
+                        <div class="pro_img">
+                            <a href="" type="button"><img
+                                    src="../static/product/pro1.jpg" th:src="@{/product/pro1.jpg}"/></a>
+                        </div>
+                        <div class="pro_title">
+                            <a href="" class="text-center">Unicorn-粉色巨型玫瑰园（永生花）</a>
+                        </div>
+                        <div class="pro_info">
+                            <span class="price">￥1000.00</span>
+                            <a href="#" class="btn btn-sm btn-default add_heart"><span class="glyphicon glyphicon-heart"
+                            ></span>&nbsp;&nbsp;收藏&nbsp;&nbsp;</a>
+                            <a href="#" class="btn btn-sm btn-default add_car"><span><img src="../static/img/car.png"
+                                                                                          th:src="@{/img/car.png}"
+                                                                                          style="width: 27px; height: 19px;"></span>&nbsp;&nbsp;购物车</a>
+                        </div>
+                    </li>
+                    <li class="list-group-item pro_list">
+                        <div class="pro_img">
+                            <a href="" type="button"><img
+                                    src="../static/product/pro1.jpg" th:src="@{/product/pro1.jpg}"/></a>
+                        </div>
+                        <div class="pro_title">
+                            <a href="" class="text-center">Unicorn-粉色巨型玫瑰园（永生花）</a>
+                        </div>
+                        <div class="pro_info">
+                            <span class="price">￥1000.00</span>
+                            <a href="#" class="btn btn-sm btn-default add_heart"><span class="glyphicon glyphicon-heart"
+                            ></span>&nbsp;&nbsp;收藏&nbsp;&nbsp;</a>
+                            <a href="#" class="btn btn-sm btn-default add_car"><span><img src="../static/img/car.png"
+                                                                                          th:src="@{/img/car.png}"
+                                                                                          style="width: 27px; height: 19px;"></span>&nbsp;&nbsp;购物车</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-md-12 text-center">
+                <ul class="pagination ">
+                    <li><a href="#">&laquo;</a></li>
+                    <li><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#">5</a></li>
+                    <li><a href="#">&raquo;</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!--footer-->
+<div th:include="common/footer :: footer"></div>
 </body>
 </html>

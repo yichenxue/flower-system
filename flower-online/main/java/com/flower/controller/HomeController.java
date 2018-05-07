@@ -36,6 +36,11 @@ public class HomeController {
     }
 
 
+    @RequestMapping({"/notices"})
+    public String notices() {
+        return "notices";
+    }
+
     //生成短信验证码图片
     @GetMapping("/createImage")
     public void createImage(HttpServletResponse response, HttpSession session) throws IOException {

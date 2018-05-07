@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>春之语欢迎你</title>
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" href="../static/css/flower.css" th:href="@{/css/flower.css}">
+    <script src="../static/js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
+    <script src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<div th:include="common/header :: header"></div>
+<!--banner广告位-->
+<div class="container-fluid banner">
+    <img src="../static/img/nybanner.jpg" th:src="@{/img/nybanner.jpg}">
+</div>
+<div class="container-fluid content">
+    <div class="row">
+        <div class="col-md-3 ">
+            <!--左侧页面-->
+            <div th:include="common/left :: left_menu"></div>
+        </div>
+        <!--右侧主体-->
+        <div class="col-md-9  panel panel-danger">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    公告
+                </h3>
+            </div>
+            <div class="panel-body">
+                <div class="page-header text-center">
+                    <h1>春之语花艺活动火热进行中
+                        <small>2018-5-12</small>
+                    </h1>
+                </div>
+                <div>
+                    <p>这是一个示例文本。这是一个示例文本。这是一个示例文本。这是一个示例文本。这是一个示例文本。</p>
+                    <p>这是一个示例文本。这是一个示例文本。这是一个示例文本。这是一个示例文本。这是一个示例文本。</p>
+                    <p>这是一个示例文本。这是一个示例文本。这是一个示例文本。这是一个示例文本。这是一个示例文本。</p>
+                    <p>这是一个示例文本。这是一个示例文本。这是一个示例文本。这是一个示例文本。这是一个示例文本。</p>
+                    <p>这是一个示例文本。这是一个示例文本。这是一个示例文本。这是一个示例文本。这是一个示例文本。</p>
+                    <img src="" th:src="@{/img/pic02.jpg}">
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<!--footer-->
+<div th:include="common/footer :: footer"></div>
+</body>
+</html>

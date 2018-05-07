@@ -1,11 +1,10 @@
-/*.header {*/
-/*width: 100%;*/
-/*height: 126px;*/
-/*position: fixed;*/
-/*z-index: 999;*/
-/*left: 0;*/
-/*background: #fff;*/
-/*}*/
+body {
+    background: #fff;
+}
+
+.header {
+    background: #fff;
+}
 
 .login-body {
     background: url(../img/pic01.jpg);
@@ -15,7 +14,6 @@
 }
 
 .login-back {
-/ / background: url(../img/back.jpg);
     background-color: #8cd900;
     border-radius: 50%;
     color: rgb(255, 255, 255);
@@ -36,35 +34,6 @@
     height: 20px;
 }
 
-/*.top-right {*/
-/*float: right;*/
-/*padding: 10px;*/
-/*}*/
-
-/*.logo {*/
-/*background: url(../img/logo.png) no-repeat;*/
-/*width: 229px;*/
-/*height: 193px;*/
-/*float: left;*/
-/*}*/
-
-/*.top-nav {*/
-/*height: 126px;*/
-/*width: 812px;*/
-/*float: right;*/
-/*}*/
-
-/*.top-menu {*/
-/*clear: right;*/
-/*float: right;*/
-/*font-size: 16px;*/
-/*}*/
-
-/*.top {*/
-/*height: 126px;*/
-/*margin: 0 auto;*/
-/*padding: 0px 0px;*/
-/*}*/
 .top-menu {
     font-size: 20px;
 }
@@ -107,4 +76,107 @@
 
 .user_info_input {
     background: #e8ada5;
+}
+
+/*首页*/
+.banner {
+    padding-top: 126px;
+}
+
+.banner img {
+    width: 100%;
+    height: 100%;
+}
+
+.content {
+    padding-top: 30px;
+    padding-left: 70px;
+}
+
+.p_category_name {
+    width: 300px;
+
+}
+
+.p_category {
+    margin: 4px 6px;
+}
+
+.toggle_back {
+    border-color: #ee813a;
+}
+
+.icon-bar-back {
+    background-color: #b8bf58;
+}
+
+.search_nav {
+    color: #d00060;
+}
+
+.pro_show {
+    margin-top: 33px;
+}
+
+.pro_ul {
+    padding: 0px;
+}
+
+.pro_list {
+    list-style: none;
+    float: left;
+    margin: 5px 5px;
+}
+
+.pro_img {
+    width: 290px;
+    height: 290px;
+
+}
+
+.pro_img > img {
+    width: 290px;
+    height: 290px;
+}
+
+.pro_title {
+    width: 290px;
+    line-height: 42px;
+    border-bottom: 1px solid #e9e9e9;
+}
+
+.pro_info {
+    width: 290px;
+    padding-top: 13px;
+
+}
+
+.price {
+    /*display: block;*/
+    /*float: left;*/
+    /*height: 26px;*/
+    /*line-height: 26px;*/
+    color: #d00060;
+
+}
+
+.add_heart {
+    margin: 0 23px;
+    color: #ee813a;
+}
+
+.add_car {
+    float: right;
+}
+
+.category_list {
+    width: 662px;
+}
+
+.flowr_info_hr {
+    border-bottom: 5px solid #e01e73;
+}
+
+.flower_into {
+
 }
