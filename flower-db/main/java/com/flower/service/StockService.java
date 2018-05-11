@@ -22,5 +22,5 @@ public interface StockService {
 
     public Stock findByGoods_GoodsId(Integer goodId);
 
-    public void save(Purchase purchase, Goods goods, Supplier supplier);
+    public void updateStockNum(Integer goodsId, Integer stockNum);
 }

@@ -87,12 +87,12 @@ public class PurchaseController {
 
     @RequestMapping("/edit")
     @ResponseBody
-    public String edit(Purchase purchase, Goods goods, Supplier supplier) {
+    public String edit(Purchase purchase, Goods goods, Supplier supplier, Integer oriPurchaseNumber) {
         try {
             System.out.println("purchase:" + purchase + ",goods:" + goods + ",supplier" + supplier);
             purchase.setGoods(goods);
             purchase.setSupplier(supplier);
-            purchaseService.save(purchase);
+            purchaseService.edit(purchase, oriPurchaseNumber);
             return "success";
         } catch (Exception e) {
             e.printStackTrace();

@@ -74,16 +74,13 @@ public class StockServiceImpl implements StockService {
         return stockDao.findById(id);
     }
 
-    //根据商品id查找库存量
+    //根据商品id查找库存信息
     public Stock findByGoods_GoodsId(Integer goodId) {
         return stockDao.findByGoods_GoodsId(goodId);
     }
 
-    @Transactional
-    public void save(Purchase purchase, Goods goods, Supplier supplier) {
-        purchase.setGoods(goods);
-        Supplier s = supplierDao.save(supplier);
-        purchase.setSupplier(s);
-        purchaseDao.save(purchase);
+    //根据商品id更新库存量
+    public void updateStockNum(Integer goodsId, Integer stockNum) {
+        stockDao.updateStockNum(goodsId, stockNum);
     }
 }

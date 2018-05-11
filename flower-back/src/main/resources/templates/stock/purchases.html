@@ -366,8 +366,9 @@
                 var pur = "<label class='control-label'>采购编号:</label>";
                 pur += "<input type='text' class='form-control' name='id' value='" + id + "' readonly/>";
                 $("#Purchase-sup").append(slable);
+                var oriPurchaseNumber="<input type='hidden'  name='oriPurchaseNumber' value='" + data.purchaseNumber + "'/>";
                 $("#Purchase-id").append(pur);
-
+                $("#Purchase-id").append(oriPurchaseNumber);
                 $("#addPurchase-purchaseDate").val(data.purchaseDate);
                 $("#addPurchase-purchaseNumber").val(data.purchaseNumber);
                 $("#addPurchase-purchasePrice").val(data.purchasePrice);
@@ -457,6 +458,9 @@
     var day = date.getDate();
     var mydate = date.getFullYear() + "-" + (mon < 10 ? "0" + mon : mon) + "-" + (day < 10 ? "0" + day : day);
     //$('#addPurchase-purchaseDate').val(mydate)
+
+
+
 </script>
 <div th:include="common/footer :: footer"></div>
 </body>

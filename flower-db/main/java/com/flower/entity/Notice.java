@@ -85,4 +85,16 @@ public class Notice implements Serializable {
 
         return Objects.hash(noticeId, noticeTitle, noticeContent, noticeDate, noticeUserName);
     }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("Notice{");
+        sb.append("noticeId=").append(noticeId);
+        sb.append(", noticeTitle='").append(noticeTitle).append('\'');
+        sb.append(", noticeContent='").append(noticeContent).append('\'');
+        sb.append(", noticeDate='").append(noticeDate).append('\'');
+        sb.append(", noticeUserName='").append(noticeUserName).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }

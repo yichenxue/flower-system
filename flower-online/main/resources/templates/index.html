@@ -366,5 +366,57 @@
 
 <!--footer-->
 <div th:include="common/footer :: footer"></div>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    $(document).ready(function () {
+      $.ajax({
+            cache: true,
+            type: "POST",
+            url: /*[[@{/notice/showNotice10}]]*/'#',
+            async: false,
+            success: function (data) {
+            alert(data.noticeDate);
+                $("#notice_left").empty();
+                for(var i=0;i<data.length;i++){
+                  var li="<li class='list-group-item'><a href>"+data.noticeTitle+"&nbsp;&nbsp;<span>"+data.noticeDate+"</span></a></li>"
+                 $("#notice_left").append(li);
+                }
+                var li="<li class='list-group-item'><a href='#'>更多>>><span></span></a></li>"
+                $("#notice_left").append(li);
+            }
+        });
+    });
+    /*]]>*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
 </body>
 </html>

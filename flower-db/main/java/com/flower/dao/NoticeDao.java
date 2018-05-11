@@ -9,6 +9,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
+import java.util.List;
+
 /**
  * Created by yumaoying on 2018/4/30.
  */
@@ -20,4 +22,7 @@ public interface NoticeDao extends JpaRepository<Notice, Integer>, JpaSpecificat
     public Notice findByNoticeId(Integer id);
 
     Page<Notice> findAll(Specification<Notice> spec, Pageable pagebble);
+
+    //取前10条记录
+    public List<Notice> findFirst10ByOrderByNoticeDateAsc();
 }

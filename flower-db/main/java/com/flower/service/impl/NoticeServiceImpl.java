@@ -59,4 +59,8 @@ public class NoticeServiceImpl implements NoticeService {
         };
         return noticeDao.findAll(specification, pageable);
     }
+
+    public List<Notice> findFirst10ByOrderByNoticeDateAsc() {
+        return noticeDao.findFirst10ByOrderByNoticeDateAsc();
+    }
 }

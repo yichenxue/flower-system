@@ -16,4 +16,6 @@ public interface PurchaseService {
     public void delete(Integer id);
 
     public Purchase findById(Integer id);
+
+    public Purchase edit(Purchase purchase, Integer oriPurchaseNumber);
 }

@@ -13,8 +13,7 @@
 <div th:include="common/header :: header"></div>
 <div class="user_info">
     <div class="container text-center">
-        <div class="col-md-offset-4 col-md-8  text-center ">
-
+        <div class="col-md-offset-2 col-md-8  text-center ">
             <form class="form-horizontal" role="form" enctype="multipart/form-data" id="editForm" method="post">
                 <img class="col-md-offset-2 img-responsive  user_img" th:if="${session.loginUser.userImg}"
                      th:src="@{${session.loginUser.userImg}}">
@@ -160,6 +159,7 @@
             success: function (data) {
                 if (data == '修改成功!') {
                     alert(data);
+                    window.location = /*[[@{/userInfo}]]*/'#'
                 } else {
                     alert(data);
                 }
@@ -182,6 +182,9 @@
     });
 
     /*]]>*/
+
+
+
 </script>
 </body>
 
