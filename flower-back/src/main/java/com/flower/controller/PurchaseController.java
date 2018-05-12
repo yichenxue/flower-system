@@ -43,7 +43,6 @@ public class PurchaseController {
     public Map<String, Object> get(Purchase purchase, String draw,
                                    @RequestParam(required = false, defaultValue = "0") int start,
                                    @RequestParam(required = false, defaultValue = "10") int length) {
-        System.out.println("===================================purchases:" + purchase + "draw:" + draw + "start:" + start);
         Map<String, Object> map = new HashMap<>();
         Sort sort = new Sort(Sort.Direction.ASC, "id"); //按采购时间降序排
         Pageable pageable = new PageRequest(start / length, length, sort);

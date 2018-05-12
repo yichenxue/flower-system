@@ -13,7 +13,7 @@ public class Notice implements Serializable {
     private static final long serialVersionUID = -4612184760578111454L;
     private Integer noticeId; //编号
     private String noticeTitle; //公告标题
-    private String noticeContent; //公告名称
+    private String noticeContent; //公告内容
     private String noticeDate; //公告发布日期
     private String noticeUserName; //发布公告人用户名
 

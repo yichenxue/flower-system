@@ -58,8 +58,8 @@
                     <button type="button" class="btn btn-primary" onclick="search();">查询</button>
                     <div class="form-group navbar-form navbar-right">
                         <a type="button" class="btn btn-primary btn-stl btn-warning" th:href="@{/purchase}">花卉采购管理</a>
+                        <button type="button" class="btn btn-warning btn-stl" onclick="delStockById()">删除库存信息</button>
                         <button type="button" class="btn btn-primary btn-stl" onclick="findStock()">编辑库存信息</button>
-
                     </div>
                 </form>
             </div>
@@ -127,7 +127,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary" onclick="editStock();" id="stock-btn--edit">添加库存记录
+                <button type="button" class="btn btn-primary" onclick="editStock();" id="stock-btn--edit">修改库存记录
                 </button>
             </div>
         </div>

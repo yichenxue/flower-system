@@ -5,8 +5,10 @@
     <title>春之语欢迎你</title>
     <link rel="stylesheet" href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}">
     <link rel="stylesheet" href="../static/css/flower.css" th:href="@{/css/flower.css}">
+    <link rel="stylesheet" href="../static/css/bootstrap-treeview.css" th:href="@{/css/bootstrap-treeview.css}">
     <script src="../static/js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
     <script src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+    <script src="../static/js/bootstrap-treeview.js" th:src="@{/js/bootstrap-treeview.js}"></script>
 </head>
 <body>
 <div th:include="common/header :: header"></div>
@@ -366,57 +368,12 @@
 
 <!--footer-->
 <div th:include="common/footer :: footer"></div>
+</body>
+<!--分类结束-->
 <script th:inline="javascript">
     /*<![CDATA[*/
-    $(document).ready(function () {
-      $.ajax({
-            cache: true,
-            type: "POST",
-            url: /*[[@{/notice/showNotice10}]]*/'#',
-            async: false,
-            success: function (data) {
-            alert(data.noticeDate);
-                $("#notice_left").empty();
-                for(var i=0;i<data.length;i++){
-                  var li="<li class='list-group-item'><a href>"+data.noticeTitle+"&nbsp;&nbsp;<span>"+data.noticeDate+"</span></a></li>"
-                 $("#notice_left").append(li);
-                }
-                var li="<li class='list-group-item'><a href='#'>更多>>><span></span></a></li>"
-                $("#notice_left").append(li);
-            }
-        });
-    });
+
     /*]]>*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 </script>
-</body>
-</html>
+
+< /html>

@@ -25,5 +25,6 @@ public interface CategoryDao extends JpaRepository<Category, Integer>, JpaSpecif
 
     public Page<Category> findAll(Specification<Category> spec, Pageable pageable);
 
-
+    //根据父节点查找分类信息
+    public List<Category> findByParentId(Integer parentId);
 }

@@ -180,3 +180,11 @@ body {
 .flower_into {
 
 }
+
+.notice_title {
+    width: 100px;
+}
+
+.notice_time {
+    float: right;
+}

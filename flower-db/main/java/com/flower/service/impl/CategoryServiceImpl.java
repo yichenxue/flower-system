@@ -65,4 +65,9 @@ public class CategoryServiceImpl implements CategoryService {
         };
         return categoryDao.findAll(specification, pageable);
     }
+
+    //根据父节点查找分类
+    public List<Category> findByParentId(Integer parentId) {
+        return categoryDao.findByParentId(parentId);
+    }
 }

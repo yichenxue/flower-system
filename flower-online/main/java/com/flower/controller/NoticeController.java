@@ -5,6 +5,7 @@ import com.flower.service.NoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
@@ -22,5 +23,11 @@ public class NoticeController {
         List<Notice> notices = noticeService.findFirst10ByOrderByNoticeDateAsc();
         System.out.println("==============" + notices);
         return notices;
+    }
+
+    @RequestMapping({"/getNotice"})
+    public String findNoticeById(@RequestParam(required = false, defaultValue = "1") Integer id) {
+        noticeService.findByNoticeId(id);
+        return "notices";
     }
 }

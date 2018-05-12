@@ -20,4 +20,6 @@ public interface CategoryService {
     public Category findByCategoryId(Integer categoryId);
 
     public Page<Category> findAll(Category category, Pageable pageable);
+
+    public List<Category> findByParentId(Integer id);
 }

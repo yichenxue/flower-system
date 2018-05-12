@@ -22,8 +22,11 @@ public class Category implements Serializable {
     private Integer parentId; //父类别id
     private List<Goods> goodsList;
 
+
     @Transient
     private String checked = "false";//是否选中
+
+    private int level; //层级
 
     @Id
     @Column(name = "category_id", nullable = false)
@@ -105,13 +108,22 @@ public class Category implements Serializable {
         this.goodsList = goodsList;
     }
 
-
     public String getChecked() {
         return checked;
     }
 
     public void setChecked(String checked) {
         this.checked = checked;
+    }
+
+
+    @Transient
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
     }
 
     @Override
