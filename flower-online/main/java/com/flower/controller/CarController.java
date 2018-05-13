@@ -77,9 +77,39 @@ public class CarController {
     //获取购物车shang'pi商品
     @RequestMapping({"/allCars"})
     public String getCars(HttpServletRequest request) {
-        Map<Integer, Car> userCars = (Map<Integer, Car>) request.getSession().getAttribute("cars");
-        System.out.println("====================cars" + userCars);
         return "cars";
     }
 
+    //改变购物车商品数量,设置购物车数量,返回购物车总量
+    @RequestMapping({"/changeCar"})
+    @ResponseBody
+    public Integer changeCar(Integer goodsId, Integer mount, HttpServletRequest request) {
+        Map<Integer, Car> userCars = (Map<Integer, Car>) request.getSession().getAttribute("cars");
+        userCars.get(goodsId).setMount(mount);
+        Integer carNumber = 0;
+        //重现设置总量
+        for (Car car : userCars.values()) {
+            carNumber += car.getMount();
+        }
+        request.getSession().setAttribute("cars", userCars);
+        request.getSession().setAttribute("carNumber", carNumber);
+        return carNumber;
+    }
+
+    //删除多个购物车中的数据
+    @RequestMapping({"/delCar"})
+    @ResponseBody
+    public Integer delCar(@RequestParam("goodsIds") String goodsIds, HttpServletRequest request) {
+        Map<Integer, Car> userCars = (Map<Integer, Car>) request.getSession().getAttribute("cars");
+        Integer carNumber = (Integer) request.getSession().getAttribute("carNumber");
+        String[] gs = goodsIds.split(",");
+        for (int i = 0; i < gs.length; i++) {
+            carNumber = carNumber - userCars.get(gs[i]).getMount();
+            userCars.remove(gs[i]);
+        }
+        request.getSession().setAttribute("cars", userCars);
+        //减去移除商品的数量
+        request.getSession().setAttribute("carNumber", carNumber);
+        return carNumber;
+    }
 }

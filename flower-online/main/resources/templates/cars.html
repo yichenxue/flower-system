@@ -46,7 +46,8 @@
                         </thead>
                         <tbody>
                         <tr th:each="car:${session.cars}" id="tab">
-                            <td><input type="checkbox" class="checkChild"/></td>
+                            <td><input type="checkbox" class="checkChild" th:value="${car.value.goods.goodsId}"
+                            /><input type="hidden" th:value="${car.value.goods.goodsId}" class="goodsId"></td>
                             <td>
                                 <img style="width:100px;height:100px;"
                                      src="../static/product/pro1.jpg"
@@ -58,8 +59,8 @@
                             </td>
                             <td><a href=""
                                    th:text="${car.value.goods.goodsName}">Unicorn-粉色巨型玫瑰园（永生花）</a></td>
-                            <td><span th:text="${car.value.goods.goodsShijia}"></span></td>
-                            <td><span th:text="${car.value.goods.goodsPrice}" class="price"></span></td>
+                            <td><span th:text="${car.value.goods.goodsShijia}">0</span></td>
+                            <td><span th:text="${car.value.goods.goodsPrice}" class="price">0</span></td>
                             <td>
                                 <button class="btn btn-danger btn-sm min"><span
                                         class="glyphicon glyphicon-minus"></span>
@@ -72,13 +73,13 @@
                             <td><span th:text="${car.value.goods.goodsPrice * car.value.mount}"
                                       class="perAllPrice"></span>
                             </td>
-                            <td>Bangalore</td>
                         </tr>
                         </tbody>
                     </table>
                     <div class="panel-footer col-md-12">
-                        <div class="col-md-offset-6 col-md-6"> <span>总价:<label id="totalPrice"
-                                                                               style="color:red;"></label>&nbsp;&nbsp;&nbsp;</span><a
+                        <div class="col-md-offset-6 col-md-6"> <span>总价:<label style="color:red;">￥</label><label
+                                id="totalPrice"
+                                style="color:red;">0</label>&nbsp;&nbsp;&nbsp;</span><a
                                 class="btn btn-warning" href="">&nbsp;&nbsp;去结算>>>>&nbsp;&nbsp;</a></div>
                     </div>
                 </div>
@@ -114,21 +115,17 @@
 
 
     //全选框选中时，子复选框都选上
-
-
     $(".checkall").click(function () {
         if ($(".checkall").is(":checked")) {
             var oneCheck = $(".checkChild");
             for (var i = 0; i < oneCheck.length; i++) {
                 oneCheck[i].checked = true;
-                // oneCheck.eq(i).attr("checked", "checked");
             }
             setPrice();
         } else {
             var oneCheck = $(".checkChild");
             for (var i = 0; i < oneCheck.length; i++) {
                 oneCheck[i].checked = false;
-                // oneCheck.eq(i).attr("checked", false);
             }
             // 反选总价清零
             $('#totalPrice').html(0);
@@ -159,6 +156,21 @@
             var perAllPrice = parseInt(t.val()) * parseFloat(price);
             $(this).parent().parent().find('span[class*=perAllPrice]').html(perAllPrice);
             setPrice();
+            var goodsId = $(this).parent().parent().find('input[class*=goodsId]').val();
+            var mount = t.val();
+            $.ajax({
+                cache: false,
+                type: "POST",
+                data: {goodsId: goodsId, mount: mount},
+                url: /*[[@{/car/changeCar}]]*/'#',
+                async: false,
+                success: function (data) {
+                    $("#car_number").html(data);
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert("操作出现异常");
+                }
+            });
         });
         //购物车减少
         $(".min").click(function () {
@@ -172,6 +184,21 @@
                 $(this).parent().parent().find('span[class*=perAllPrice]').html(0);
             }
             setPrice();
+            var goodsId = $(this).parent().parent().find('input[class*=goodsId]').val();
+            var mount = t.val();
+            $.ajax({
+                cache: false,
+                type: "POST",
+                data: {goodsId: goodsId, mount: mount},
+                url: /*[[@{/car/changeCar}]]*/'#',
+                async: false,
+                success: function (data) {
+                    $("#car_number").html(data);
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert("操作出现异常");
+                }
+            });
         });
 
         //选中复选框
