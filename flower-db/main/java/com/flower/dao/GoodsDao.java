@@ -40,4 +40,6 @@ public interface GoodsDao extends JpaRepository<Goods, Integer>, JpaSpecificatio
     @Modifying
     @Query(value = "insert into goods_category(goods_id,category_id) values(?1,?2)", nativeQuery = true)
     public void save(Integer goodsId, Integer category_id);
+
+
 }

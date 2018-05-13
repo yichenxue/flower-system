@@ -1,10 +1,13 @@
 package com.flower.controller;
 
+import com.flower.entity.Goods;
 import com.flower.entity.User;
+import com.flower.service.GoodsService;
 import com.flower.service.UserService;
 import com.flower.util.VertityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +23,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by yumaoying on 2018/5/6.
@@ -29,9 +33,14 @@ public class HomeController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private GoodsService goodsService;
 
     @RequestMapping({"/", "/index"})
-    public String index() {
+    public String index(Model model) {
+        List<Goods> glist = goodsService.findAll();
+
+        model.addAttribute("glist", glist);
         return "index";
     }
 

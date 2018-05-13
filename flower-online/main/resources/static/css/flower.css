@@ -134,7 +134,7 @@ body {
 
 }
 
-.pro_img > img {
+.pro_img_img {
     width: 290px;
     height: 290px;
 }
@@ -187,4 +187,12 @@ body {
 
 .notice_time {
     float: right;
+}
+
+.pro_info_title {
+    border-bottom: 5px solid #e01e73;
+}
+
+.pro_info_produce {
+    line-height: 45px;
 }

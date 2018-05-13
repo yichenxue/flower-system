@@ -1,11 +1,14 @@
 package com.flower.controller;
 
 import com.flower.entity.Category;
+import com.flower.entity.Goods;
 import com.flower.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sun.security.pkcs11.Secmod;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -67,4 +70,11 @@ public class CategoryController {
         }
     }
 
+    //根据商品类别id查找商品信息
+    @RequestMapping({"/findGoodsByCid"})
+    public String findBycategory(Integer id, Model model) {
+        List<Goods> glist = categoryService.findGoodsByCategoryId(id);
+        model.addAttribute("glist", glist);
+        return "index";
+    }
 }

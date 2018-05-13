@@ -39,9 +39,12 @@
                             </li>
                         </ul>
                     </li>
-                    <li><a href=""><span><img src="../static/img/car.png" th:src="@{/img/car.png}"
-                                              style="width: 27px; height: 19px;"></span>&nbsp;购物车 <span
-                            class="badge">21</span></a>
+                    <li><a href="" th:href="@{/car/allCars}"><span><img src="../static/img/car.png"
+                                                                        th:src="@{/img/car.png}"
+                                                                        style="width: 27px; height: 19px;"></span>&nbsp;购物车
+                        <span
+                                class="badge" th:text="${session.carNumber}" id="car_number"
+                                style="background-color: #d9534f;">21</span></a>
                     </li>
                     <li><a href=""><span><img src="../static/img/002.png" th:src="@{/img/002.png}"
                                               style="width: 27px; height: 19px;"></span>我的订单</a>
@@ -90,4 +93,6 @@
             </div>
         </div>
     </nav>
+
+
 </div>

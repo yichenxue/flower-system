@@ -2,6 +2,7 @@ package com.flower.service.impl;
 
 import com.flower.dao.CategoryDao;
 import com.flower.entity.Category;
+import com.flower.entity.Goods;
 import com.flower.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -69,5 +70,10 @@ public class CategoryServiceImpl implements CategoryService {
     //根据父节点查找分类
     public List<Category> findByParentId(Integer parentId) {
         return categoryDao.findByParentId(parentId);
+    }
+
+    //根据分类id查找商品
+    public List<Goods> findGoodsByCategoryId(Integer categoryId) {
+        return categoryDao.findGoodsByCategoryId(categoryId);
     }
 }

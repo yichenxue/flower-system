@@ -149,7 +149,7 @@ public class Goods implements Serializable {
         this.goodsMaterial = goodsMaterial;
     }
 
-    @Column(name = "goods_rand", nullable = true, length = 50)
+    @Column(name = "goods_brand", nullable = true, length = 50)
     public String getBrand() {
         return brand;
     }
@@ -241,7 +241,7 @@ public class Goods implements Serializable {
         this.categories = categories;
     }
 
-
+    @JsonBackReference
     @OneToMany(mappedBy = "goods", fetch = FetchType.LAZY)
     public List<OrderDetail> getOrderDetailsByGoodsId() {
         return orderDetailsByGoodsId;
@@ -261,7 +261,6 @@ public class Goods implements Serializable {
         this.purchases = purchases;
     }
 
-
     @Override
     public String toString() {
         return "Goods{" +
@@ -279,7 +278,6 @@ public class Goods implements Serializable {
                 ", brand='" + brand + '\'' +
                 ", pack='" + pack + '\'' +
                 ", remark='" + remark + '\'' +
-                ", categories=" + categories +
                 '}';
     }
 }
