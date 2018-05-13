@@ -65,10 +65,13 @@
                                                                                                    style="color:red;"
                                                                                                    th:text="'￥'+${goods.goodsPrice}">￥200.0</span>
                     </div>
-                    <div class="col-md-12 pro_info_produce"><a href="#" class="btn btn-sm btn-default"><span><img
-                            src="../static/img/car.png"
-                            th:src="@{/img/car.png}"
-                            style="width: 27px; height: 19px;"></span>&nbsp;&nbsp;加入购物车</a>
+                    <div class="col-md-12 pro_info_produce">
+                        <button href="#" class="btn btn-sm btn-default"
+                                th:onclick="'javascript:addCar(\''+${goods.goodsId}+'\');'"><span><img
+                                src="../static/img/car.png"
+                                th:src="@{/img/car.png}"
+                                style="width: 27px; height: 19px;"></span>&nbsp;&nbsp;加入购物车
+                        </button>
                     </div>
                 </div>
 
@@ -98,4 +101,24 @@
 <div th:include="common/footer :: footer"></div>
 </div>
 </body>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    function addCar(id) {
+        $.ajax({
+            cache: false,
+            type: "POST",
+            data: {goodsId: id},
+            url: /*[[@{/car/addCar}]]*/'#',
+            async: false,
+            success: function (data) {
+                $("#car_number").html([[${session.carNumber}]] + 1);
+                alert(data);
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("操作出现异常");
+            }
+        });
+    };
+    /*]]>*/
+</script>
 </html>
