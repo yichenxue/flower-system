@@ -114,24 +114,21 @@
 
 
     //全选框选中时，子复选框都选上
-    // $(".checkall").click(function () {
-    //     var check = $(this).prop("checked");
-    //     $(".checkchild").prop("checked", check);
-    // });
 
-    $(".checkal").click(function () {
-        if ($(".checkall").checked) {
-            var oneCheck = $(".checkchild");
+
+    $(".checkall").click(function () {
+        if ($(".checkall").is(":checked")) {
+            var oneCheck = $(".checkChild");
             for (var i = 0; i < oneCheck.length; i++) {
                 oneCheck[i].checked = true;
-                oneCheck.eq(i).attr("checked", "checked");
+                // oneCheck.eq(i).attr("checked", "checked");
             }
             setPrice();
         } else {
-            var oneCheck = $(".checkchild");
+            var oneCheck = $(".checkChild");
             for (var i = 0; i < oneCheck.length; i++) {
                 oneCheck[i].checked = false;
-                oneCheck.eq(i).attr("checked", false);
+                // oneCheck.eq(i).attr("checked", false);
             }
             // 反选总价清零
             $('#totalPrice').html(0);
@@ -141,15 +138,19 @@
     // 计算所有选中产品总价
     function setPrice() {
         var total = 0;
-        var checkTrue = $(".checkchild");
+        var checkTrue = $(".checkChild");
         for (var i = 0; i < checkTrue.length; i++) {
-            total = parseInt(total) + parseInt(checkTrue.eq(i).parent().parent().find('span[class*=perAllPrice]').text());
+            var checkElement = checkTrue.eq(i);
+            if (checkElement.is(":checked")) {
+                total = parseInt(total) + parseInt(checkElement.parent().parent().find('span[class*=perAllPrice]').text());
+            }
         }
         $('#totalPrice').html(total);
     }
 
 
     $(function () {
+
         //购物车添加
         $(".add").click(function () {
             var t = $(this).parent().find('input[class*=text_box]');
@@ -157,6 +158,7 @@
             var price = $(this).parent().parent().find('span[class*=price]').text();
             var perAllPrice = parseInt(t.val()) * parseFloat(price);
             $(this).parent().parent().find('span[class*=perAllPrice]').html(perAllPrice);
+            setPrice();
         });
         //购物车减少
         $(".min").click(function () {
@@ -164,7 +166,6 @@
             t.val(parseInt(t.val()) - 1);
             var price = $(this).parent().parent().find('span[class*=price]').text();
             var perAllPrice = parseInt(t.val()) * parseFloat(price);
-
             $(this).parent().parent().find('span[class*=perAllPrice]').html(perAllPrice);
             if (parseInt(t.val()) < 0) {
                 t.val(0);
@@ -173,11 +174,26 @@
             setPrice();
         });
 
-        //改变
-
+        //选中复选框
+        $(".checkChild").click(function () {
+            // var total = $('#totalPrice').text();
+            // if (total == undefined || total == null || total == "")
+            //     total = 0;
+            // //
+            // alert(total);
+            // if ($(".checkChild").is(":checked")) {
+            //     total = parseInt(total) + parseInt($(this).parent().parent().find('span[class*=perAllPrice]').text());
+            //     $('#totalPrice').html(total);
+            // } else {
+            //     total = parseInt(total) - parseInt($(this).parent().parent().find('span[class*=perAllPrice]').text());
+            //     $('#totalPrice').html(total);
+            //     if (total < 0) {
+            //         $('#totalPrice').html(0);
+            //     }
+            // }
+            setPrice();
+        });
     });
-
-
     /*]]>*/
 </script>
 </html>
