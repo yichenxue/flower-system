@@ -1,5 +1,7 @@
 package com.flower.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -203,7 +205,7 @@ public class User implements Serializable {
         return Objects.hash(userId, userName, userPw, userRealname, userAddress, userSex, userTel, userEamil, userQq, userCore, userLevel, userBirthday, userRegister, userLast, userImg);
     }
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     public List<Car> getCars() {
         return cars;
     }
@@ -221,7 +223,8 @@ public class User implements Serializable {
         this.comments = comments;
     }
 
-    @OneToMany(mappedBy = "user")
+    @JsonBackReference
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     public List<OrderDetail> getOrderDetails() {
         return orderDetails;
     }

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>春之语欢迎你</title>
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" href="../static/css/flower.css" th:href="@{/css/flower.css}">
+    <link rel="stylesheet" href="../static/css/bootstrap-treeview.css" th:href="@{/css/bootstrap-treeview.css}">
+    <script src="../static/js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
+    <script src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+    <script src="../static/js/bootstrap-treeview.js" th:src="@{/js/bootstrap-treeview.js}"></script>
+</head>
+<body>
+<div th:include="common/header :: header"></div>
+<!--banner广告位-->
+<div class="container-fluid banner">
+    <img src="../static/img/nybanner.jpg" th:src="@{/img/nybanner.jpg}">
+</div>
+<div class="container-fluid content">
+    <div class="row">
+        <div class="col-md-3 ">
+            <!--左侧导航页面-->
+            <div th:include="common/left :: left_menu"></div>
+        </div>
+        <!--右侧主体-购物车-->
+        <div class="col-md-9  panel panel-danger">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    我的订单
+                </h3>
+            </div>
+            <div class="panel-body">
+                <div class="page-header text-center">
+                    <form class="navbar-form " role="search" th:action="@{/order/find}"
+                          th:method="post">
+                        <label>订单查询</label>
+                        <input class="form-control" type="text"
+                               placeholder="订单编号" name="orderNo">
+                        <button type="button" class="btn btn-danger " onclick="form.submit();"><span>
+                                 <span class="glyphicon glyphicon-search"></span></span>查询
+                        </button>
+                    </form>
+                </div>
+                <div class="page-header text-center">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th class="text-center">订单号</th>
+                            <th class="text-center">商品图片</th>
+                            <th class="text-center">商品名称</th>
+                            <th class="text-center">市场价</th>
+                            <th class="text-center">订购价</th>
+                            <th class="text-center">数量</th>
+                            <th class="text-center">小计</th>
+                            <th class="text-center">订单状态</th>
+                            <th class="text-center">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="order:${orderDetails}" th:if="${order!=null}">
+                            <td><span th:text="${order.orderNo}">订单编号</span></td>
+                            <td><a href="#" th:href="@{/goods/findById(id=${order.goods.goodsId})}">
+                                <img style="width:100px;height:100px;"
+                                     src="../static/product/pro1.jpg"
+                                     th:if="${order.goods.goodsPic ==null || order.goods.goodsPic ==''}"
+                                     th:src="@{/product/pro1.jpg}" title="暂无图片"/>
+                                <img style="width:100px;height:100px;" src="../static/product/pro1.jpg"
+                                     th:if="${order.goods.goodsPic !=null and order.goods.goodsPic !=''}"
+                                     th:src="@{'/'+${order.goods.goodsPic}}"/></td>
+                            </td>
+                            <td><a href="#" th:href="@{/goods/findById(id=${order.goods.goodsId})}"
+                                   th:text="${order.goods.goodsName}">Unicorn-粉色巨型玫瑰园（永生花）</a></td>
+                            <td><s><label style="color:red;">￥</label><span th:text="${order.goods.goodsShijia}"
+                                                                            style="color:red;">0</span></s>>
+                            </td>
+                            <td><label style="color:red;">￥</label><span th:text="${order.goods.goodsPrice}"
+                                                                         class="price">0</span></td>
+                            <td>
+                                <span th:text="${order.orderNumber}">0</span>
+                            </td>
+                            <td><label style="color:red;">￥</label><span
+                                    th:text="${order.orderAmount}"
+                                    class="perAllPrice" style="color:red;"></span>
+                            </td>
+                            <td>
+                                <span class="btn btn-danger" th:if="${order.orderStatus=='00'}"
+                                      th:text="'未支付'">订单状态</span>
+                                <span class="btn btn-danger" th:if="${order.orderStatus=='02'}"
+                                      th:text="'支付失败'">订单状态</span>
+                                <span class="btn btn-success" th:if="${order.orderStatus=='03'}"
+                                      th:text="'支付成功'">订单状态</span>
+                                <span class="btn btn-info" th:if="${order.orderStatus=='04'}"
+                                      th:text="'待发货'">订单状态</span>
+                                <span class="btn  btn-info" th:if="${order.orderStatus=='05'}"
+                                      th:text="'已发货'">订单状态</span>
+                                <span class="btn  btn-info" th:if="${order.orderStatus=='07'}"
+                                      th:text="'待收货'">订单状态</span>
+                                <span class="btn btn-success" th:if="${order.orderStatus=='08'}"
+                                      th:text="'已收货'">订单状态</span>
+                                <span class="btn btn-success" th:if="${order.orderStatus=='09'}"
+                                      th:text="'待评价'">订单状态</span>
+                            </td>
+                            <td>
+                                <a href="#" th:if="${order.orderStatus=='00'}"
+                                   th:href="@{/order/delete(id=${order.id})}"
+                                   class="btn btn-warning" onclick="javascript:return confirm('确认删除吗');">删除订单</a>
+                                <a href="#" th:if="${order.orderStatus=='00'}"
+                                   class="btn btn-warning">去支付</a>
+                                <a href="#" th:href="" th:href="@{/order/findById(id=${order.id})}"
+                                   class="btn btn-warning">查看详情</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div th:if="${#lists.isEmpty(orderDetails)||#lists.size(orderDetails)<=0}">
+                        未找到订单信息
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--右侧结束-->
+</div>
+</div>
+</div>
+
+<!--footer-->
+<div th:include="common/footer :: footer"></div>
+</body>
+<!--分类结束-->
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    $(function () {
+        var msg = [[${msg}]];
+        if (msg != null && msg != '') {
+            alert(msg);
+        }
+    });
+    /*]]>*/
+</script>
+</html>

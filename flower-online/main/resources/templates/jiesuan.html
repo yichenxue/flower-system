@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>春之语欢迎你</title>
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" href="../static/css/flower.css" th:href="@{/css/flower.css}">
+    <link rel="stylesheet" href="../static/css/bootstrap-treeview.css" th:href="@{/css/bootstrap-treeview.css}">
+    <script src="../static/js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
+    <script src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+    <script src="../static/js/bootstrap-treeview.js" th:src="@{/js/bootstrap-treeview.js}"></script>
+</head>
+<body>
+<div th:include="common/header :: header"></div>
+<!--banner广告位-->
+<div class="container-fluid banner">
+    <img src="../static/img/nybanner.jpg" th:src="@{/img/nybanner.jpg}">
+</div>
+<div class="container-fluid content">
+    <div class="row">
+        <div class="col-md-3 ">
+            <!--左侧导航页面-->
+            <div th:include="common/left :: left_menu"></div>
+        </div>
+        <!--右侧主体-购物车-->
+        <div class="col-md-9  panel panel-danger">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    订单信息
+                </h3>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">收货人姓名</label>
+                    <label class="col-sm-10" th:text="${orderItem.orderDetails[0]?.orderUserName}"></label>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">收货人联系方式</label>
+                    <label class="col-sm-10" th:text="${orderItem.orderDetails[0]?.orderUserPhone}"></label>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">收货人地址</label>
+                    <label class="col-sm-10" th:text="${orderItem.orderDetails[0]?.orderAddress}"></label>
+                </div>
+                <div class="page-header text-center">
+
+                    <table class="table" id="cars_tab">
+                        <thead>
+                        <tr>
+                            <th class="text-center">商品图片</th>
+                            <th class="text-center">商品名称</th>
+                            <th class="text-center">市场价</th>
+                            <th class="text-center">订购价</th>
+                            <th class="text-center">数量</th>
+                            <th class="text-center">小计</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="order:${orderItem.orderDetails}" id="tab">
+                            <td><a href="#" th:href="@{/goods/findById(id=${order.goods.goodsId})}">
+                                <img style="width:100px;height:100px;"
+                                     src="../static/product/pro1.jpg"
+                                     th:if="${order.goods.goodsPic ==null || order.goods.goodsPic ==''}"
+                                     th:src="@{/product/pro1.jpg}" title="暂无图片"/>
+                                <img style="width:100px;height:100px;" src="../static/product/pro1.jpg"
+                                     th:if="${order.goods.goodsPic !=null and order.goods.goodsPic !=''}"
+                                     th:src="@{'/'+${order.goods.goodsPic}}"/></td>
+                            </td>
+                            <td><a href="#" th:href="@{/goods/findById(id=${order.goods.goodsId})}"
+                                   th:text="${order.goods.goodsName}">Unicorn-粉色巨型玫瑰园（永生花）</a></td>
+                            <td><s><label style="color:red;">￥</label><span th:text="${order.goods.goodsShijia}"
+                                                                            style="color:red;">0</span><s></td>
+                            <td><label style="color:red;">￥</label><span th:text="${order.goods.goodsPrice}"
+                                                                         class="price">0</span></td>
+                            <td>
+                                <span th:text="${order.orderNumber}">0</span>
+                            </td>
+                            <td><label style="color:red;">￥</label><span
+                                    th:text="${order.orderAmount}"
+                                    class="perAllPrice" style="color:red;"></span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-7 col-sm-5">
+                                <span>总价:<label id="totalPrice" th:text="${orderItem.orderAmount}"
+                                                style="color:red;">￥0.00</label>&nbsp;&nbsp;&nbsp;</span>
+                        <button type="submit" class="btn btn-warning">去付款>>>></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--右侧结束-->
+</div>
+</div>
+</div>
+
+<!--footer-->
+<div th:include="common/footer :: footer"></div>
+</body>
+<!--分类结束-->
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    /*]]>*/
+</script>
+</html>

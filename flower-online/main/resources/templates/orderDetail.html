@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>春之语欢迎你</title>
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" href="../static/css/flower.css" th:href="@{/css/flower.css}">
+    <script src="../static/js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
+    <script src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<div th:include="common/header :: header"></div>
+<!--banner广告位-->
+<div class="container-fluid banner">
+    <img src="../static/img/nybanner.jpg" th:src="@{/img/nybanner.jpg}">
+</div>
+<div class="container-fluid content">
+    <div class="row">
+        <div class="col-md-3 ">
+            <!--左侧页面-->
+            <div th:include="common/left :: left_menu"></div>
+        </div>
+        <!--右侧主体-->
+        <div class="col-md-9  panel panel-danger">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    订单详情
+                </h3>
+            </div>
+            <div class="panel-body">
+                <!--<div class="page-header">-->
+                <div class="pro_show">
+                    <div class="col-md-4">
+                        <img class="pro_img_img"
+                             src="../static/product/pro1.jpg"
+                             th:if="${order.goods.goodsPic ==null || order.goods.goodsPic ==''}"
+                             th:src="@{/product/pro1.jpg}" style="width:100%;height:100%"/>
+                        <img class=" pro_img_img" src="../static/product/pro1.jpg"
+                             th:if="${order.goods.goodsPic !=null and order.goods.goodsPic !=''}"
+                             th:src="@{'/'+${order.goods.goodsPic}}" style="width:100%;height:100%"/>
+                    </div>
+                    <div class="col-md-8" id="">
+                        <p><span class="col-md-3">订单编号:</span><span class="col-md-9"
+                                                                    th:text="${order.orderNo}"></span></p>
+                        <p><span class="col-md-3">订单状态:</span>
+                            <!--<span class="col-md-8" th:text="${order.orderNo}">订单编号</span>-->
+                            <!--</p>-->
+                            <!--<p><span class="col-md-4">订单状态:</span>-->
+                            <!--<span class="col-md-8" th:if="${order.orderStatus=='00'}"-->
+                            <!--th:text="${order.orderStatus}">未付款</span>-->
+                            <!--<span class="col-md-8" th:if="${order.orderStatus=='00'}"-->
+                            <!--th:text="${order.orderStatus}">未付款</span>-->
+                            <!--<span class="col-md-8" th:if="${order.orderStatus=='00'}"-->
+                            <!--th:text="${order.orderStatus}">未付款</span>-->
+                            <span class="btn btn-danger" th:if="${order.orderStatus=='00'}"
+                                  th:text="'未支付'">订单状态</span>
+                            <span class="btn btn-danger" th:if="${order.orderStatus=='02'}"
+                                  th:text="'支付失败'">订单状态</span>
+                            <span class="btn btn-success" th:if="${order.orderStatus=='03'}"
+                                  th:text="'支付成功'">订单状态</span>
+                            <span class="btn btn-info" th:if="${order.orderStatus=='04'}"
+                                  th:text="'待发货'">订单状态</span>
+                            <span class="btn  btn-info" th:if="${order.orderStatus=='05'}"
+                                  th:text="'已发货'">订单状态</span>
+                            <span class="btn  btn-info" th:if="${order.orderStatus=='07'}"
+                                  th:text="'待收货'">订单状态</span>
+                            <span class="btn btn-success" th:if="${order.orderStatus=='08'}"
+                                  th:text="'已收货'">订单状态</span>
+                            <span class="btn btn-success" th:if="${order.orderStatus=='09'}"
+                                  th:text="'待评价'">订单状态</span>
+                        </p>
+                        <hr class="flowr_info_hr">
+                        <div class="col-md-12 pro_info_produce"><span class="col-md-3">商品名称:</span>
+                            <span class="col-md-9"></span> <a href="#"
+                                                              th:href="@{/goods/findById(id=${order.goods.goodsId})}"
+                                                              th:text="${order.goods.goodsName}">Unicorn-粉色巨型玫瑰园（永生花）</a>
+                        </div>
+                        <div class="col-md-12 pro_info_produce"><span class="col-md-3">商品市场价:</span>
+                            <span class="col-md-9"
+                                  style="color:red;"
+                                  th:text="'￥'+${order.goods.goodsShijia}">￥200.0</span>
+                        </div>
+                        <div class="col-md-12 pro_info_produce"><span class="col-md-3">商品价格:</span><span
+                                class="col-md-9"
+                                style="color:red;"
+                                th:text="'￥'+${order.goods.goodsPrice}">￥200.0</span>
+                        </div>
+                        <div class="col-md-12 pro_info_produce"><span class="col-md-3">订单数量:</span><span
+                                class="col-md-9"
+                                th:text="${order.orderNumber}">订单数量</span>
+                        </div>
+                        <div class="col-md-12 pro_info_produce"><span class="col-md-3">订单金额:</span><span
+                                class="col-md-9" style="color:red;"
+                                th:text="${order.orderAmount}">订单金额</span>
+                        </div>
+                        <div class="col-md-12 pro_info_produce"><span class="col-md-3">订单生成日期:</span><span
+                                class="col-md-9"
+                                th:text="${order.orderDate}">订单生成日期</span>
+                        </div>
+                        <div class="col-md-12 pro_info_produce"><span class="col-md-3">收货人:</span><span
+                                class="col-md-9"
+                                th:text="${order.orderUserName}">收货人</span>
+                        </div>
+                        <div class="col-md-12 pro_info_produce"><span class="col-md-3">收货人联系方式:</span><span
+                                class="col-md-9"
+                                th:text="${order.orderUserPhone}">收货人联系方式</span>
+                        </div>
+                        <div class="col-md-12 pro_info_produce"><span class="col-md-3">收货人地址:</span><span
+                                class="col-md-9"
+                                th:text="${order.orderAddress}">收货人地址</span>
+                        </div>
+                        <div class="col-md-12 pro_info_produce"><span class="col-md-3">付款方式:</span><span
+                                class="col-md-9"
+                                th:text="${order.orderPayWay}">付款方式</span>
+                        </div>
+                        <div class="col-md-12 pro_info_produce"><span class="col-md-3">发货日期:</span><span
+                                class="col-md-9"
+                                th:text="${order.orderDeliver}">发货日期</span>
+                        </div>
+                        <div class="col-md-12 pro_info_produce"><span class="col-md-3">快递公司:</span><span
+                                class="col-md-9"
+                                th:text="${order.orderExpress}">订单备注</span>
+                        </div>
+                        <div class="col-md-12 pro_info_produce"><span class="col-md-3">快递员:</span><span
+                                class="col-md-9"
+                                th:text="${order.orderSenderName}">快递员</span>
+                        </div>
+                        <div class="col-md-12 pro_info_produce"><span class="col-md-3">快递联系方式:</span><span
+                                class="col-md-9"
+                                th:text="${order.orderSenderTel}">快递员</span>
+                        </div>
+                        <div class="col-md-12 pro_info_produce"><span class="col-md-3">物流状态:</span><span
+                                class="col-md-9"
+                                th:text="${order.orderExpressStatus}">物流状态</span>
+                        </div>
+                        <div class="col-md-12 pro_info_produce"><span class="col-md-3">订单完成日期:</span><span
+                                class="col-md-9"
+                                th:text="${order.orderFinishDate}">订单完成日期</span>
+                        </div>
+                        <div class="col-md-12 pro_info_produce"><span class="col-md-3">订单备注:</span><span
+                                class="col-md-9"
+                                th:text="${order.orderRemark}">订单备注</span>
+                        </div>
+                    </div>
+                </div>
+                <!--</div>-->
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<!--footer-->
+<div th:include="common/footer :: footer"></div>
+</div>
+</body>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    function addCar(id) {
+        $.ajax({
+            cache: false,
+            type: "POST",
+            data: {goodsId: id},
+            url: /*[[@{/car/addCar}]]*/'#',
+            async: false,
+            success: function (data) {
+                $("#car_number").html([[${session.carNumber}]] + 1);
+                alert(data);
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("操作出现异常");
+            }
+        });
+    };
+    /*]]>*/
+</script>
+</html>

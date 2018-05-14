@@ -126,6 +126,7 @@ public class OrderDetail implements Serializable {
         this.orderAddress = orderAddress;
     }
 
+
     @Column(name = "order_user_name", nullable = true, length = 100)
     public String getOrderUserName() {
         return orderUserName;
@@ -274,5 +275,31 @@ public class OrderDetail implements Serializable {
 
     public void setOrderItem(OrderItem orderItem) {
         this.orderItem = orderItem;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderDetail{" +
+                "id=" + id +
+                ", orderNo='" + orderNo + '\'' +
+                ", goodsPerPrice=" + goodsPerPrice +
+                ", orderNumber=" + orderNumber +
+                ", orderAmount=" + orderAmount +
+                ", orderPayWay='" + orderPayWay + '\'' +
+                ", orderDate='" + orderDate + '\'' +
+                ", orderStatus='" + orderStatus + '\'' +
+                ", orderAddress='" + orderAddress + '\'' +
+                ", orderUserName='" + orderUserName + '\'' +
+                ", orderUserPhone='" + orderUserPhone + '\'' +
+                ", orderDeliver='" + orderDeliver + '\'' +
+                ", orderSenderName='" + orderSenderName + '\'' +
+                ", orderSenderTel='" + orderSenderTel + '\'' +
+                ", orderFinishDate='" + orderFinishDate + '\'' +
+                ", orderRemark='" + orderRemark + '\'' +
+                ", orderExpress='" + orderExpress + '\'' +
+                ", orderExpressStatus='" + orderExpressStatus + '\'' +
+                ", goods=" + goods +
+                ", user=" + user +
+                '}';
     }
 }

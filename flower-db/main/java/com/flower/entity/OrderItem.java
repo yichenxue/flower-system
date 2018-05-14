@@ -109,4 +109,17 @@ public class OrderItem implements Serializable {
     public void setOrderDetails(List<OrderDetail> orderDetails) {
         this.orderDetails = orderDetails;
     }
+
+    @Override
+    public String toString() {
+        return "OrderItem{" +
+                "orderId=" + orderId +
+                ", orderNo='" + orderNo + '\'' +
+                ", orderUserId=" + orderUserId +
+                ", orderNumber=" + orderNumber +
+                ", orderAmount=" + orderAmount +
+                ", orderDate='" + orderDate + '\'' +
+                ", orderDetails=" + orderDetails +
+                '}';
+    }
 }

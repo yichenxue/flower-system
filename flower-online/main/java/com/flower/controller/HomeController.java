@@ -39,7 +39,6 @@ public class HomeController {
     @RequestMapping({"/", "/index"})
     public String index(Model model) {
         List<Goods> glist = goodsService.findAll();
-
         model.addAttribute("glist", glist);
         return "index";
     }

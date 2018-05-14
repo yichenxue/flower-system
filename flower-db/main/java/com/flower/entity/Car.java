@@ -71,4 +71,14 @@ public class Car implements Serializable {
     public void setGoods(Goods goods) {
         this.goods = goods;
     }
+
+    @Override
+    public String toString() {
+        return "Car{" +
+                "carId=" + carId +
+                ", mount=" + mount +
+                ", user=" + user +
+                ", goods=" + goods +
+                '}';
+    }
 }

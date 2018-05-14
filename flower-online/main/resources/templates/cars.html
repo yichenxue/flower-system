@@ -45,42 +45,58 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="car:${session.cars}" id="tab">
+                        <tr th:each="car:${session.buyCars}" id="tab">
                             <td><input type="checkbox" class="checkChild" th:value="${car.value.goods.goodsId}"
                             /><input type="hidden" th:value="${car.value.goods.goodsId}" class="goodsId"></td>
-                            <td>
+                            <td><a href="#" th:href="@{/goods/findById(id=${car.value.goods.goodsId})}">
                                 <img style="width:100px;height:100px;"
                                      src="../static/product/pro1.jpg"
                                      th:if="${car.value.goods.goodsPic ==null || car.value.goods.goodsPic ==''}"
                                      th:src="@{/product/pro1.jpg}" title="暂无图片"/>
                                 <img style="width:100px;height:100px;" src="../static/product/pro1.jpg"
                                      th:if="${car.value.goods.goodsPic !=null and car.value.goods.goodsPic !=''}"
-                                     th:src="@{'/'+${car.value.goods.goodsPic}}"/>
+                                     th:src="@{'/'+${car.value.goods.goodsPic}}"/></a>
                             </td>
-                            <td><a href=""
+                            <td><a href="#" th:href="@{/goods/findById(id=${car.value.goods.goodsId})}"
                                    th:text="${car.value.goods.goodsName}">Unicorn-粉色巨型玫瑰园（永生花）</a></td>
-                            <td><span th:text="${car.value.goods.goodsShijia}">0</span></td>
-                            <td><span th:text="${car.value.goods.goodsPrice}" class="price">0</span></td>
+                            <td><label style="color:red;">￥</label><span th:text="${car.value.goods.goodsShijia}"
+                                                                         style="color:red;">0</span></td>
+                            <td><label style="color:red;">￥</label><span th:text="${car.value.goods.goodsPrice}"
+                                                                         class="price">0</span></td>
                             <td>
                                 <button class="btn btn-danger btn-sm min"><span
                                         class="glyphicon glyphicon-minus"></span>
                                 </button>
                                 <input class="text_box" type="text" style="width:50px;"
                                        value="" th:value="${car.value.mount}">
-                                <button class="btn btn-danger btn-sm add"><span class="glyphicon glyphicon-plus"></span>
+                                <button class="btn btn-danger btn-sm add"><span
+                                        class="glyphicon glyphicon-plus"></span>
                                 </button>
                             </td>
-                            <td><span th:text="${car.value.goods.goodsPrice * car.value.mount}"
-                                      class="perAllPrice"></span>
+                            <td><label style="color:red;">￥</label><span
+                                    th:text="${car.value.goods.goodsPrice * car.value.mount}"
+                                    class="perAllPrice" style="color:red;"></span>
+                            </td>
+                            <td>
+                                <a class="btn btn-warning"
+                                   th:href="@{/car/delCar(goodsId=${car.value.goods.goodsId})}">移除购物车
+                                </a>
                             </td>
                         </tr>
                         </tbody>
                     </table>
-                    <div class="panel-footer col-md-12">
+                    <div th:if="${#lists.isEmpty(session.buyCars)||#lists.size(session.buyCars)<=0||session.carNumber==null||session.carNumber==0}"
+                         style="color:red;">
+                        购物车是空的,先去逛逛吧!
+                    </div>
+                    <div class="panel-footer col-md-12" th:if="${session.carNumber!=null and session.carNumber!=0}">
                         <div class="col-md-offset-6 col-md-6"> <span>总价:<label style="color:red;">￥</label><label
                                 id="totalPrice"
-                                style="color:red;">0</label>&nbsp;&nbsp;&nbsp;</span><a
-                                class="btn btn-warning" href="">&nbsp;&nbsp;去结算>>>>&nbsp;&nbsp;</a></div>
+                                style="color:red;">0</label>&nbsp;&nbsp;&nbsp;</span>
+                            <button
+                                    class="btn btn-warning" onclick="jiesuan();">&nbsp;&nbsp;去结算>>>>&nbsp;&nbsp;
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -92,28 +108,50 @@
 
 <!--footer-->
 <div th:include="common/footer :: footer"></div>
+<!--弹窗-->
+<div class="modal fade" id="addOrder" role="dialog" tabindex="-1" aria-labelledby="addOrderLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" aria-hidden="true">&times;
+                </button>
+                <h4 class="modal-title" id="addOrderLabel">填写收货信息</h4>
+            </div>
+            <div class="modal-body">
+                <form id="addOrderForm" method="POST" th:action="@{/order/addOrder}">
+                    <input type="hidden" name="goodsIds" id="orderGoods">
+                    <div class="form-group">
+                        <label for="orderUserName" class="control-label">收货人姓名</label>
+                        <input type="text" class="form-control"
+                               name="orderUserName"
+                               id="orderUserName"
+                               placeholder="请输入收货人姓名">
+                    </div>
+                    <div class="form-group">
+                        <label for="orderUserPhone" class="control-label">收货人联系方式</label>
+                        <input type="text" class="form-control" name="orderUserPhone" id="orderUserPhone"
+                               placeholder="请输入收货人联系方式">
+                    </div>
+                    <div class="form-group">
+                        <label for="orderAddress" class="control-label">收货人地址</label>
+                        <input type="text" class="form-control" name="orderAddress" id="orderAddress"
+                               placeholder="请输入收货人地址">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-warning" onclick="addOrder();">生成订单</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
 <!--分类结束-->
 <script th:inline="javascript">
     /*<![CDATA[*/
-    function addCar(id) {
-        $.ajax({
-            cache: false,
-            type: "POST",
-            data: {id: id},
-            url: /*[[@{/car/addCar}]]*/'#',
-            async: false,
-            success: function (data) {
-                $("#car_number").html([[${session.carNumber}]] + 1);
-                alert(data);
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                alert("操作出现异常");
-            }
-        });
-    };
-
-
     //全选框选中时，子复选框都选上
     $(".checkall").click(function () {
         if ($(".checkall").is(":checked")) {
@@ -145,9 +183,64 @@
         $('#totalPrice').html(total);
     }
 
+    //商品结算
+    function jiesuan() {
+        if ($(".checkChild:checked").length < 1) {
+            alert("你还未选择数据!");
+            return;
+        } else {
+            var ids = new Array();
+            var checkTrue = $(".checkChild");
+            for (var i = 0; i < checkTrue.length; i++) {
+                var checkElement = checkTrue.eq(i);
+                if (checkElement.is(":checked")) {
+                    ids.push(checkElement.val());
+                }
+                $("#orderGoods").val(ids.join(","));
+                $('#addOrder').modal();
+            }
+
+            // var context = [[${#httpServletRequest.getContextPath()}]];
+            // var url = context + "/order/toJiesuan?goodsIds=" + ids.join(",");
+            // window.location = url;
+            // $.ajax({
+            //     cache: false,
+            //     type: "POST",
+            //     data: {goodsIds: ids.join(",")},
+            //     url: /*[[@{/car/jiesuan}]]*/'#',
+            //     async: false,
+            //     success: function (data) {
+            //         if (data == "请先登陆再操作!") {
+            //             window.location = /*[[@{/toLogin}]]*/'#'
+            //         } else {
+            //             window.location = /*[[@{/car/toJiesuan}]]*/'#'
+            //         }
+            //     }
+            // });
+        }
+    };
+
+    //生成订单
+    function addOrder() {
+        var orderUserName = $("#orderUserName").val();
+        var orderUserPhone = $("#orderUserPhone").val();
+        var orderAddress = $("#orderAddress").val();
+        if (orderUserName == "" || orderUserName == undefined || orderUserName == null) {
+            alert('收货人姓名不能为空');
+            return;
+        }
+        if (orderUserPhone == "" || orderUserPhone == undefined || orderUserName == null) {
+            alert('收货人联系方式不能为空');
+            return;
+        }
+        if (orderAddress == "" || orderAddress == undefined || orderAddress == null) {
+            alert('收货人地址不能为空');
+            return;
+        }
+        $("#addOrderForm").submit();
+    }
 
     $(function () {
-
         //购物车添加
         $(".add").click(function () {
             var t = $(this).parent().find('input[class*=text_box]');
@@ -206,6 +299,7 @@
             setPrice();
         });
     });
+
     /*]]>*/
 </script>
 </html>

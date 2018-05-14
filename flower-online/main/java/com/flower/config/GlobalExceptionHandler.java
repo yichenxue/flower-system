@@ -18,6 +18,7 @@ public class GlobalExceptionHandler {
         mv.addObject("e", e.getMessage());
         mv.addObject("uri", req.getRequestURI());
         mv.setViewName("error");
+        e.printStackTrace();
         return mv;
     }
 }

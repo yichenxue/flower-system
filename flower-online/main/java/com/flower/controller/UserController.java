@@ -74,7 +74,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("/login")
+    @RequestMapping("/login")
     @ResponseBody
     public String login(User user, String randomCode, String rememberMe, HttpServletRequest request, HttpServletResponse response) {
         try {
