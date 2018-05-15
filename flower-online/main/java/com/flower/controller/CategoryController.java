@@ -8,12 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sun.security.pkcs11.Secmod;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by yumaoying on 2018/5/12.
@@ -33,38 +30,36 @@ public class CategoryController {
         return strJson;
     }
 
-
-    public String getCategoryByparentId(Integer parentId) {
-        String sonNodes = "";
+    //根据父id获取分类
+    private String getCategoryByparentId(Integer parentId) {
+        StringBuilder sonNodes = new StringBuilder();
         List<Category> list = categoryService.findByParentId(parentId);
         for (Category category : list) {
-            sonNodes += "{text:'" + category.getCategoryName() + "',id:'" + category.getCategoryId() + "'";
+            sonNodes.append("{text:'").append(category.getCategoryName()).append("',id:'").append(category.getCategoryId()).append("'");
             if (!getCategoryByparentId(category.getCategoryId()).isEmpty()) {
-                sonNodes += ",nodes:[" + getCategoryByparentId(category.getCategoryId()) + "]";
+                sonNodes.append(",nodes:[").append(getCategoryByparentId(category.getCategoryId())).append("]");
             }
-            sonNodes += "},";
+            sonNodes.append("},");
         }
-        return sonNodes;
+        return sonNodes.toString();
     }
 
     @RequestMapping("categorysWithLevel")
     @ResponseBody
     public List<Category> findAllCategory() {
-        Map map = new HashMap<>();
         List<Category> list = categoryService.findAll();
-        List<Category> clevel = new ArrayList<Category>();
+        List<Category> clevel = new ArrayList<>();
         int lev = 0;
         getCategoryWithLevel(list, clevel, 0, lev);
         return clevel;
     }
 
 
-    public void getCategoryWithLevel(List<Category> clist, List<Category> clevel, int id, int lev) {
+    private void getCategoryWithLevel(List<Category> clist, List<Category> clevel, int id, int lev) {
         for (Category category : clist) {
             if (category.getParentId() == id) {
-                Category c = category;
-                c.setLevel(lev);
-                clevel.add(c);
+                category.setLevel(lev);
+                clevel.add(category);
                 getCategoryWithLevel(clist, clevel, category.getCategoryId(), lev + 1);
             }
         }

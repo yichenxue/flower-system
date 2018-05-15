@@ -63,4 +63,9 @@ public class NoticeServiceImpl implements NoticeService {
     public List<Notice> findFirst10ByOrderByNoticeDateAsc() {
         return noticeDao.findFirst10ByOrderByNoticeDateAsc();
     }
+
+    //查找所有公告
+    public List<Notice> findAllOrderByNoticeDateAsc() {
+        return noticeDao.findAllByOrderByNoticeDateAsc();
+    }
 }

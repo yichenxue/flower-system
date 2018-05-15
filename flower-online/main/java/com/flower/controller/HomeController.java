@@ -1,28 +1,20 @@
 package com.flower.controller;
 
 import com.flower.entity.Goods;
-import com.flower.entity.User;
 import com.flower.service.GoodsService;
-import com.flower.service.UserService;
 import com.flower.util.VertityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.imageio.ImageIO;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -30,9 +22,6 @@ import java.util.List;
  */
 @Controller
 public class HomeController {
-    @Autowired
-    private UserService userService;
-
     @Autowired
     private GoodsService goodsService;
 
@@ -56,9 +45,9 @@ public class HomeController {
         Object[] objs = VertityUtil.createImage();
         //将验证码存入Session
         session.setAttribute("validateCode", objs[0]);
+        response.setContentType("image/png");
         //将图片输出给浏览器
         BufferedImage image = (BufferedImage) objs[1];
-        response.setContentType("image/png");
         OutputStream os = response.getOutputStream();
         ImageIO.write(image, "png", os);
     }

@@ -43,11 +43,10 @@ public class PurchaseController {
     public Map<String, Object> get(Purchase purchase, String draw,
                                    @RequestParam(required = false, defaultValue = "0") int start,
                                    @RequestParam(required = false, defaultValue = "10") int length) {
-        Map<String, Object> map = new HashMap<>();
         Sort sort = new Sort(Sort.Direction.ASC, "id"); //按采购时间降序排
+        Map<String, Object> map = new HashMap<>();
         Pageable pageable = new PageRequest(start / length, length, sort);
         Page page = purchaseService.findAll(purchase, pageable);
-        System.out.println("查询到的信息+" + page.getTotalElements() + "," + page.getTotalElements());
         map.put("draw", draw);
         map.put("recordsTotal", page.getTotalElements());
         map.put("recordsFiltered", page.getTotalElements());
@@ -88,7 +87,6 @@ public class PurchaseController {
     @ResponseBody
     public String edit(Purchase purchase, Goods goods, Supplier supplier, Integer oriPurchaseNumber) {
         try {
-            System.out.println("purchase:" + purchase + ",goods:" + goods + ",supplier" + supplier);
             purchase.setGoods(goods);
             purchase.setSupplier(supplier);
             purchaseService.edit(purchase, oriPurchaseNumber);
@@ -97,7 +95,6 @@ public class PurchaseController {
             e.printStackTrace();
             return "修改失败!";
         }
-
     }
 
     @RequestMapping("/delete")

@@ -21,4 +21,7 @@ public interface NoticeService {
 
     //查找前10条记录，在首页显示
     public List<Notice> findFirst10ByOrderByNoticeDateAsc();
+
+    //查找所有的降序排列
+    public List<Notice> findAllOrderByNoticeDateAsc();
 }

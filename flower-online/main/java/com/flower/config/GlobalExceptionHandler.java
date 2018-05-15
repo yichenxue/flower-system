@@ -13,10 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = Exception.class)
-    public ModelAndView defaultErrorHandler(HttpServletRequest req, Exception e) {
+    public ModelAndView defaultErrorHandler(Exception e) {
         ModelAndView mv = new ModelAndView();
-        mv.addObject("e", e.getMessage());
-        mv.addObject("uri", req.getRequestURI());
         mv.setViewName("error");
         e.printStackTrace();
         return mv;

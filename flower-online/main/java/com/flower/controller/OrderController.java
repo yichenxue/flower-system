@@ -31,7 +31,6 @@ public class OrderController {
     public String addOrder(@RequestParam("goodsIds") String goodsIds, OrderDetail order,
                            Model model,
                            HttpServletRequest request) {
-        System.out.println("order===" + order);
         //若未选中商品,转到购物车页面
         if (goodsIds == null || goodsIds.isEmpty()) {
             return "cars";
@@ -42,7 +41,8 @@ public class OrderController {
             //转发到登陆页面
             return "redirect:/toLogin";
         } else {
-            Map<Integer, Car> userCars = (Map<Integer, Car>) request.getSession().getAttribute("buyCars");
+            Map<Integer, Car> userCars;
+            userCars = (Map<Integer, Car>) request.getSession().getAttribute("buyCars");
             String[] gs = goodsIds.split(",");
             //保存
             List<OrderDetail> orderDetails = new ArrayList<>();
@@ -52,8 +52,8 @@ public class OrderController {
             Integer orderNumber = 0;
             //初始化订单总额
             BigDecimal orderAmount = new BigDecimal(0.00);
-            for (int i = 0; i < gs.length; i++) {
-                Integer goodsId = new Integer(gs[i]);
+            for (String g : gs) {
+                Integer goodsId = new Integer(g);
                 Goods goods = userCars.get(goodsId).getGoods();
                 orderNumber += userCars.get(goodsId).getMount();
                 //计算单笔金额，采用精度高的BigDecimal进行转换

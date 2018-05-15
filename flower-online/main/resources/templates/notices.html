@@ -29,21 +29,27 @@
                     公告
                 </h3>
             </div>
-            <div class="panel-body">
+            <div class="panel-body" th:if="${notice!=null}">
                 <div class="page-header text-center">
-                    <h1>春之语花艺活动火热进行中
-                        <small>2018-5-12</small>
+                    <h1 th:text="${notice?.noticeTitle}">春之语花艺活动火热进行中
+                        <small th:text="${notice?.noticeDate}">2018-5-12</small>
+                        <small th:text="${notice?.noticeUserName}">2018-5-12</small>
                     </h1>
                 </div>
-                <div>
-                    <p>这是一个示例文本。这是一个示例文本。这是一个示例文本。这是一个示例文本。这是一个示例文本。</p>
-                    <p>这是一个示例文本。这是一个示例文本。这是一个示例文本。这是一个示例文本。这是一个示例文本。</p>
-                    <p>这是一个示例文本。这是一个示例文本。这是一个示例文本。这是一个示例文本。这是一个示例文本。</p>
-                    <p>这是一个示例文本。这是一个示例文本。这是一个示例文本。这是一个示例文本。这是一个示例文本。</p>
-                    <p>这是一个示例文本。这是一个示例文本。这是一个示例文本。这是一个示例文本。这是一个示例文本。</p>
-                    <img src="" th:src="@{/img/pic02.jpg}">
+                <div class="panel-body">
+                    <p th:text="${notice?.noticeContent}">这是一个示例文本。这是一个示例文本。这是一个示例文本。这是一个示例文本。这是一个示例文本。</p>
                 </div>
-
+            </div>
+            <div class="panel-body">
+                <!--所有公告-->
+                <ul class="list-group " th:each="notice:${notices}">
+                    <li class="list-group-item col-md-12"><a href="#"
+                                                             th:href="@{/notice/getNotice(id=${notice.noticeId})}">
+                        <span class="col-md-4" th:text="${notice?.noticeTitle}">春之语花艺活动火热进行中</span>
+                        <span class="col-md-4" th:text="${notice?.noticeUserName}">春之语花艺活动火热进行中</span>
+                        <span class="col-md-4" th:text="${notice?.noticeDate}">2018-5-12</span></a>
+                    </li>
+                </ul>
             </div>
         </div>
         <!--右侧结束-->

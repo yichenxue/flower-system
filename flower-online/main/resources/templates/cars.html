@@ -199,24 +199,6 @@
                 $("#orderGoods").val(ids.join(","));
                 $('#addOrder').modal();
             }
-
-            // var context = [[${#httpServletRequest.getContextPath()}]];
-            // var url = context + "/order/toJiesuan?goodsIds=" + ids.join(",");
-            // window.location = url;
-            // $.ajax({
-            //     cache: false,
-            //     type: "POST",
-            //     data: {goodsIds: ids.join(",")},
-            //     url: /*[[@{/car/jiesuan}]]*/'#',
-            //     async: false,
-            //     success: function (data) {
-            //         if (data == "请先登陆再操作!") {
-            //             window.location = /*[[@{/toLogin}]]*/'#'
-            //         } else {
-            //             window.location = /*[[@{/car/toJiesuan}]]*/'#'
-            //         }
-            //     }
-            // });
         }
     };
 

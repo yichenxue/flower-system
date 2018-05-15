@@ -23,19 +23,11 @@
             <div th:include="common/left :: left_menu"></div>
         </div>
         <div class="col-md-9 panel panel-danger">
-            <div class="col-md-12 btn-group btn-group-md panel-heading" data-toggle="buttons">
-                <label class="btn btn-danger">
-                    <input type="radio" name="options" id="option1"> 综合
-                </label>
-                <label class="btn btn-default">
-                    <input type="radio" name="options" id="option2"> 人气
-                </label>
-                <label class="btn btn-default ">
-                    <input type="radio" name="options" id="option3"> 价格
-                </label>
-                <label class="btn btn-default">
-                    <input type="radio" name="options" id="option4"> 最新
-                </label>
+            <div class="col-md-12 btn-group btn-group-md panel-heading">
+                <a th:href="@{/index}" class="btn btn-danger">综合</a>
+                <a th:href="@{/index}" class="btn btn-default">人气</a>
+                <a th:href="@{/goods/find(sortName='goodsPrice',sortWay='1')}" class="btn btn-default">价格</a>
+                <a th:href="@{/goods/find(sortName='goodsId',sortWay='1')}" class="btn btn-default">最新</a>
             </div>
             <!--推荐end-->
             <div class="col-md-12 pro_show">
@@ -72,17 +64,17 @@
                 </ul>
             </div>
 
-            <div class="col-md-12 text-center">
-                <ul class="pagination ">
-                    <li><a href="#">&laquo;</a></li>
-                    <li><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
-                    <li><a href="#">&raquo;</a></li>
-                </ul>
-            </div>
+            <!--<div class="col-md-12 text-center">-->
+            <!--<ul class="pagination ">-->
+            <!--<li><a href="#">&laquo;</a></li>-->
+            <!--<li><a href="#">1</a></li>-->
+            <!--<li><a href="#">2</a></li>-->
+            <!--<li><a href="#">3</a></li>-->
+            <!--<li><a href="#">4</a></li>-->
+            <!--<li><a href="#">5</a></li>-->
+            <!--<li><a href="#">&raquo;</a></li>-->
+            <!--</ul>-->
+            <!--</div>-->
         </div>
     </div>
 </div>

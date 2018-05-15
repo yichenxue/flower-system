@@ -7,7 +7,6 @@ import com.flower.service.CarService;
 import com.flower.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -37,12 +36,19 @@ public class CarController {
                          HttpServletRequest request) {
         try {
             //用户购物车，商品id，购物车
-            Map<Integer, Car> userCars = (Map<Integer, Car>) request.getSession().getAttribute("buyCars");
+            User loginUser = (User) request.getSession().getAttribute("loginUser");
+            Map<Integer, Car> userCars;
+            userCars = (Map<Integer, Car>) request.getSession().getAttribute("buyCars");
             if (userCars == null) {
                 Car car = new Car();
                 Goods goods = goodsService.findByGoodsId(goodsId);
                 car.setGoods(goods);
                 car.setMount(mount);
+                //已登陆，则直接保存到数据库
+                if (loginUser != null) {
+                    car.setUser(loginUser);
+                    carService.save(car);
+                }
                 userCars = new HashMap<>();
                 userCars.put(goodsId, car);
                 request.getSession().setAttribute("buyCars", userCars);
@@ -51,6 +57,11 @@ public class CarController {
                 if (userCars.get(goodsId) != null) {
                     Integer account = userCars.get(goodsId).getMount() + mount;
                     userCars.get(goodsId).setMount(account);
+                    //已登陆，则直接保存到数据库
+                    if (loginUser != null) {
+                        userCars.get(goodsId).setUser(loginUser);
+                        carService.save(userCars.get(goodsId));
+                    }
                     request.getSession().setAttribute("buyCars", userCars);
                 } else {
                     //如果购物车没有该商品,将商品放入购物车
@@ -59,6 +70,11 @@ public class CarController {
                     car.setGoods(goods);
                     car.setMount(mount);
                     userCars.put(goodsId, car);
+                    //已登陆，则直接保存到数据库
+                    if (loginUser != null) {
+                        userCars.get(goodsId).setUser(loginUser);
+                        carService.save(userCars.get(goodsId));
+                    }
                     request.getSession().setAttribute("buyCars", userCars);
                 }
             }
@@ -76,9 +92,9 @@ public class CarController {
     }
 
 
-    //获取购物车shang'pi商品
+    //获取购物车商品
     @RequestMapping({"/allCars"})
-    public String getCars(HttpServletRequest request) {
+    public String getCars() {
         return "cars";
     }
 
@@ -86,8 +102,15 @@ public class CarController {
     @RequestMapping({"/changeCar"})
     @ResponseBody
     public Integer changeCar(Integer goodsId, Integer mount, HttpServletRequest request) {
-        Map<Integer, Car> userCars = (Map<Integer, Car>) request.getSession().getAttribute("buyCars");
+        //用户购物车，商品id，购物车
+        User loginUser = (User) request.getSession().getAttribute("loginUser");
+        Map<Integer, Car> userCars;
+        userCars = (Map<Integer, Car>) request.getSession().getAttribute("buyCars");
         userCars.get(goodsId).setMount(mount);
+        //已登陆，则直接保存到数据库
+        if (loginUser != null) {
+            carService.save(userCars.get(goodsId));
+        }
         Integer carNumber = 0;
         //重现设置总量
         for (Car car : userCars.values()) {
@@ -98,24 +121,24 @@ public class CarController {
         return carNumber;
     }
 
-    //删除购物车中的数据
+    //删除购物车中
     @RequestMapping({"/delCar"})
     public String delCar(Integer goodsId, HttpServletRequest request) {
-        Map<Integer, Car> userCars = (Map<Integer, Car>) request.getSession().getAttribute("buyCars");
+        Map<Integer, Car> userCars;
+        userCars = (Map<Integer, Car>) request.getSession().getAttribute("buyCars");
         Integer carNumber = (Integer) request.getSession().getAttribute("carNumber");
         Integer num = userCars.get(goodsId).getMount();
         carNumber = carNumber - num;
+        //已登陆，则直接保存到数据库
+        //用户购物车，商品id，购物车
+        User loginUser = (User) request.getSession().getAttribute("loginUser");
+        if (loginUser != null) {
+            carService.delete(userCars.get(goodsId).getCarId());
+        }
         userCars.remove(goodsId);
         request.getSession().setAttribute("buyCars", userCars);
         //减去移除商品的数量
         request.getSession().setAttribute("carNumber", carNumber);
         return "cars";
-    }
-
-
-    @RequestMapping({"/toJiesuan"})
-    public String toJiesuan() {
-
-        return "jiesuan";
     }
 }

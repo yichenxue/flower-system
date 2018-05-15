@@ -21,16 +21,16 @@ public class FileUploadUtil {
         String msg = "";
         try {
             if (file != null && !file.isEmpty()) {
-                String type = null;
                 String fileName = file.getOriginalFilename();
+                String type = null;
                 type = fileName.indexOf(".") != -1 ? fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length()) : null;
                 if (type != null) {
                     if ("gif".equalsIgnoreCase(type) || "png".equalsIgnoreCase(type) || "jpg".equalsIgnoreCase(type)) {
                         String name = "f_" + String.valueOf(System.currentTimeMillis()) + "." + type;
                         Path filePath = Paths.get(path + name);
                         if (!filePath.toFile().getParentFile().exists()) filePath.toFile().getParentFile().mkdirs();
-                        file.transferTo(filePath.toFile());
                         msg = name;
+                        file.transferTo(filePath.toFile());
                     }
                 } else {
                     msg = "图片格式错误";
@@ -39,8 +39,7 @@ public class FileUploadUtil {
             return msg;
         } catch (Exception e) {
             e.printStackTrace();
-            msg = "图片上传错误";
-            return msg;
+            return "图片上传错误";
         }
     }
 }

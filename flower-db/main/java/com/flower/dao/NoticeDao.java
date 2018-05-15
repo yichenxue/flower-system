@@ -25,4 +25,7 @@ public interface NoticeDao extends JpaRepository<Notice, Integer>, JpaSpecificat
 
     //取前10条记录
     public List<Notice> findFirst10ByOrderByNoticeDateAsc();
+
+    //取所有的公告记录
+    public List<Notice> findAllByOrderByNoticeDateAsc();
 }

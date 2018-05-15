@@ -1,6 +1,8 @@
 package com.flower.controller;
 
+import com.flower.entity.Car;
 import com.flower.entity.User;
+import com.flower.service.CarService;
 import com.flower.service.UserService;
 import com.flower.util.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +18,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.*;
 
 
 /**
@@ -30,6 +32,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private CarService carService;
 
     //进入注册页
     @RequestMapping("/toRegister")
@@ -76,7 +81,11 @@ public class UserController {
 
     @RequestMapping("/login")
     @ResponseBody
-    public String login(User user, String randomCode, String rememberMe, HttpServletRequest request, HttpServletResponse response) {
+    public String login(User user,
+                        String randomCode,
+                        String rememberMe,
+                        HttpServletRequest request,
+                        HttpServletResponse response) {
         try {
             String validateCode = (String) request.getSession().getAttribute("validateCode");
             if (!randomCode.equalsIgnoreCase(validateCode)) {
@@ -107,6 +116,56 @@ public class UserController {
                 //将cookie设置到response
                 response.addCookie(nameCookie);
                 response.addCookie(passwordCookie);
+                //用户登陆时,将session中的购物车信息保存到数据库中
+                List<Car> loginUserCars = loginUser.getCars();
+                Map<Integer, Car> userCars;
+                userCars = (Map<Integer, Car>) request.getSession().getAttribute("buyCars");
+                Map<Integer, Car> newCar = new HashMap<>();
+                if (userCars != null && userCars.size() > 0) {
+                    newCar = userCars;
+                    if (loginUserCars != null && loginUserCars.size() > 0) {
+                        for (Car car : loginUserCars) {
+                            boolean flag = false;
+                            for (Car sessionCar : userCars.values()) {
+                                //设置用户
+                                newCar.get(sessionCar.getGoods().getGoodsId()).setUser(loginUser);
+                                //session中的商品在数据库中有记录,改变数量
+                                if (sessionCar.getGoods().getGoodsId().equals(car.getGoods().getGoodsId())) {
+                                    //设置数量
+                                    newCar.get(sessionCar.getGoods().getGoodsId()).setMount(sessionCar.getMount() + car.getMount());
+                                    //设置购物车编号
+                                    newCar.get(sessionCar.getGoods().getGoodsId()).setCarId(car.getCarId());
+                                    flag = true;
+                                }
+                            }
+                            //数据库中有该商品未在session中,保存进去
+                            if (!flag) {
+                                newCar.put(car.getGoods().getGoodsId(), car);
+                            }
+                        }
+                    } else {
+                        //数据库中没有,session中有
+                        for (Car sessionCar : userCars.values()) {
+                            newCar.get(sessionCar.getGoods().getGoodsId()).setUser(loginUser);
+                        }
+                    }
+                } else {
+                    //session中没有记录,数据库中有记录
+                    if (loginUserCars != null && loginUserCars.size() > 0) {
+                        for (Car car : loginUserCars) {
+                            newCar.put(car.getGoods().getGoodsId(), car);
+                        }
+                    }
+                }
+                //保存到数据库
+                //购物车总量
+                Integer carNumber = 0;
+                carService.save(newCar);
+                for (Car car : newCar.values()) {
+                    carNumber = carNumber + car.getMount();
+                }
+                request.getSession().setAttribute("buyCars", newCar);
+                request.getSession().setAttribute("carNumber", carNumber);
                 return "登陆成功!";
             } else {
                 return "密码错误!";

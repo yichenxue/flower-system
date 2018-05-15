@@ -30,29 +30,7 @@
         </div>
         <div class="panel-body">
             <div id="tree"></div>
-            <ul class="list-group " id="category_list">
-                <li class="list-group-item">
-                    通途
-                    <ul class="list-group ">
-                        <li class="list-group-item"><a type="button" class="btn btn-success btn-sm p_category">主要标签</a>
-                        </li>
-
-
-                    </ul>
-                    <div class="btn btn-warning p_category_name"><span>通途</span></div>
-                    <a type="button" class="btn btn-success btn-sm p_category">主要标签</a>
-                    <a type="button" class="btn btn-success btn-sm p_category">主要标签2</a>
-                    <a type="button" class="btn btn-success btn-sm p_category">主要标签3</a>
-                    <a type="button" class="btn btn-success btn-sm p_category">主要标签4</a>
-                    <a type="button" class="btn btn-success btn-sm p_category">主要标签5</a>
-                    <a type="button" class="btn btn-success btn-sm p_category">主要标签6</a>
-                    <a type="button" class="btn btn-success btn-sm p_category">主要标签7</a>
-                    <a type="button" class="btn btn-success btn-sm p_category">主要标签8</a>
-                    <a type="button" class="btn btn-success btn-sm p_category">主要标签9</a>
-                    <a type="button" class="btn btn-success btn-sm p_category">主要标签10</a>
-                    <a type="button" class="btn btn-success btn-sm p_category">主要标签12</a>
-                    <a type="button" class="btn btn-success btn-sm p_category">主要标签101</a>
-                </li>
+            <ul class="list-group category_show" id="category_list">
                 <li class="list-group-item"><span>其他</span></li>
             </ul>
         </div>
@@ -82,7 +60,7 @@
                         url = context + "/notice/getNotice?id=" + data[i].noticeId;
                         li += "<li class='list-group-item'><a href='" + url + "'>" + data[i].noticeTitle + "&nbsp;&nbsp;<span class='notice_time'>" + data[i].noticeDate + "</span></a></li>"
                     }
-                    li += "<li class='list-group-item'><a href='" + url + "'>更多>>><span></span></a></li>"
+                    li += "<li class='list-group-item'><a href='" + context + "/notice/findAll" + "'>更多>>><span></span></a></li>"
                     $("#notice_left").append(li);
                 },
             });
@@ -96,11 +74,6 @@
                 dataType: "text",
                 success: function (data) {
                     alert(data);
-                    // var dt = [{
-                    //     text: '分类',
-                    //     nodes: eval('[' + data + ']')
-                    // }]
-
                     $('#tree').treeview({
                         data: eval('[' + data + ']'),
                         expand: true,
@@ -127,11 +100,11 @@
                 async: false,
                 dataType: "json",
                 success: function (data) {
-                    $("#category_list").empty();
+                    $(".category_show").empty();
                     if (data == null || data.length < 0) {
                         alert("暂无分类信息");
                         var li = "<li class='list-group-item'>暂无分类信息</li>"
-                        $("#category_list").append(li);
+                        $(".category_show").append(li);
                         return;
                     }
                     var context = [[${#httpServletRequest.getContextPath()}]];
@@ -148,7 +121,7 @@
                         }
                     }
                     html += "</li>";
-                    $("#category_list").append(html);
+                    $(".category_show").append(html);
                 },
             });
         }
@@ -156,7 +129,6 @@
 
         $(document).ready(function () {
             showNotice();
-            // getTreeJSON();
             showCategory();
         });
 

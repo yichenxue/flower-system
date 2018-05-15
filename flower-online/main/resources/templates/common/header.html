@@ -39,9 +39,9 @@
                             </li>
                         </ul>
                     </li>
-                    <li><a href="" th:href="@{/car/allCars}"><span><img src="../static/img/car.png"
-                                                                        th:src="@{/img/car.png}"
-                                                                        style="width: 27px; height: 19px;"></span>&nbsp;购物车
+                    <li><a href="" th:href="@{/car/allCars}"><span>
+                        <img src="../static/img/car.png" th:src="@{/img/car.png}"
+                             style="width: 27px; height: 19px;"></span>&nbsp;购物车
                         <span
                                 class="badge" th:text="${session.carNumber}" id="car_number"
                                 style="background-color: #d9534f;">21</span></a>
@@ -56,33 +56,20 @@
                 </ul>
 
                 <!--向右对齐-->
-                <ul class="nav  nav-tabs navbar-left top-menu">
+                <ul class="nav  nav-tabs navbar-left top-menu" id="header_nav">
                     <li class="active"><a href="#" th:href="@{/index}">首页</a></li>
-                    <li><a href="">鲜花订购</a></li>
-                    <li><a href="" th:href="@{/notices}">最新资讯</a></li>
+                    <li><a href="" th:href="@{/notice/findAll}">最新资讯</a></li>
                     <li>
                         <a href="" class="dropdown-toggle" data-toggle="dropdown">鲜花类别<b class="caret"></b></a>
                         <ul class="dropdown-menu list-group">
-                            <li class="list-group-item category_list">
-                                通途
-                                <label class="btn btn-default btn-sm "><a href="">主要标签</a></label>
-                                <label class="btn btn-default btn-sm "><a href="">主要标签</a></label>
-                                <label class="btn btn-default btn-sm "><a href="">主要标签</a></label>
-                                <label class="btn btn-default btn-sm "><a href="">主要标签</a></label>
-                            </li>
-                            <li class="list-group-item category_list">
-                                通途
-                                <label class="btn btn-default btn-sm "><a href="">主要标签</a></label>
-                                <label class="btn btn-default btn-sm "><a href="">主要标签</a></label>
+                            <li class="list-group-item category_list category_show">
+                                用途
                                 <label class="btn btn-default btn-sm "><a href="">主要标签</a></label>
                                 <label class="btn btn-default btn-sm "><a href="">主要标签</a></label>
                             </li>
-
                         </ul>
-
                     </li>
-                    <li><a href="">首页</a></li>
-                    <li><a href="">首页</a></li>
+                    <li><a href="#">关于我们</a></li>
                     <li>
                         <form class="navbar-form navbar-left" role="search" th:action="@{/goods/find}"
                               th:method="post">
@@ -95,6 +82,4 @@
             </div>
         </div>
     </nav>
-
-
 </div>
