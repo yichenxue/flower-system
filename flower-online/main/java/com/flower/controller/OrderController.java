@@ -114,12 +114,12 @@ public class OrderController {
             //转发到登陆页面
             return "redirect:/toLogin";
         }
-        List<OrderDetail> orderDetails = orderDetailService.findAll();
+        List<OrderDetail> orderDetails = orderDetailService.findAllOrderByOrderDateDesc();
         model.addAttribute("orderDetails", orderDetails);
         return "order";
     }
 
-    //删除订单
+    //未付款前可取消订单,子订单删除
     @RequestMapping({"/delete"})
     public String delete(Integer id, Model model) {
         orderDetailService.delete(id);
@@ -127,7 +127,7 @@ public class OrderController {
         return "redirect:findAll";
     }
 
-    //根据订单编号查找订单
+    //根据订单编号查找订单，子订单
     @RequestMapping({"/find"})
     public String find(String orderNo, Model model) {
         List<OrderDetail> orderDetails = new ArrayList<>();
@@ -139,11 +139,51 @@ public class OrderController {
         return "order";
     }
 
-    //订单详情
+    //子订单详情
     @RequestMapping({"/findById"})
     public String findById(Integer id, Model model) {
         OrderDetail orderDetail = orderDetailService.findById(id);
         model.addAttribute("order", orderDetail);
         return "orderDetail";
+    }
+
+    //子订单项支付页面
+    @RequestMapping({"/toOrderDetailPay"})
+    public String toorderDetailPay(Integer id, Model model) {
+        OrderDetail orderDetail = orderDetailService.findById(id);
+        model.addAttribute("order", orderDetail);
+        return "orderDetailPay";
+    }
+
+    //子订单项单独付款
+    @RequestMapping({"/orderDetailPay"})
+    @ResponseBody
+    public String orderDetailPay(OrderDetail orderDetail, String orderPayWay) {
+        if (orderPayWay == null || orderPayWay.trim().isEmpty()) {
+            return "请选择付款方式!";
+        }
+        orderDetailService.orderDetailPay(orderDetail, orderPayWay);
+        return "支付成功!";
+    }
+
+    //未付款前可取消订单,总订单信息
+    @RequestMapping({"/deleteOrderItem"})
+    public String deleteOrderItem(Integer orderItemId) {
+        orderItemService.deleteOrderItem(orderItemId);
+        return "redirect:findAll";
+    }
+
+    //总订单支付页面
+    @RequestMapping({"/toPay"})
+    public String toPay(OrderItem orderItem, Model model) {
+        model.addAttribute("orderItem", orderItem);
+        return "pay";
+    }
+
+    //总订单支付
+    @RequestMapping({"/orderPay"})
+    public String orderPay(OrderItem orderItem, String orderPayWay) {
+        orderItemService.orderPay(orderItem, orderPayWay);
+        return "redirect:findAll";
     }
 }

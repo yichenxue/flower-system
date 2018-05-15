@@ -46,6 +46,7 @@
                         <thead>
                         <tr>
                             <th class="text-center">订单号</th>
+                            <th class="text-center">订单时间</th>
                             <th class="text-center">商品图片</th>
                             <th class="text-center">商品名称</th>
                             <th class="text-center">市场价</th>
@@ -59,6 +60,7 @@
                         <tbody>
                         <tr th:each="order:${orderDetails}" th:if="${order!=null}">
                             <td><span th:text="${order.orderNo}">订单编号</span></td>
+                            <td><span th:text="${order.orderDate}">订单时间</span></td>
                             <td><a href="#" th:href="@{/goods/findById(id=${order.goods.goodsId})}">
                                 <img style="width:100px;height:100px;"
                                      src="../static/product/pro1.jpg"
@@ -83,31 +85,40 @@
                                     class="perAllPrice" style="color:red;"></span>
                             </td>
                             <td>
-                                <span class="btn btn-danger" th:if="${order.orderStatus=='00'}"
+                                <span th:if="${order.orderStatus=='00'}"
                                       th:text="'未支付'">订单状态</span>
-                                <span class="btn btn-danger" th:if="${order.orderStatus=='02'}"
+                                <span th:if="${order.orderStatus=='02'}"
                                       th:text="'支付失败'">订单状态</span>
-                                <span class="btn btn-success" th:if="${order.orderStatus=='03'}"
+                                <span th:if="${order.orderStatus=='03'}"
                                       th:text="'支付成功'">订单状态</span>
-                                <span class="btn btn-info" th:if="${order.orderStatus=='04'}"
+                                <span th:if="${order.orderStatus=='04'}"
                                       th:text="'待发货'">订单状态</span>
-                                <span class="btn  btn-info" th:if="${order.orderStatus=='05'}"
+                                <span th:if="${order.orderStatus=='05'}"
                                       th:text="'已发货'">订单状态</span>
-                                <span class="btn  btn-info" th:if="${order.orderStatus=='07'}"
+                                <span th:if="${order.orderStatus=='07'}"
                                       th:text="'待收货'">订单状态</span>
-                                <span class="btn btn-success" th:if="${order.orderStatus=='08'}"
+                                <span th:if="${order.orderStatus=='08'}"
                                       th:text="'已收货'">订单状态</span>
-                                <span class="btn btn-success" th:if="${order.orderStatus=='09'}"
+                                <span th:if="${order.orderStatus=='09'}"
                                       th:text="'待评价'">订单状态</span>
                             </td>
                             <td>
                                 <a href="#" th:if="${order.orderStatus=='00'}"
                                    th:href="@{/order/delete(id=${order.id})}"
-                                   class="btn btn-warning" onclick="javascript:return confirm('确认删除吗');">删除订单</a>
+                                   class="btn btn-warning btn-sm" onclick="javascript:return confirm('确认取消吗');">取消订单&nbsp;</a>
                                 <a href="#" th:if="${order.orderStatus=='00'}"
-                                   class="btn btn-warning">去支付</a>
+                                   th:href="@{/order/toOrderDetailPay(id=${order.id})}"
+                                   class="btn btn-danger btn-sm">&nbsp;&nbsp;去支付&nbsp;&nbsp;</a>
+                                <a href="#" th:if="${order.orderStatus=='09'}"
+                                   class="btn btn-danger btn-sm">添加评价</a>
+                                <a href="#" th:if="${order.orderStatus=='10'}"
+                                   class="btn btn-danger btn-sm">追加评价</a>
+                                <a href="#" th:if="${order.orderStatus=='10'}"
+                                   class="btn btn-danger btn-sm">删除订单</a>
+                                <a href="#" th:href="@{/comments/toadd(goodsId=${order.goods.goodsId})}"
+                                   class="btn btn-success btn-sm">添加评价</a>
                                 <a href="#" th:href="" th:href="@{/order/findById(id=${order.id})}"
-                                   class="btn btn-warning">查看详情</a>
+                                   class="btn btn-default btn-sm">查看详情&nbsp;</a>
                             </td>
                         </tr>
                         </tbody>

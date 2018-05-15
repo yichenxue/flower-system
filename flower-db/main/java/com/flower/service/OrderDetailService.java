@@ -18,4 +18,11 @@ public interface OrderDetailService {
 
     public OrderDetail findByOrderNo(String orderNo);
 
+    public List<OrderDetail> findAllOrderByOrderDateDesc();
+
+    //更新父订单下的订单项的订单状态和付款方式
+    public void updateOrderStatus(String status, String orderPayWay, Integer orderParentId);
+
+    //子订单项付款
+    public void orderDetailPay(OrderDetail orderDetail, String orderPayWay);
 }

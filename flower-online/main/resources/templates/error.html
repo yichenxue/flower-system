@@ -17,47 +17,50 @@
     <![endif]-->
 </head>
 <body>
-
-<div class="header-div">
-    <div class="overlay">
+<div th:include="common/header :: header"></div>
+<!--banner广告位-->
+<div class="container-fluid banner">
+    <img src="../static/img/nybanner.jpg" th:src="@{/img/nybanner.jpg}">
+</div>
+<div style="height:400px;">
+    <div class="header-div">
+        <div class="overlay">
+            <div class="container">
+                <div class="row text-center">
+                    <div class="col-md-12 ">
+                        <h1>访问页面出错了!</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="section-text">
         <div class="container">
-            <div class="row text-center">
-                <div class="col-md-12 ">
-                    <h1></h1>
+            <div class="row">
+                <div class="col-md-offset-4 col-md-4  text-center">
+                    <h2>flower</h2>
+                    <hr/>
+                    <a href="#" th:href="@{/index}" class="btn btn-info">回到主页</a>
+                    <hr/>
+                    <a href="#" class="btn  btn-warning">管理员邮箱e-mail</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="header-div">
+        <div class="overlay">
+            <div class="container">
+                <div class="row text-center">
+                    <div class="col-md-12">
+                        <h1>对不起, <strong>向您致歉 </strong></h1>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<section class="section-text">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-offset-3 col-md-3  text-center">
-                <h2>flower</h2>
-                <hr/>
-                <a href="#" class="btn btn-info">回到主页</a>
-                <hr/>
-                <a href="#" class="btn  btn-warning">管理员邮箱e-mail</a>
-            </div>
-        </div>
-    </div>
-</section>
-<div class="header-div">
-    <div class="overlay">
-
-        <div class="container">
-            <div class="row text-center">
-
-                <div class="col-md-12">
-                    <!--<h1>对不起, <strong>向您致歉 </strong></h1>-->
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<footer>
-    &copy; 2018 flower.com <a href="#" target="_blank">by flower.com</a>
-</footer>
+<!--footer-->
+<div th:include="common/footer :: footer"></div>
 <script src="../static/js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
 <script src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
 </body>

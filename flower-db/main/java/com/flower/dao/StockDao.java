@@ -33,4 +33,5 @@ public interface StockDao extends JpaRepository<Stock, Integer>, JpaSpecificatio
     @Query(value = "update stock set stock_num=?2 where goods_id=?1", nativeQuery = true)
     @Modifying
     public void updateStockNum(Integer goodsId, Integer stockNum);
+
 }

@@ -196,3 +196,10 @@ body {
 .pro_info_produce {
     line-height: 45px;
 }
+
+.bank_img {
+    width: 184px;
+    height: 62px;
+    margin: 5px 5px;
+    padding: 5px 5px;
+}

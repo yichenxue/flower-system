@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>春之语欢迎你</title>
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" href="../static/css/flower.css" th:href="@{/css/flower.css}">
+    <link rel="stylesheet" href="../static/css/bootstrap-treeview.css" th:href="@{/css/bootstrap-treeview.css}">
+    <script src="../static/js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
+    <script src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+    <script src="../static/js/bootstrap-treeview.js" th:src="@{/js/bootstrap-treeview.js}"></script>
+</head>
+<body>
+<div th:include="common/header :: header"></div>
+<!--banner广告位-->
+<div class="container-fluid banner">
+    <img src="../static/img/nybanner.jpg" th:src="@{/img/nybanner.jpg}">
+</div>
+<div class="container-fluid content">
+    <div class="row">
+        <div class="col-md-3 ">
+            <!--左侧导航页面-->
+            <div th:include="common/left :: left_menu"></div>
+        </div>
+        <!--右侧主体--->
+        <div class="col-md-9  panel panel-danger">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    付款
+                </h3>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">订单编号</label>
+                    <label class="col-sm-10" th:text="${order.orderNo}"></label>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">订单日期</label>
+                    <label class="col-sm-10" th:text="${order.orderDate}"></label>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">订单总额</label>
+                    <label class="col-sm-10" th:text="${order.orderAmount}"></label>
+                </div>
+            </div>
+            <form name="pay" id="orderPay" class="form" method="post" th:action="@{/order/orderDetailPay}">
+                <div>
+                    <div><label>请选择付款方式:</label></div>
+                    <input type="hidden" name="id" th:value="${order.id}">
+                    <input type="hidden" name="orderNo" th:value="${order.orderNo}">
+                    <input type="hidden" name="orderAmount" th:value="${order.orderAmount}">
+                    <input type="hidden" name="orderDate" th:value="${order.orderDate}">
+                    <input type="radio" name="orderPayWay" value="支付宝"/><img src="../static/img/pay_01.jpg"
+                                                                             class="img-rounded bank_img"
+                                                                             th:src="@{/img/pay_01.jpg}"
+                                                                             align="middle"/>
+                    <input type="radio" name="orderPayWay" value="微信"/><img src="../static/img/pay_02.jpg"
+                                                                            class="img-rounded bank_img"
+                                                                            th:src="@{/img/pay_02.jpg}"
+                                                                            align="middle"/>
+                    <input type="radio" name="orderPayWay" value="中国银联" class="payWay"/><img
+                        src="../static/img/pay_03.jpg"
+                        class="img-rounded bank_img"
+                        th:src="@{/img/pay_03.jpg}"
+                        align="middle"/>
+                    <input type="radio" name="orderPayWay" value="财付通" class="payWay"/><img
+                        src="../static/img/pay_04.jpg"
+                        class="img-rounded bank_img"
+                        th:src="@{/img/pay_04.jpg}"
+                        align="middle"/>
+                    <input type="radio" name="orderPayWay" value="中国银行" class="payWay"/><img
+                        src="../static/img/pay_05.jpg"
+                        class="img-rounded bank_img"
+                        th:src="@{/img/pay_05.jpg}"
+                        align="middle"/>
+                    <input type="radio" name="orderPayWay" value="中国工商银行" class="payWay"/><img
+                        src="../static/img/pay_06.jpg"
+                        class="img-rounded bank_img"
+                        th:src="@{/img/pay_06.jpg}"
+                        align="middle"/>
+                    <input type="radio" name="orderPayWay" value="中国农业银行" class="payWay"/><img
+                        src="../static/img/pay_08.jpg"
+                        class="img-rounded bank_img"
+                        th:src="@{/img/pay_08.jpg}"
+                        align="middle"/>
+                    <input type="radio" name="orderPayWay" value="中国邮政" class="payWay"/><img
+                        src="../static/img/pay_09.jpg"
+                        class="img-rounded bank_img"
+                        th:src="@{/img/pay_09.jpg}"
+                        align="middle"/>
+                </div>
+                <br>
+                <br>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 ">
+                        <div class="col-sm-5">
+                            <a class="btn btn-warning"
+                               th:href="@{/order/delete(${order.id})}">取消订单</a>
+                        </div>
+                        <div class="col-sm-5">
+                        <span>订单总额:<label id="totalPrice" th:text="${order.orderAmount}"
+                                          style="color:red;">￥0.00</label>&nbsp;&nbsp;&nbsp;</span>
+                            <button type="button" class="btn btn-warning" onclick="orderDetailPay()">确认付款</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <br>
+            <br>
+        </div>
+        <div class="panel-footer" style="color: #e01c72;">说明:订单信息确认无误后,请在下单后24小时内及时付款!</div>
+    </div>
+</div>
+<!--右侧结束-->
+</div>
+</div>
+</div>
+
+<!--footer-->
+<div th:include="common/footer :: footer"></div>
+</body>
+<!--分类结束-->
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+
+    //子订单项单独付款
+    function orderDetailPay() {
+        var orderPayWay = $('input:radio[name="orderPayWay"]:checked').val()
+        if (orderPayWay == null || orderPayWay == '' || orderPayWay == undefined) {
+            alert("请选择支付方式!");
+            return false;
+        }
+        $("#orderPay").submit();
+    }
+
+    /*]]>*/
+</script>
+</html>

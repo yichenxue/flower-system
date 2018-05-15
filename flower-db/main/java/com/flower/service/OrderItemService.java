@@ -9,4 +9,13 @@ public interface OrderItemService {
 
     public OrderItem save(OrderItem orderItem);
 
+    //根据系统生成的订单号查找
+    public OrderItem findByOrderNo(String orderNo);
+
+    //一次下单多个订单支付
+    public void orderPay(OrderItem orderItem, String orderPayWay);
+
+    //删除用户总订单信息
+    public void deleteOrderItem(Integer orderItemId);
+
 }

@@ -43,30 +43,21 @@
                         <p><span class="col-md-3">订单编号:</span><span class="col-md-9"
                                                                     th:text="${order.orderNo}"></span></p>
                         <p><span class="col-md-3">订单状态:</span>
-                            <!--<span class="col-md-8" th:text="${order.orderNo}">订单编号</span>-->
-                            <!--</p>-->
-                            <!--<p><span class="col-md-4">订单状态:</span>-->
-                            <!--<span class="col-md-8" th:if="${order.orderStatus=='00'}"-->
-                            <!--th:text="${order.orderStatus}">未付款</span>-->
-                            <!--<span class="col-md-8" th:if="${order.orderStatus=='00'}"-->
-                            <!--th:text="${order.orderStatus}">未付款</span>-->
-                            <!--<span class="col-md-8" th:if="${order.orderStatus=='00'}"-->
-                            <!--th:text="${order.orderStatus}">未付款</span>-->
-                            <span class="btn btn-danger" th:if="${order.orderStatus=='00'}"
+                            <span class="col-md-9" th:if="${order.orderStatus=='00'}"
                                   th:text="'未支付'">订单状态</span>
-                            <span class="btn btn-danger" th:if="${order.orderStatus=='02'}"
+                            <span class="col-md-9" th:if="${order.orderStatus=='02'}"
                                   th:text="'支付失败'">订单状态</span>
-                            <span class="btn btn-success" th:if="${order.orderStatus=='03'}"
+                            <span class="col-md-9" th:if="${order.orderStatus=='03'}"
                                   th:text="'支付成功'">订单状态</span>
-                            <span class="btn btn-info" th:if="${order.orderStatus=='04'}"
+                            <span class="col-md-9" th:if="${order.orderStatus=='04'}"
                                   th:text="'待发货'">订单状态</span>
-                            <span class="btn  btn-info" th:if="${order.orderStatus=='05'}"
+                            <span class="col-md-9" th:if="${order.orderStatus=='05'}"
                                   th:text="'已发货'">订单状态</span>
-                            <span class="btn  btn-info" th:if="${order.orderStatus=='07'}"
+                            <span class="col-md-9" th:if="${order.orderStatus=='07'}"
                                   th:text="'待收货'">订单状态</span>
-                            <span class="btn btn-success" th:if="${order.orderStatus=='08'}"
+                            <span class="col-md-9" th:if="${order.orderStatus=='08'}"
                                   th:text="'已收货'">订单状态</span>
-                            <span class="btn btn-success" th:if="${order.orderStatus=='09'}"
+                            <span class="col-md-9" th:if="${order.orderStatus=='09'}"
                                   th:text="'待评价'">订单状态</span>
                         </p>
                         <hr class="flowr_info_hr">

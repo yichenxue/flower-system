@@ -91,20 +91,63 @@
                         </tbody>
                     </table>
                 </div>
-                <form th:action="@{/order/toPay}" method="post">
-                    <input type="hidden" name="orderId" th:value="${orderItem.orderId}">
-                    <input type="hidden" name="orderNo" th:value="${orderItem.orderNo}">
-                    <input type="hidden" name="orderAmount" th:value="${orderItem.orderAmount}">
-                    <input type="hidden" name="orderDate" th:value="${orderItem.orderDate}">
+                <form name="pay" id="orderPay" class="form" th:action="@{/order/orderPay}">
+                    <div>
+                        <div><label>请选择付款方式:</label></div>
+                        <input type="hidden" name="orderId" th:value="${orderItem.orderId}">
+                        <input type="hidden" name="orderNo" th:value="${orderItem.orderNo}">
+                        <input type="hidden" name="orderAmount" th:value="${orderItem.orderAmount}">
+                        <input type="radio" name="orderPayWay" value="支付宝"/><img src="../static/img/pay_01.jpg"
+                                                                                 class="img-rounded bank_img"
+                                                                                 th:src="@{/img/pay_01.jpg}"
+                                                                                 align="middle"/>
+                        <input type="radio" name="orderPayWay" value="微信"/><img src="../static/img/pay_02.jpg"
+                                                                                class="img-rounded bank_img"
+                                                                                th:src="@{/img/pay_02.jpg}"
+                                                                                align="middle"/>
+                        <input type="radio" name="orderPayWay" value="中国银联" class="payWay"/><img
+                            src="../static/img/pay_03.jpg"
+                            class="img-rounded bank_img"
+                            th:src="@{/img/pay_03.jpg}"
+                            align="middle"/>
+                        <input type="radio" name="orderPayWay" value="财付通" class="payWay"/><img
+                            src="../static/img/pay_04.jpg"
+                            class="img-rounded bank_img"
+                            th:src="@{/img/pay_04.jpg}"
+                            align="middle"/>
+                        <input type="radio" name="orderPayWay" value="中国银行" class="payWay"/><img
+                            src="../static/img/pay_05.jpg"
+                            class="img-rounded bank_img"
+                            th:src="@{/img/pay_05.jpg}"
+                            align="middle"/>
+                        <input type="radio" name="orderPayWay" value="中国工商银行" class="payWay"/><img
+                            src="../static/img/pay_06.jpg"
+                            class="img-rounded bank_img"
+                            th:src="@{/img/pay_06.jpg}"
+                            align="middle"/>
+                        <input type="radio" name="orderPayWay" value="中国农业银行" class="payWay"/><img
+                            src="../static/img/pay_08.jpg"
+                            class="img-rounded bank_img"
+                            th:src="@{/img/pay_08.jpg}"
+                            align="middle"/>
+                        <input type="radio" name="orderPayWay" value="中国邮政" class="payWay"/><img
+                            src="../static/img/pay_09.jpg"
+                            class="img-rounded bank_img"
+                            th:src="@{/img/pay_09.jpg}"
+                            align="middle"/>
+                    </div>
+                    <br>
+                    <br>
                     <div class="form-group">
                         <div class="col-sm-offset-7 col-sm-5">
                                 <span>订单总额:<label id="totalPrice" th:text="${orderItem.orderAmount}"
                                                   style="color:red;">￥0.00</label>&nbsp;&nbsp;&nbsp;</span>
-                            <input type="submit" class="btn btn-warning" value="去付款>>>>">
+                            <button type="submit" class="btn btn-warning" onclick="orderPay()">确认付款</button>
                         </div>
                     </div>
                 </form>
             </div>
+
             <div class="panel-footer" style="color: #e01c72;">说明:订单信息确认无误后,请在下单后24小时内及时付款!</div>
         </div>
     </div>
@@ -119,6 +162,18 @@
 <!--分类结束-->
 <script th:inline="javascript">
     /*<![CDATA[*/
+    function orderPay() {
+
+        var payWay = $('input:radio[name="payWay"]:checked').val();
+        if (payWay == null || payWay == undefined || payWay == '') {
+            alert("请选择付款方式!");
+            return;
+        } else {
+            $("#orderPay").submit();
+        }
+
+    }
+
     /*]]>*/
 </script>
 </html>

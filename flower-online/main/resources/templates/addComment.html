@@ -24,18 +24,20 @@
         <div class="col-md-9  panel panel-danger">
             <div class="panel-heading">
                 <h3 class="panel-title">
-                    鲜花详细信息
+                    商品详细信息
                 </h3>
             </div>
             <div class="pro_show">
                 <div class="col-md-4">
-                    <img class="pro_img_img"
-                         src="../static/product/pro1.jpg"
-                         th:if="${goods.goodsPic ==null || goods.goodsPic ==''}"
-                         th:src="@{/product/pro1.jpg}" style="width:100%;height:100%"/>
-                    <img class=" pro_img_img" src="../static/product/pro1.jpg"
-                         th:if="${goods.goodsPic !=null and goods.goodsPic !=''}"
-                         th:src="@{'/'+${goods.goodsPic}}" style="width:100%;height:100%"/>
+                    <a th:href="@{/goods/findById(id=${goods.goodsId})}">
+                        <img class="pro_img_img"
+                             src="../static/product/pro1.jpg"
+                             th:if="${goods.goodsPic ==null || goods.goodsPic ==''}"
+                             th:src="@{/product/pro1.jpg}" style="width:100%;height:100%"/>
+                        <img class=" pro_img_img" src="../static/product/pro1.jpg"
+                             th:if="${goods.goodsPic !=null and goods.goodsPic !=''}"
+                             th:src="@{'/'+${goods.goodsPic}}" style="width:100%;height:100%"/>
+                    </a>
                 </div>
                 <div class="col-md-6" id="">
                     <p><span class="col-md-4">商品名称:</span><span class="col-md-8"
@@ -57,9 +59,10 @@
                     <div class="col-md-12 pro_info_produce"><span class="col-md-2">品牌:</span><span class="col-md-10"
                                                                                                    th:text="${goods.brand}">鲜花-Union</span>
                     </div>
-                    <div class="col-md-12 pro_info_produce"><span class="col-md-2">市场价:</span><span class="col-md-10"
-                                                                                                    style="color:red;"
-                                                                                                    th:text="'￥'+${goods.goodsShijia}">￥200.0</span>
+                    <div class="col-md-12 pro_info_produce"><span class="col-md-2">市场价:</span><span
+                            class="col-md-10"
+                            style="color:red;"
+                            th:text="'￥'+${goods.goodsShijia}">￥200.0</span>
                     </div>
                     <div class="col-md-12 pro_info_produce"><span class="col-md-2">价格:</span><span class="col-md-10"
                                                                                                    style="color:red;"
@@ -79,82 +82,66 @@
                 <hr>
             </div>
         </div>
+        <p></p>
         <div class="col-md-9  panel panel-danger">
             <div class="panel-heading">
                 <h3 class="panel-title">
-                    花卉相关
+                    添加评价
                 </h3>
             </div>
-            <div class="col-md-12" id="nnavbar-pro">
-                <ul class="nav  nav-tabs" id="pro">
-                    <li><a class="btn" href="#pro_desc">商品详情</a></li>
-                    <li><a class="btn " href="#pro_comments">商品评价</a></li>
-                    <li><a class="btn " href="#pro_remark">其他说明</a></li>
-                </ul>
-                <hr>
-                <div data-spy="scroll" data-target="#navbar-pro" data-offset="20">
-
-                    <div class="col-md-12" id="pro_desc">
-                        <div class="">商品详情</div>
-                        <img src="" th:src="@{/img/pic02.jpg}">
-                        <img src="" th:src="@{/img/pic02.jpg}">
-                        <img src="" th:src="@{/img/pic02.jpg}">
-                        <img src="" th:src="@{/img/pic02.jpg}">
-                        <img src="" th:src="@{/img/pic02.jpg}">
+            <div class="panel-body">
+                <form id="addCommentsForm" method="POST">
+                    <input type="hidden" name="goodsId" th:value="${goods.goodsId}">
+                    <input type="hidden" name="commentTitle" th:value="${goods.goodsName}">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="control-label">评价标题:</label>
+                            <span th:text="${goods.goodsName}"></span>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">填写评价内容</label>
+                            <textarea name="commentContent" id="commentContent" class="form-control">
+                               </textarea>
+                        </div>
                     </div>
-                    <div class="col-md-12" id="pro_comments">
-                        <div class="">商品评价</div>
-                        <div th:if="${#lists.isEmpty(goods.comments)||#lists.size(goods.comments)<=0}">暂无评论</div>
-                        <ul class="list-group">
-                            <li class="list-group-item col-md-12" th:each="comment:${goods.comments}">
-                                <div>
-                                    <img class="col-md-3 img-circle" src="" th:src="@{'/'+${comment.user.userImg}}"
-                                         style="width:100px;height:100px;">
-                                    <div class="col-md-3 "><span>用户昵称:</span><span
-                                            th:text="${comment.user.userName}"></span></div>
-                                    <div class="col-md-3 "><span>评论商品:</span><span
-                                            th:text="${comment.commentTitle}"></span></div>
-                                    <div class="col-md-3 "><span>评论日期:</span><span
-                                            th:text="${comment.commentDate}"></span></div>
-                                </div>
-                                <div class="col-md-12">
-                                    <span>评价内容:</span>
-                                    <p th:text="${comment.commentContent}">评价内容</p>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-md-12" id="pro_remark">
-                        <div class="">其他说明</div>
-                        <p>花卉邮寄说明:</p>
-                    </div>
+                </form>
+                <div class="col-lg-offset-5">
+                    <button type="button" class="btn btn-warning" onclick="addComment();">提交评论</button>
                 </div>
+
             </div>
         </div>
     </div>
+</div>
 
-    <!--footer-->
-    <div th:include="common/footer :: footer"></div>
+<!--footer-->
+<div th:include="common/footer :: footer"></div>
 </div>
 </body>
 <script th:inline="javascript">
     /*<![CDATA[*/
-    function addCar(id) {
-        $.ajax({
-            cache: false,
-            type: "POST",
-            data: {goodsId: id},
-            url: /*[[@{/car/addCar}]]*/'#',
-            async: false,
-            success: function (data) {
-                $("#car_number").html([[${session.carNumber}]] + 1);
-                alert(data);
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                alert("操作出现异常");
-            }
-        });
-    };
+    function addComment() {
+        var commentContent = $("#commentContent").val();
+        if (commentContent == null || commentContent == "" || commentContent == undefined) {
+            alert("填写评论不能为空!");
+            return;
+        } else {
+            $.ajax({
+                cache: true,
+                type: "POST",
+                url: /*[[@{/comments/add}]]*/'#',
+                data: $('#addCommentsForm').serialize(),
+                async: false,
+                success: function (data) {
+                    alert(data);
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert("操作出现异常");
+                }
+            });
+        }
+    }
+
     /*]]>*/
 </script>
 </html>

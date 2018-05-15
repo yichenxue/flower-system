@@ -221,8 +221,8 @@ public class Goods implements Serializable {
         this.cars = cars;
     }
 
-    @JsonBackReference
-    @OneToMany(mappedBy = "goods", fetch = FetchType.LAZY)
+
+    @OneToMany(mappedBy = "goods")
     public List<Comments> getComments() {
         return comments;
     }

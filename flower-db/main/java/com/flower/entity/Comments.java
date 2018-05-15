@@ -1,5 +1,7 @@
 package com.flower.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -86,6 +88,7 @@ public class Comments implements Serializable {
         this.user = user;
     }
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "comment_goods_id", referencedColumnName = "goods_id")
     public Goods getGoods() {
@@ -94,5 +97,17 @@ public class Comments implements Serializable {
 
     public void setGoods(Goods goods) {
         this.goods = goods;
+    }
+
+    @Override
+    public String toString() {
+        return "Comments{" +
+                "commentId=" + commentId +
+                ", commentTitle='" + commentTitle + '\'' +
+                ", commentContent='" + commentContent + '\'' +
+                ", commentDate='" + commentDate + '\'' +
+                ", user=" + user +
+                ", goods=" + goods +
+                '}';
     }
 }
