@@ -134,6 +134,7 @@
                 async: false,
                 success: function (data) {
                     alert(data);
+                    window.location = /*[[@{/goods/findById(id=${goods.goodsId})}]]*/'#'
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     alert("操作出现异常");
