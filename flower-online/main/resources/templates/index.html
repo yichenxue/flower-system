@@ -35,10 +35,12 @@
                 <ul class="pro_ul">
                     <li class="list-group-item pro_list" th:each="goods:${glist}">
                         <div class="pro_img">
-                            <a href="" type="button"><img class="pro_img_img"
-                                                          src="../static/product/pro1.jpg"
-                                                          th:if="${goods.goodsPic ==null || goods.goodsPic ==''}"
-                                                          th:src="@{/product/pro1.jpg}"/>
+                            <a href="#" th:href="@{/goods/findById(id=${goods.goodsId})}" type="button">
+                                <img
+                                        class="pro_img_img"
+                                        src="../static/product/pro1.jpg"
+                                        th:if="${goods.goodsPic ==null || goods.goodsPic ==''}"
+                                        th:src="@{/product/pro1.jpg}"/>
                                 <img class=" pro_img_img" src="../static/product/pro1.jpg"
                                      th:if="${goods.goodsPic !=null and goods.goodsPic !=''}"
                                      th:src="@{'/'+${goods.goodsPic}}"/>

@@ -8,6 +8,14 @@
     <link rel="stylesheet" href="../static/css/flower.css" th:href="@{/css/flower.css}">
     <link rel="stylesheet" href="../../static/css/bootstrap-datepicker.min.css"
           th:href="@{/css/bootstrap-datepicker.min.css}">
+    <link rel="stylesheet" href="../static/css/bootstrap-treeview.css" th:href="@{/css/bootstrap-treeview.css}">
+    <script src="../static/js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
+    <script src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+    <script src="../../static/js/Moment.js" th:src="@{/js/Moment.js}"></script>
+    <!--<script src="../../static/js/locales/bootstrap-datepicker.zh-CN.min.js"-->
+    <!--th:src="@{/js/locales/bootstrap-datepicker.zh-CN.min.js}"></script>-->
+    <script src="../../static/js/bootstrap-datepicker.min.js" th:src="@{/js/bootstrap-datepicker.min.js}"></script>
+    <script src="../static/js/bootstrap-treeview.js" th:src="@{/js/bootstrap-treeview.js}"></script>
 </head>
 <body>
 <div th:include="common/header :: header"></div>
@@ -15,6 +23,7 @@
     <div class="container text-center">
         <div class="col-md-offset-2 col-md-8  text-center ">
             <form class="form-horizontal" role="form" enctype="multipart/form-data" id="editForm" method="post">
+                <input type="hidden" name="userImg" th:value="${session.loginUser.userImg}">
                 <img class="col-md-offset-2 img-responsive  user_img" th:if="${session.loginUser.userImg}"
                      th:src="@{${session.loginUser.userImg}}">
                 <img class="col-md-offset-2 img-responsive  user_img"
@@ -114,20 +123,66 @@
                     </div>
                 </div>
             </form>
+            <form class="form-horizontal" role="form" method="post" id="setPassForm">
+                <div class="form-group">
+                    <label for="oriUserPw" class="col-md-4 control-label">原密码</label>
+                    <div class="col-md-5">
+                        <input type="password" class="form-control" name="oriUserPw" id="oriUserPw">
+                    </div>
+                    <label class="col-md-2 control-label" style="color: red">*</label>
+                </div>
+                <div class="form-group">
+                    <label for="userPw" class="col-md-4 control-label">新密码</label>
+                    <div class="col-md-5">
+                        <input type="password" class="form-control" name="userPw" id="userPw">
+                    </div>
+                    <label class="col-md-2 control-label" style="color: red">*</label>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-1 col-md-10">
+                        <button type="button" class="btn btn-warning btn-lg" onclick="setPass()">重置密码</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
     <div></div>
 </div>
 <div th:include="common/footer :: footer"></div>
-<script src="../static/js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
-<script src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
-<script src="../../static/js/Moment.js" th:src="@{/js/Moment.js}"></script>
-<!--<script src="../../static/js/locales/bootstrap-datepicker.zh-CN.min.js"-->
-<!--th:src="@{/js/locales/bootstrap-datepicker.zh-CN.min.js}"></script>-->
-<script src="../../static/js/bootstrap-datepicker.min.js" th:src="@{/js/bootstrap-datepicker.min.js}"></script>
 <script th:inline="javascript">
     /*<![CDATA[*/
+    //重置密码
+    function setPass() {
+        var oriUserPw = $("#oriUserPw").val();
+        var userPw = $("#userPw").val();
+        if (oriUserPw == "" || oriUserPw == undefined || oriUserPw == null) {
+            alert('请输入原密码!');
+            $("#userName").focus();
+            return false;
+        }
+        if (userPw == "" || userPw == undefined || userPw == null) {
+            alert('新密码不能为空!');
+            $("#userName").focus();
+            return false;
+        }
+        $.ajax({
+            cache: true,
+            type: "POST",
+            url: /*[[@{/setPass}]]*/'#',
+            data: $("#setPassForm").serialize(),
+            async: false,
+            success: function (data) {
+                if (data = '重置密码成功,请妥善保存!') {
+                    window.location = /*[[@{/toLogin}]]*/'#';
+                    alert(data);
+                } else {
+                    alert(data);
+                }
+            }
+        });
+    }
 
+    //修改信息
     function edit() {
         var username = $("#userName").val();
         var userEamil = $("#userEamil").val();
@@ -157,9 +212,9 @@
             contentType: false,
             processData: false,
             success: function (data) {
-                if (data == '修改成功!') {
+                if (data = '修改成功!') {
+                    window.location = /*[[@{/userInfo}]]*/'#';
                     alert(data);
-                    window.location = /*[[@{/userInfo}]]*/'#'
                 } else {
                     alert(data);
                 }
@@ -182,9 +237,6 @@
     });
 
     /*]]>*/
-
-
-
 </script>
 </body>
 

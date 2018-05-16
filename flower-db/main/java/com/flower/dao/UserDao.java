@@ -28,4 +28,9 @@ public interface UserDao extends JpaRepository<User, Integer>, JpaSpecificationE
     @Modifying
     @Query("update User u set  u.userLast=?2 where u.userId=?1")
     public void updateLast(Integer id, String last);
+
+    //重置密码
+    @Modifying
+    @Query("update User u set  u.userPw=?2 where u.userId=?1")
+    public void updateUserPw(Integer id, String userPw);
 }

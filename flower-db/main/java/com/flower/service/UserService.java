@@ -21,4 +21,7 @@ public interface UserService {
 
     //更新用户登陆时间
     public void updateLast(Integer id, String last);
+
+    //更改密码
+    public void updateUserPw(Integer id, String userPw);
 }

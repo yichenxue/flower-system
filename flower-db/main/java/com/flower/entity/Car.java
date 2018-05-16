@@ -1,5 +1,7 @@
 package com.flower.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -52,6 +54,7 @@ public class Car implements Serializable {
         return Objects.hash(carId, mount);
     }
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     public User getUser() {

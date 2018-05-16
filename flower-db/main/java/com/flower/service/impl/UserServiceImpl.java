@@ -71,4 +71,10 @@ public class UserServiceImpl implements UserService {
     public void updateLast(Integer id, String last) {
         userDao.updateLast(id, last);
     }
+
+    @Transactional
+    public void updateUserPw(Integer id, String userPw) {
+        userDao.updateUserPw(id, userPw);
+    }
+
 }

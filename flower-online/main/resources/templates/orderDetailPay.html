@@ -43,7 +43,7 @@
                     <label class="col-sm-10" th:text="${order.orderAmount}"></label>
                 </div>
             </div>
-            <form name="pay" id="orderPay" class="form" method="post" th:action="@{/order/orderDetailPay}">
+            <form name="pay" id="orderPay" class="form" method="post">
                 <div>
                     <div><label>请选择付款方式:</label></div>
                     <input type="hidden" name="id" th:value="${order.id}">
@@ -91,20 +91,20 @@
                 </div>
                 <br>
                 <br>
-                <div class="form-group">
-                    <div class="col-sm-offset-2 ">
-                        <div class="col-sm-5">
-                            <a class="btn btn-warning"
-                               th:href="@{/order/delete(${order.id})}">取消订单</a>
-                        </div>
-                        <div class="col-sm-5">
+            </form>
+            <div class="form-group">
+                <div class="col-sm-offset-2 ">
+                    <div class="col-sm-5">
+                        <a class="btn btn-warning"
+                           th:href="@{/order/delete(${order.id})}">取消订单</a>
+                    </div>
+                    <div class="col-sm-5">
                         <span>订单总额:<label id="totalPrice" th:text="${order.orderAmount}"
                                           style="color:red;">￥0.00</label>&nbsp;&nbsp;&nbsp;</span>
-                            <button type="button" class="btn btn-warning" onclick="orderDetailPay()">确认付款</button>
-                        </div>
+                        <button type="button" class="btn btn-warning" onclick="orderDetailPay();">确认付款</button>
                     </div>
                 </div>
-            </form>
+            </div>
             <br>
             <br>
         </div>
@@ -131,7 +131,22 @@
             alert("请选择支付方式!");
             return false;
         }
-        $("#orderPay").submit();
+        $.ajax({
+            cache: false,
+            type: "POST",
+            data: $("#orderPay").serialize(),
+            url: /*[[@{/order/orderDetailPay}]]*/'#',
+            async: false,
+            success: function (data) {
+                if (data = '支付成功!') {
+                    window.location = /*[[@{/order/findById(id=${order.id})}]]*/'#';
+                    alert(data);
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("操作出现异常");
+            }
+        });
     }
 
     /*]]>*/

@@ -78,6 +78,7 @@ public class Comments implements Serializable {
         return Objects.hash(commentId, commentTitle, commentContent, commentDate);
     }
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "comment_user_id", referencedColumnName = "user_id")
     public User getUser() {

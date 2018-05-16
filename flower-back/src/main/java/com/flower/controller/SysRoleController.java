@@ -78,6 +78,7 @@ public class SysRoleController {
 
     //删除角色
     @RequestMapping("/delete")
+    @ResponseBody
     public String deleteRole(Integer id) {
         try {
             sysRoleService.del(id);

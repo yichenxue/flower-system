@@ -1,5 +1,7 @@
 package com.flower.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -126,7 +128,7 @@ public class OrderDetail implements Serializable {
         this.orderAddress = orderAddress;
     }
 
-
+    @JsonBackReference
     @Column(name = "order_user_name", nullable = true, length = 100)
     public String getOrderUserName() {
         return orderUserName;

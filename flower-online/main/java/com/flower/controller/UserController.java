@@ -205,4 +205,20 @@ public class UserController {
             return "修改失败";
         }
     }
+
+    @PostMapping("/setPass")
+    @ResponseBody
+    public String modifyPass(Integer id, String oriUserPw, String userPw, HttpServletRequest request) {
+        try {
+            User loginUser = (User) request.getSession().getAttribute("loginUser");
+            if (!oriUserPw.equals(loginUser.getUserPw())) {
+                return "原密码错误!";
+            }
+            userService.updateUserPw(id, userPw);
+            return "重置密码成功,请妥善保存!";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "重置密码失败!";
+        }
+    }
 }
