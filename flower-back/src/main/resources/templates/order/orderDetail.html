@@ -2,33 +2,39 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>春之语欢迎你</title>
-    <link rel="stylesheet" href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}">
-    <link rel="stylesheet" href="../static/css/flower.css" th:href="@{/css/flower.css}">
-    <script src="../static/js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
-    <script src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>鲜花销售系统</title>
+    <link rel="stylesheet" href="../../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" href="../../static/css/dataTables.bootstrap.min.css"
+          th:href="@{/css/dataTables.bootstrap.min.css}">
+    <link rel="stylesheet" href="../../static/css/flower.css" th:href="@{/css/flower.css}">
+    <!--[if lt IE 9]>
+    <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
 </head>
 <body>
 <div th:include="common/header :: header"></div>
-<!--banner广告位-->
-<div class="container-fluid banner">
-    <img src="../static/img/nybanner.jpg" th:src="@{/img/nybanner.jpg}">
-</div>
-<div class="container-fluid content">
-    <div class="row">
-        <div class="col-md-3 ">
-            <!--左侧页面-->
-            <div th:include="common/left :: left_menu"></div>
-        </div>
-        <!--右侧主体-->
-        <div class="col-md-9  panel panel-danger">
+<div th:include="common/menu :: menu"></div>
+<div class="righ_page">
+    <!--breadcrumb-nav-->
+    <div class="content-header">
+        <ol class="breadcrumb">
+            <li><a href="#"><span class="glyphicon glyphicon-home ">&nbsp;主页</span></a></li>
+            <li><span class="glyphicon glyphicon-chevron-right"></span></li>
+            <li><a href="#"><span class="glyphicon glyphicon-tree-deciduous left-menu-icon">&nbsp;订单管理</span></a>
+            </li>
+        </ol>
+    </div>
+    <!--container-->
+    <div class="container-fluid">
+        <div class="page panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">
-                    订单详情
-                </h3>
+                <span class="glyphicon glyphicon-list left-menu-icon"></span>订单详情
             </div>
+            <!--search nav-->
             <div class="panel-body">
-                <!--<div class="page-header">-->
                 <div class="pro_show">
                     <div class="col-md-4">
                         <img class="pro_img_img"
@@ -67,6 +73,7 @@
                                   th:text="'订单已取消'">订单已取消</span>
                             <span class="col-md-9" th:if="${order.orderStatus=='12'}"
                                   th:text="'订单已被用户删除'">订单已被用户删除</span>
+                        </p>
                         <hr class="flowr_info_hr">
                         <div class="col-md-12 pro_info_produce"><span class="col-md-3">商品名称:</span>
                             <span class="col-md-9"></span> <a href="#"
@@ -117,7 +124,7 @@
                         </div>
                         <div class="col-md-12 pro_info_produce"><span class="col-md-3">快递公司:</span><span
                                 class="col-md-9"
-                                th:text="${order.orderExpress}">订单备注</span>
+                                th:text="${order.orderExpress}">快递公司</span>
                         </div>
                         <div class="col-md-12 pro_info_produce"><span class="col-md-3">快递员:</span><span
                                 class="col-md-9"
@@ -125,7 +132,7 @@
                         </div>
                         <div class="col-md-12 pro_info_produce"><span class="col-md-3">快递联系方式:</span><span
                                 class="col-md-9"
-                                th:text="${order.orderSenderTel}">快递员</span>
+                                th:text="${order.orderSenderTel}">快递联系方式</span>
                         </div>
                         <div class="col-md-12 pro_info_produce"><span class="col-md-3">物流状态:</span><span
                                 class="col-md-9"
@@ -141,35 +148,140 @@
                         </div>
                     </div>
                 </div>
-                <!--</div>-->
+            </div>
+            <div class="panel-heading">
+                <span class="glyphicon glyphicon-list left-menu-icon"></span>订单审核
+            </div>
+            <div class="panel-body">
+                <form class="form-horizontal" id="orderStatusForm" role="form" style="width: 44%;margin-left: 10%;"
+                      method="post">
+                    <input type="hidden" th:value="${order.id}" name="id"/>
+                    <div class="form-group">
+                        <label class="control-label">修改订单状态</label>
+                        <select class="form-control" name="orderStatus">
+                            <option value="04">订单审核成功</option>
+                            <option value="05">订单审核失败</option>
+                            <option value="07">订单已送达,待收货</option>
+                            <option value="11">订单已取消</option>
+                        </select>
+                    </div>
+                    <button type="button" class="btn btn-primary col-lg-offset-3" onclick="updateOrderStatus();">
+                        保存订单状态
+                    </button>
+                </form>
+            </div>
+            <div class="panel-heading">
+                <span class="glyphicon glyphicon-list left-menu-icon"></span>发货
+            </div>
+            <div class="panel-body">
+                <form class="form-horizontal" role="form" id="orderSendForm"
+                      style="width: 44%;margin-left: 10%;" method="post">
+                    <input type="hidden" th:value="${order.id}" name="id"/>
+                    <div class="form-group">
+                        <lable class="control-label">快递公司:</lable>
+                        <input class="form-control" name="orderExpress" id="orderExpress_edit" type="text" value=""
+                        >
+                    </div>
+                    <div class="form-group">
+                        <lable class="control-label">快递员:</lable>
+                        <input class="form-control" name="orderSenderName" type="text" value=""
+                               id="orderSenderName_edit">
+                    </div>
+                    <div class="form-group">
+                        <lable class="control-label">快递员联系方式:</lable>
+                        <input class="form-control" name="orderSenderTel" id="orderSenderTel_edit" type="text" value="">
+                    </div>
+                    <div class="form-group">
+                        <lable class="control-label">物流状态描述:</lable>
+                        <input class="form-control" name="orderExpressStatus" id="orderExpressStatus_edit" type="text"
+                               value="">
+                    </div>
+                    <div class="form-group">
+                        <lable class="control-label">订单状态</lable>
+                        <select class="form-control" name="orderStatus">
+                            <option value="06">已发货,运输中</option>
+                        </select>
+                    </div>
+                    <button type="button" class="btn btn-primary col-lg-offset-3" onclick="orderSender();">
+                        订单发货
+                    </button>
+                </form>
             </div>
         </div>
     </div>
-</div>
+    <div class="footer" style="height:40px;"></div>
 </div>
 
-<!--footer-->
-<div th:include="common/footer :: footer"></div>
-</div>
-</body>
-<script th:inline="javascript">
+<script src="../../static/js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
+<script src="../../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+<script src="../../static/js/jquery.dataTables.min.js" th:src="@{/js/jquery.dataTables.min.js}"></script>
+<script src="../../static/js/dataTables.bootstrap.min.js" th:src="@{/js/dataTables.bootstrap.min.js}"></script>
+<script src="../../static/js/layer.js" th:src="@{/js/layer.js}"></script>
+<script src="../../static/js/flower.js" th:src="@{/js/flower.js}"></script>
+<script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
-    function addCar(id) {
+
+    //修改订单状态
+    function updateOrderStatus() {
         $.ajax({
-            cache: false,
+            cache: true,
             type: "POST",
-            data: {goodsId: id},
-            url: /*[[@{/car/addCar}]]*/'#',
+            url: /*[[@{/order/updateOrderStatus}]]*/'#',
+            data: $("#orderStatusForm").serialize(),
             async: false,
             success: function (data) {
-                $("#car_number").html([[${session.carNumber}]] + 1);
-                alert(data);
-            },
+                if (data == "success") {
+                    layer.msg('删除成功!');
+                    table.ajax.reload();
+                } else {
+                    layer.msg('删除失败');
+                }
+            }
             error: function (XMLHttpRequest, textStatus, errorThrown) {
-                alert("操作出现异常");
+                alert("操作失败" + errorThrown);
             }
         });
-    };
+    }
+
+    //订单发货
+    function orderSender() {
+        var orderExpress = $("#orderExpress_edit").val();
+        var orderSenderName = $("#orderSenderName_edit").val();
+        var orderSenderTel = $("#orderSenderTel_edit").val();
+        if (orderExpress == "" || orderExpress == null || orderExpress == undefined) {
+            alert('请填写发货的快递公司!');
+            return false;
+        }
+        if (orderSenderName == "" || orderSenderName == undefined || orderSenderName == null) {
+            alert('请填写送货的快递员!');
+            return false;
+        }
+        if (orderSenderTel == "" || orderSenderTel == undefined || orderSenderTel == null) {
+            alert('请填写送货人联系方式!');
+            return false;
+        }
+        $.ajax({
+            cache: true,
+            type: "POST",
+            url: '/order/orderSend',
+            data: $("#orderSendForm").serialize(),
+            async: false,
+            success: function (data) {
+                if (data == "success") {
+                    layer.msg('处理成功');
+                    table.ajax.reload();
+                } else {
+                    layer.msg('处理失败');
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("操作失败" + errorThrown);
+            }
+        });
+    }
+
     /*]]>*/
 </script>
+<div th:include="common/footer :: footer"></div>
+</body>
 </html>

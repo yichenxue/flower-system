@@ -1,6 +1,8 @@
 package com.flower.service;
 
 import com.flower.entity.OrderDetail;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -25,4 +27,14 @@ public interface OrderDetailService {
 
     //子订单项付款
     public void orderDetailPay(OrderDetail orderDetail, String orderPayWay);
+
+    public Page<OrderDetail> findAll(OrderDetail orderDetail, Pageable pageable);
+
+    //更新订单状态
+    public void updateOrderStatus(Integer orderId, String orderStatus);
+
+
+    //更新或保存订单
+    public OrderDetail save(OrderDetail orderDetail);
+
 }

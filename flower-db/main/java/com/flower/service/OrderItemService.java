@@ -1,6 +1,8 @@
 package com.flower.service;
 
 import com.flower.entity.OrderItem;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  * Created by yumaoying on 2018/5/14.
@@ -18,4 +20,7 @@ public interface OrderItemService {
     //删除用户总订单信息
     public void deleteOrderItem(Integer orderItemId);
 
+    public Page<OrderItem> findAll(OrderItem orderItem, Pageable pageable);
+
+    public OrderItem findByOrderId(Integer orderId);
 }

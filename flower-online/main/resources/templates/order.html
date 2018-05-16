@@ -109,8 +109,11 @@
                                 <a href="#" th:if="${order.orderStatus=='00'}"
                                    th:href="@{/order/toOrderDetailPay(id=${order.id})}"
                                    class="btn btn-danger btn-sm">&nbsp;&nbsp;去支付&nbsp;&nbsp;</a>
-                                <a href="#" th:if="${order.orderStatus=='09'}"
-                                   class="btn btn-danger btn-sm">添加评价</a>
+                                <!--<a href="#" th:if="${order.orderStatus=='09'}"-->
+                                <!--class="btn btn-danger btn-sm">添加评价</a>-->
+                                <button href="#" th:if="${order.orderStatus=='07'}"
+                                        class="btn btn-danger btn-sm">确认收货
+                                </button>
                                 <a href="#" th:if="${order.orderStatus=='10'}"
                                    class="btn btn-danger btn-sm">追加评价</a>
                                 <a href="#" th:if="${order.orderStatus=='10'}"

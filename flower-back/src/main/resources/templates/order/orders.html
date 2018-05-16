@@ -50,28 +50,29 @@
                             <option value="00">未支付</option>
                             <option value="02">支付失败</option>
                             <option value="03">支付成功</option>
-                            <option value="04">已受理,待发货</option>
-                            <option value="05">已发货,运输中</option>
+                            <option value="04">订单审核成功</option>
+                            <option value="05">订单审核失败</option>
+                            <option value="06">已发货,运输中</option>
                             <option value="07">待收货</option>
                             <option value="08">已收货</option>
                             <option value="09">待评价</option>
                             <option value="10">已评价</option>
-                            <option value="12">订单已删除</option>
+                            <option value="11">订单已取消</option>
+                            <option value="12">订单已被用户删除</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label class="control-label">订单日期:</label>
                         <div class="input-group date form_datetime" data-date-format="yyyy-mm-dd"
                              data-link-format="yyyy-mm-dd">
-                            <input type="text" class="form-control orderDate" id='noticeDate-search' name="orderDate">
+                            <input type="text" class="form-control orderDate" id='orderDate-search'>
                             <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                         </div>
                     </div>
                     <button type="button" class="btn btn-primary" onclick="search();">查询</button>
                     <div class="form-group navbar-form navbar-right">
-                        <button type="button" class="btn btn-warning btn-stl" onclick="delNoticeById()">删除公告</button>
-                        <button type="button" class="btn btn-primary btn-stl" onclick="findNotice()">编辑公告</button>
-                        <button type="button" class="btn btn-primary btn-stl" onclick="$('#addNotice').modal();">添加公告
+                        <button type="button" class="btn btn-warning btn-stl" onclick="delOrderById();">删除订单</button>
+                        <button type="button" class="btn btn-primary btn-stl" onclick="orderHandler();">订单处理
                         </button>
                     </div>
                 </form>
@@ -84,9 +85,14 @@
             <tr>
                 <th><input type="checkbox" class="checkall"/></th>
                 <th>编号</th>
-                <th>公告标题</th>
-                <th>公告发布日期</th>
-                <th>公告发布人</th>
+                <th>订单编号</th>
+                <th>商品名称</th>
+                <th>商品单价</th>
+                <th>订单数量</th>
+                <th>订单金额</th>
+                <th>订单状态</th>
+                <th>订单生成时间</th>
+                <th>订单详情</th>
             </tr>
             </thead>
         </table>
@@ -94,90 +100,82 @@
     <div class="footer" style="height:40px;"></div>
 </div>
 
-<!--添加公告弹窗-->
-<div class="modal fade" id="addNotice" role="dialog" tabindex="-1" aria-labelledby="addNoticeLabel"
+<!--订单处理模态框-->
+<div class="modal fade" id="editOrder" role="dialog" tabindex="-1" aria-labelledby="editOrderLabel"
      aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" aria-hidden="true">&times;
                 </button>
-                <h4 class="modal-title" id="addNoticeLabel">添加公告</h4>
+                <h4 class="modal-title" id="editOrderLabel">订单处理</h4>
             </div>
             <div class="modal-body">
-                <form id="addNoticeForm" name="addNoticeForm" enctype="multipart/form-data" method="POST">
-                    <div class="form-group">
-                        <label class="control-label">公告标题:</label>
-                        <input type="text" class="form-control" name="noticeTitle" id="add-noticeTitle"
-                               placeholder="请输入公告标题">
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">公告内容:</label>
-                        <textarea name="noticeContent" id="add-noticeContent" class="form-control"
-                                  placeholder="请输公告内容"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">公告发布日期:</label>
-                        <div class="input-group date form_datetime" data-date-format="yyyy-mm-dd"
-                             data-link-format="yyyy-mm-dd">
-                            <input type="text" class="form-control noticeDate" id='add-noticeDate' name="noticeDate">
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                <div class="panel-heading">
+                    <span class="glyphicon glyphicon-list left-menu-icon"></span>订单审核
+                </div>
+                <div class="panel-body">
+                    <form class="form-horizontal" id="orderStatusForm" role="form" style="width: 44%;margin-left: 10%;"
+                          method="post">
+                        <input type="hidden" name="id" class="order_id"/>
+                        <div class="form-group">
+                            <label class="control-label">修改订单状态</label>
+                            <select class="form-control" name="orderStatus">
+                                <option value="04">订单审核成功</option>
+                                <option value="05">订单审核失败</option>
+                                <option value="07">订单已送达,待收货</option>
+                                <option value="11">订单已取消</option>
+                            </select>
                         </div>
-                    </div>
-                </form>
+                        <button type="button" class="btn btn-primary col-lg-offset-3" onclick="updateOrderStatus();">
+                            保存订单状态
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="panel-heading">
+                    <span class="glyphicon glyphicon-list left-menu-icon"></span>订单审核
+                </div>
+                <div class="panel-body">
+                    <form class="form-horizontal" role="form" id="orderSendForm"
+                          style="width: 44%;margin-left: 10%;" method="post">
+                        <input type="hidden" name="id" class="order_id"/>
+                        <div class="form-group">
+                            <lable class="control-label">快递公司:</lable>
+                            <input class="form-control" name="orderExpress" id="orderExpress_edit" type="text" value=""
+                            >
+                        </div>
+                        <div class="form-group">
+                            <lable class="control-label">快递员:</lable>
+                            <input class="form-control" name="orderSenderName" type="text" value=""
+                                   id="orderSenderName_edit">
+                        </div>
+                        <div class="form-group">
+                            <lable class="control-label">快递员联系方式:</lable>
+                            <input class="form-control" name="orderSenderTel" id="orderSenderTel_edit" type="text"
+                                   value="">
+                        </div>
+                        <div class="form-group">
+                            <lable class="control-label">物流状态描述:</lable>
+                            <input class="form-control" name="orderExpressStatus" id="orderExpressStatus_edit"
+                                   type="text"
+                                   value="">
+                        </div>
+                        <div class="form-group">
+                            <lable class="control-label">订单状态</lable>
+                            <select class="form-control" name="orderStatus">
+                                <option value="06">已发货,运输中</option>
+                            </select>
+                        </div>
+                        <button type="button" class="btn btn-primary col-lg-offset-3" onclick="orderSender();">
+                            订单发货
+                        </button>
+                    </form>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary" onclick="addNotice();" id="btn-add">添加公告</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<!--修改公告弹窗-->
-<div class="modal fade" id="editNotice" role="dialog" tabindex="-1" aria-labelledby="editNoticeLabel"
-     aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" aria-hidden="true">&times;
-                </button>
-                <h4 class="modal-title" id="editNoticeLabel">修改公告</h4>
-            </div>
-            <div class="modal-body">
-                <form id="editNoticeForm" name="editNoticeForm" enctype="multipart/form-data" method="POST">
-                    <div class="form-group">
-                        <label class="control-label">编号:</label>
-                        <input type="text" class="form-control" name="noticeId" id="edit-noticeId" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">公告标题:</label>
-                        <input type="text" class="form-control" name="noticeTitle" id="edit-noticeTitle"
-                               placeholder="请输入公告标题">
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">公告内容:</label>
-                        <textarea name="noticeContent" id="edit-noticeContent" class="form-control"
-                                  placeholder="请输公告内容"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">公告发布日期:</label>
-                        <div class="input-group date form_datetime" data-date-format="yyyy-mm-dd"
-                             data-link-format="yyyy-mm-dd">
-                            <input type="text" class="form-control noticeDate" id='edit-noticeDate' name="noticeDate">
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">公告发布人:</label>
-                        <input type="text" class="form-control" name="noticeUserName" id="edit-noticeUserName" readonly>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary" onclick="editNotice();" id="btn-edit">编辑公告</button>
             </div>
         </div>
     </div>
@@ -194,13 +192,14 @@
 <script src="../../static/js/layer.js" th:src="@{/js/layer.js}"></script>
 <script src="../../static/js/flower.js" th:src="@{/js/flower.js}"></script>
 <script type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
     //封装查询参数
     function getQueryCondition(data) {
         var param = {};
         //组装查询参数
-        param.noticeId = $("#noticeId-search").val();//查询条件
-        param.noticeTitle = $("#noticeTitle-search").val();//查询条件
-        param.noticeDate = $("#noticeDate-search").val();//查询条件
+        param.orderNo = $("#orderNo-search").val();//查询条件
+        param.orderDate = $("#orderDate-search").val();//查询条件
+        param.orderStatus = $("#orderStatus-search").val();//查询条件
         //组装分页参数
         param.start = data.start; //第一条数据的起始位置，比如0代表第一条数据
         param.length = data.length;//告诉服务器每页显示的条数
@@ -228,8 +227,8 @@
             ajax: function (data, callback, settings) {
                 var param = getQueryCondition(data);
                 $.ajax({
-                    type: "GET",
-                    url: "/notice/notices",
+                    type: "POST",
+                    url: "/order/orders",
                     cache: false,  //禁用缓存
                     data: param,    //传入已封装的参数
                     dataType: "json",
@@ -254,16 +253,33 @@
                 [
                     {
                         "sClass": "text-center",
-                        "data": "noticeId",
+                        "data": "id",
                         "render": function (data, type, full, meta) {
                             return '<input type="checkbox"  class="checkchild"  value="' + data + '" />';
                         },
                         'bSortable': false
                     },
-                    {"data": "noticeId"},
-                    {"data": "noticeTitle"},
-                    {"data": "noticeDate"},
-                    {"data": "noticeUserName"},
+                    {"data": "id"},
+                    {"data": "orderNo"},
+                    {
+                        "data": function (obj) {
+                            return obj.goods.goodsName;
+                        }
+                    },
+                    {"data": "goodsPerPrice"},
+                    {"data": "orderNumber"},
+                    {"data": "orderAmount"},
+                    {"data": "orderStatus"},
+                    {"data": "orderDate"},
+                    {
+                        "sClass": "text-center",
+                        "data": "id",
+                        "render": function (data, type, full, meta) {
+                            var url = "/order/findById?id=" + data;
+                            return "<a  href='" + url + "' class='btn btn-warning btn-stl'>订单详情</a>";
+                        },
+                        'bSortable': false
+                    },
                 ],
             columnDefs:
                 [
@@ -271,68 +287,56 @@
                     {"orderable": false, "targets": 2},
                     {"orderable": false, "targets": 3},
                     {"orderable": false, "targets": 4},
+                    {"orderable": false, "targets": 5},
+                    {"orderable": false, "targets": 6},
+                    {
+                        "orderable": false,
+                        // 返回自定义内容
+                        "render": function (data, type, row) {
+                            if (data == '00') {
+                                return "未支付";
+                            } else if (data == '02') {
+                                return "支付失败";
+                            } else if (data == '03') {
+                                return "支付成功";
+                            } else if (data == '04') {
+                                return "订单审核成功";
+                            } else if (data == '05') {
+                                return "订单审核失败";
+                            } else if (data == '06') {
+                                return "已发货,运输中"
+                            } else if (data == '07') {
+                                return "待收货";
+                            } else if (data == '08') {
+                                return "已收货";
+                            } else if (data == '09') {
+                                return "待评价";
+                            } else if (data == '10') {
+                                return "已评价";
+                            } else if (data == '11') {
+                                return "订单已取消";
+                            } else if (data == '12') {
+                                return "订单已删除";
+                            } else {
+                                return "状态未知";
+                            }
+                        },
+                        "targets": 7
+                    },
+                    {"orderable": false, "targets": 8},
+                    {"orderable": false, "targets": 9},
                 ],
         });
     });
+
 
     //按条件查询
     function search() {
         table.ajax.reload();
     }
 
-    var submit = false;
-
-    function vertify(opp) {
-        submit = false;
-        var noticeTitle = $('#' + opp + '-noticeTitle').val();
-        var noticeContent = $('#' + opp + '-noticeContent').val();
-        if (noticeTitle == "" || noticeTitle == undefined || noticeTitle == null) {
-            return layer.msg('公告标题不能为空', function () {
-                //关闭后的操作
-            });
-        }
-        if (noticeContent == "" || noticeContent == undefined || noticeContent == null) {
-            return layer.msg('公告标题内容不能为空', function () {
-                //关闭后的操作
-            });
-        }
-        submit = true;
-    }
-
-    //添加用户
-    function addNotice() {
-        vertify('add');
-        if (submit) {
-            $.ajax({
-                cache: false,
-                type: "POST",
-                url: '/notice/add',
-                data: $('#addNoticeForm').serialize(),
-                async: false,
-                success: function (data) {
-                    if (data == "success") {
-                        layer.msg('保存成功');
-                        table.ajax.reload();
-                        $('#addNotice').modal('hide');
-                    } else {
-                        layer.msg(data);
-                        $('#addNotice').modal('hide');
-                    }
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    alert("操作失败" + errorThrown);
-                }
-            });
-        }
-    }
-
-    //模态框隐藏时文本框清空
-    $('#addNotice').on('hidden.bs.modal', function () {
-        clearForm($('#addNoticeForm'));
-    });
-
-    //查找类别
-    function findNotice() {
+    //删除订单
+    function delOrderById() {
         var id = $(".checkchild:checked").val();
         if ($(".checkchild:checked").length < 1) {
             layer.msg('请选择一条数据');
@@ -342,82 +346,101 @@
             layer.msg('一次只能修改一条数据');
             return;
         }
-        $.ajax({
-            async: false,
-            type: "POST",
-            data: {id: id},
-            url: '/notice/findById',
-            dataType: "json",
-            success: function (data) {
-                $("#edit-noticeId").val(data.noticeId);
-                $("#edit-noticeTitle").val(data.noticeTitle);
-                $("#edit-noticeContent").val(data.noticeContent);
-                $("#edit-noticeDate").val(data.noticeDate);
-                $("#edit-noticeUserName").val(data.noticeUserName);
-            }
-        });
-        $('#editNotice').modal();
-    }
-
-
-    //修改公告信息
-    function editNotice() {
-        vertify('edit');
-        if (submit) {
-            $.ajax({
-                cache: true,
-                type: "POST",
-                url: '/notice/edit',
-                data: $('#editNoticeForm').serialize(),
-                async: false,
-                success: function (data) {
-                    if (data == "success") {
-                        layer.msg('修改成功');
-                        table.ajax.reload();
-                        $('#addNotice').modal('hide');
-                    } else {
-                        layer.msg("修改失败");
-                        $('#addNotice').modal('hide');
-                    }
-                }
-            });
-        }
-    }
-
-    //删除分类信息
-    function delNoticeById() {
-        var id = $(".checkchild:checked").val();
-        if ($(".checkchild:checked").length < 1) {
-            layer.msg('请选择一条数据');
-            return;
-        }
-        if ($(".checkchild:checked").length > 1) {
-            layer.msg('一次只能修改一条数据');
-            return;
-        }
-        layer.confirm('您确定要删除该公告吗？', {
+        layer.confirm('删除信息无法恢复！您确定要删除该订单吗？', {
             btn: ['确认', '取消'] //按钮
         }, function () {
             $.ajax({
                 cache: true,
                 type: "POST",
-                url: '/notice/delete',
+                url: '/order/delete',
                 data: {id: id},
                 async: false,
                 success: function (data) {
                     if (data == "success") {
-                        layer.msg('删除成功');
+                        layer.msg('删除成功!');
                         table.ajax.reload();
                     } else {
                         layer.msg('删除失败');
                     }
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    alert("操作失败" + errorThrown);
                 }
             });
         });
     }
+
+    //弹出订单处理弹框
+    function orderHandler() {
+        var id = $(".checkchild:checked").val();
+        if ($(".checkchild:checked").length < 1) {
+            layer.msg('请选择一条数据');
+            return;
+        }
+        if ($(".checkchild:checked").length > 1) {
+            layer.msg('一次只能修改一条数据');
+            return;
+        }
+        $(".order_id").val(id);
+        $('#editOrder').modal();
+    }
+
+    //修改订单状态
+    function updateOrderStatus() {
+        $.ajax({
+            cache: true,
+            type: "POST",
+            url: /*[[@{/order/updateOrderStatus}]]*/'#',
+            data: $("#orderStatusForm").serialize(),
+            async: false,
+            success: function (data) {
+                if (data == "success") {
+                    layer.msg('处理成功');
+                    table.ajax.reload();
+                } else {
+                    layer.msg('处理失败');
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("操作失败" + errorThrown);
+            }
+        });
+    }
+
+    //订单发货
+    function orderSender() {
+        var orderExpress = $("#orderExpress_edit").val();
+        var orderSenderName = $("#orderSenderName_edit").val();
+        var orderSenderTel = $("#orderSenderTel_edit").val();
+        if (orderExpress == "" || orderExpress == null || orderExpress == undefined) {
+            alert('请填写发货的快递公司!');
+            return false;
+        }
+        if (orderSenderName == "" || orderSenderName == undefined || orderSenderName == null) {
+            alert('请填写送货的快递员!');
+            return false;
+        }
+        if (orderSenderTel == "" || orderSenderTel == undefined || orderSenderTel == null) {
+            alert('请填写送货人联系方式!');
+            return false;
+        }
+        $.ajax({
+            cache: true,
+            type: "POST",
+            url: '/order/orderSend',
+            data: $("#orderSendForm").serialize(),
+            async: false,
+            success: function (data) {
+                if (data == "success") {
+                    layer.msg('处理成功');
+                    table.ajax.reload();
+                } else {
+                    layer.msg('处理失败');
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("操作失败" + errorThrown);
+            }
+        });
+    }
+
 
     $('.orderDate').datepicker({
         language: 'zh-CN',//显示中文
@@ -432,6 +455,7 @@
         todayBtn: true,//显示今日按钮
         locale: moment.locale('zh-cn')
     });
+    /*]]>*/
 </script>
 <div th:include="common/footer :: footer"></div>
 </body>

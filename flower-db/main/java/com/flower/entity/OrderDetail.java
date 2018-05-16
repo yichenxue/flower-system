@@ -22,7 +22,7 @@ public class OrderDetail implements Serializable {
     private BigDecimal orderAmount;//订单金额
     private String orderPayWay;//付款方式
     private String orderDate;//订单生成日期
-    private String orderStatus;//订单状态(00-未支付,02-支付失败,03-支付成功,04-已受理,待发货,05-已发货,运输中,07-待收货,08-已收货,09-待评价,10-已评价,11-订单已取消,12-订单已删除)
+    private String orderStatus;//订单状态(00-未支付,02-支付失败,03-支付成功,04-订单审核成功,05-订单审核失败 06-已发货,运输中,,07-待收货,08-已收货,09-待评价,10-已评价,11-订单已取消,12-订单已删除)
     private String orderAddress;//收货人地址
     private String orderUserName;//收货人姓名
     private String orderUserPhone;//收货人联系方式
@@ -269,6 +269,7 @@ public class OrderDetail implements Serializable {
         this.user = user;
     }
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "order_parent_id", referencedColumnName = "order_id")
     public OrderItem getOrderItem() {

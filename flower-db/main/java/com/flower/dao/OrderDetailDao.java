@@ -2,6 +2,9 @@ package com.flower.dao;
 
 
 import com.flower.entity.OrderDetail;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
@@ -13,6 +16,9 @@ import java.util.List;
  * Created by yumaoying on 2018/5/14.
  */
 public interface OrderDetailDao extends JpaRepository<OrderDetail, Integer>, JpaSpecificationExecutor<OrderDetail> {
+    //分页查找订单
+    public Page<OrderDetail> findAll(Specification spec, Pageable pageable);
+
     //保存订单信息
     public OrderDetail save(OrderDetail orderDetail);
 
@@ -45,4 +51,8 @@ public interface OrderDetailDao extends JpaRepository<OrderDetail, Integer>, Jpa
     @Modifying
     @Query(value = "DELETE  FROM order_detail  WHERE order_parent_id=?1", nativeQuery = true)
     public void deleteParsentId(Integer orderItemId);
+
+    @Modifying
+    @Query(value = "update order_detail t set  t.order_status=?2  where t.id=?1", nativeQuery = true)
+    public void updateOrderStatus(Integer orderId, String orderStatus);
 }

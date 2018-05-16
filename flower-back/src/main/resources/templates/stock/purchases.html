@@ -54,7 +54,9 @@
                     </div>
                     <button type="button" class="btn btn-primary" onclick="search();">查询</button>
                     <div class="form-group navbar-form navbar-right">
-                        <a type="button" class="btn btn-primary btn-stl btn-warning" th:href="@{/stock}">库存管理</a>
+                        <a type="button" class="btn  btn-stl btn-warning" th:href="@{/stock}">库存管理</a>
+                        <button type="button" class="btn btn-warning btn-stl" onclick="delPurchaseById()">采购信息删除
+                        </button>
                         <button type="button" class="btn btn-primary btn-stl" onclick="toPurchase()">商品采购入库</button>
                         <button type="button" class="btn btn-primary btn-stl" onclick="findPurchase()">编辑采购信息</button>
                         </button>
@@ -366,7 +368,7 @@
                 var pur = "<label class='control-label'>采购编号:</label>";
                 pur += "<input type='text' class='form-control' name='id' value='" + id + "' readonly/>";
                 $("#Purchase-sup").append(slable);
-                var oriPurchaseNumber="<input type='hidden'  name='oriPurchaseNumber' value='" + data.purchaseNumber + "'/>";
+                var oriPurchaseNumber = "<input type='hidden'  name='oriPurchaseNumber' value='" + data.purchaseNumber + "'/>";
                 $("#Purchase-id").append(pur);
                 $("#Purchase-id").append(oriPurchaseNumber);
                 $("#addPurchase-purchaseDate").val(data.purchaseDate);
@@ -441,6 +443,39 @@
         });
     }
 
+    //删除采购信息
+    function deletePurse() {
+        var id = $(".checkchild:checked").val();
+        if ($(".checkchild:checked").length < 1) {
+            layer.msg('请选择一条数据');
+            return;
+        }
+        if ($(".checkchild:checked").length > 1) {
+            layer.msg('一次只能修改一条数据');
+            return;
+        }
+        layer.confirm('删除信息无法恢复！您确定要删除该订单吗？', {
+            btn: ['确认', '取消'] //按钮
+        }, function () {
+            $.ajax({
+                cache: true,
+                type: "POST",
+                url: '/purchase/delete',
+                data: {id: id},
+                async: false,
+                success: function (data) {
+                    if (data == "success") {
+                        layer.msg('删除成功!');
+                        table.ajax.reload();
+                    } else {
+                        layer.msg('删除失败');
+                    }
+                }
+            });
+        });
+    }
+
+
     $('.purchaseDate').datepicker({
         language: 'zh-CN',//显示中文
         format: 'yyyy-mm-dd',//显示格式
@@ -458,7 +493,6 @@
     var day = date.getDate();
     var mydate = date.getFullYear() + "-" + (mon < 10 ? "0" + mon : mon) + "-" + (day < 10 ? "0" + day : day);
     //$('#addPurchase-purchaseDate').val(mydate)
-
 
 
 </script>

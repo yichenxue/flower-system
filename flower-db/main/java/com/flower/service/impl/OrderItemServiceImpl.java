@@ -7,10 +7,18 @@ import com.flower.entity.OrderDetail;
 import com.flower.entity.OrderItem;
 import com.flower.service.OrderItemService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -67,6 +75,32 @@ public class OrderItemServiceImpl implements OrderItemService {
         orderDetailDao.deleteParsentId(orderItemId);
         //再删除总订单信息
         orderItemDao.delete(orderItemId);
+    }
 
+    //查找所有订单
+    @Override
+    public Page<OrderItem> findAll(OrderItem orderItem, Pageable pageable) {
+        Specification<OrderItem> specification = new Specification<OrderItem>() {
+            @Override
+            public Predicate toPredicate(Root<OrderItem> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder cb) {
+                List<Predicate> predicates = new ArrayList<>();
+                if (orderItem.getOrderNo() != null && !orderItem.getOrderNo().trim().isEmpty()) {
+                    predicates.add(cb.like(root.get("orderNo").as(String.class), "%" + orderItem.getOrderNo() + "%"));
+                }
+                if (orderItem.getOrderId() != null && !orderItem.getOrderId().toString().trim().isEmpty()) {
+                    predicates.add(cb.equal(root.get("orderId").as(Integer.class), orderItem.getOrderId()));
+                }
+                if (orderItem.getOrderDate() != null && !orderItem.getOrderDate().toString().trim().isEmpty()) {
+                    predicates.add(cb.equal(root.get("orderStatus").as(String.class), orderItem.getOrderDate()));
+                }
+                return cb.and(predicates.toArray(new Predicate[predicates.size()]));
+            }
+        };
+        return orderItemDao.findAll(specification, pageable);
+    }
+
+    @Override
+    public OrderItem findByOrderId(Integer orderId) {
+        return orderItemDao.findByOrderId(orderId);
     }
 }
