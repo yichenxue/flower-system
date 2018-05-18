@@ -57,6 +57,10 @@
                         </div>
                     </div>
                     <button type="button" class="btn btn-primary" onclick="search();">查询</button>
+                    <div class="form-group navbar-form navbar-right">
+                        <button type="button" class="btn btn-warning btn-stl" onclick="delCommentById()">删除评论</button>
+                        </button>
+                    </div>
                 </form>
             </div>
 
@@ -180,7 +184,40 @@
         table.ajax.reload();
     }
 
-    var submit = false;
+    //删除评论信息
+    function delCommentById() {
+        var id = $(".checkchild:checked").val();
+        if ($(".checkchild:checked").length < 1) {
+            layer.msg('请选择一条数据');
+            return;
+        }
+        if ($(".checkchild:checked").length > 1) {
+            layer.msg('一次只能修改一条数据');
+            return;
+        }
+        layer.confirm('您确定要删除该评论吗？', {
+            btn: ['确认', '取消'] //按钮
+        }, function () {
+            $.ajax({
+                cache: true,
+                type: "POST",
+                url: '/comment/delete',
+                data: {id: id},
+                async: false,
+                success: function (data) {
+                    if (data == "success") {
+                        layer.msg('删除成功');
+                        table.ajax.reload();
+                    } else {
+                        layer.msg('删除失败');
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert("操作失败" + errorThrown);
+                }
+            });
+        });
+    }
 
     $('.commentDate').datepicker({
         language: 'zh-CN',//显示中文

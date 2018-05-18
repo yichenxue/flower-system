@@ -120,8 +120,10 @@ public class GoodsController {
                 goodsService.delete(id, stock.getId());
                 return "success";
             }
+
             return "该商品库存量不为0，无法删除!";
         } catch (Exception e) {
+            System.out.println("=============错误");
             e.printStackTrace();
             if (e.getMessage().contains("constraint"))
                 return "该商品和其他有关联，暂无法删除!";

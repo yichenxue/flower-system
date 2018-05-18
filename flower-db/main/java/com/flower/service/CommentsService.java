@@ -14,4 +14,6 @@ public interface CommentsService {
 
     //分页查找评论
     public Page<Comments> findAll(Comments comments, Pageable pageable);
+
+    public void delete(Integer commentId);
 }

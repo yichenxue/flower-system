@@ -1,7 +1,6 @@
 package com.flower.controller;
 
 import com.flower.entity.Comments;
-import com.flower.entity.Notice;
 import com.flower.service.CommentsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -36,7 +35,6 @@ public class CommentController {
     public Map<String, Object> get(Comments comments, String draw,
                                    @RequestParam(required = false, defaultValue = "0") int start,
                                    @RequestParam(required = false, defaultValue = "10") int length) {
-        System.out.println("=========" + comments);
         Map<String, Object> map = new HashMap<>();
         Sort sort = new Sort(Sort.Direction.ASC, "commentId");//按用户id降序排
         org.springframework.data.domain.Pageable pageable = new PageRequest(start / length, length, sort);
@@ -46,5 +44,17 @@ public class CommentController {
         map.put("recordsFiltered", page.getTotalElements());
         map.put("data", page.getContent());
         return map;
+    }
+
+    @RequestMapping("/delete")
+    @ResponseBody
+    public String delete(Integer id) {
+        try {
+            commentsService.delete(id);
+            return "success";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "删除失败!";
+        }
     }
 }

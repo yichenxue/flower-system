@@ -51,4 +51,9 @@ public class CommentsServiceImpl implements CommentsService {
         };
         return commentsDao.findAll(specification, pageable);
     }
+
+    //评论删除
+    public void delete(Integer commentId) {
+        commentsDao.delete(commentId);
+    }
 }

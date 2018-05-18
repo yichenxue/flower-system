@@ -19,4 +19,7 @@ public interface CommentsDao extends JpaRepository<Comments, Integer>, JpaSpecif
 
     //按条件查找评论
     Page<Comments> findAll(Specification<Comments> spec, Pageable pagebble);
+
+    //删除评论
+    public void delete(Integer commentId);
 }
