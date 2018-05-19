@@ -347,8 +347,23 @@
         });
     }
 
+    function recoverInfo() {
+        $("#addPermisssionLabel").empty().html("添加权限信息");
+        $("#btn-edit").text('添加权限信息');
+        $("#btn-edit").unbind("click");
+        $("#btn-edit").attr('onclick', 'addPermission()');
+        $("#edit-id").empty();
+        $("#name").val();
+        $("#url").val();
+        $("#permission").val();
+        $("#parentId").val();
+        $("#sort").val();
+        $("#description").val();
+    }
+
     //模态框清空
     $('#addPermisssion').on('hidden.bs.modal', function () {
+        recoverInfo();
         clearForm($('#addPermisssionForm'));
     });
 

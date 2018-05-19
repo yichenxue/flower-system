@@ -350,8 +350,29 @@
         }
     }
 
+    function recoverInfo() {
+        $("#btn-edit").text('添加会员信息');
+        $("#btn-edit").unbind("click");
+        $("#btn-edit").attr('onclick', 'addUser()');
+        $("#edit-uid").empty();
+        $("#edit-userimg").empty();
+        $("#addUserLabel").empty();
+        $("#addUserLabel").append("添加会员信息");
+        $("#userName").val();
+        $("#userPw").val();
+        $("#userEamil").val();
+        $("#userTel").val();
+        $("#userRealname").val();
+        $("#userAddress").val();
+        $("#userQq").val();
+        $("#userBirthday").val();
+        $("#userCore").val();
+        $("#userRegister").val();
+    }
+
     //模态框清空
     $('#addUser').on('hidden.bs.modal', function () {
+        recoverInfo();
         clearForm($('#addUser'));
     });
 

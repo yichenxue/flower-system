@@ -296,6 +296,19 @@
         }
     }
 
+    //修改完后恢复添加弹窗
+    function recoverInfo() {
+        $("#btn-edit").text('添加类别信息');
+        $("#btn-edit").unbind("click");
+        $("#btn-edit").attr('onclick', 'addCategory()');
+        $("#edit-uid").empty();
+        $("#addCategoryLabel").empty();
+        $("#addCategoryLabel").append("添加类别信息");
+        $("#categoryCode").val();
+        $("#categoryName").val();
+        $("#catagoryDesc").val();
+        $("#parentId").val();
+    }
 
     //查找类别
     function findCategory() {
@@ -428,6 +441,7 @@
 
     //模态框清空
     $('#addCategory').on('hidden.bs.modal', function () {
+        recoverInfo();
         clearForm($('#addCategoryForm'));
     });
 

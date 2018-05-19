@@ -356,8 +356,22 @@
         });
     }
 
+    function recoverInfo() {
+        $("#btn-edit").text('添加供应商信息');
+        $("#btn-edit").unbind("click");
+        $("#btn-edit").attr('onclick', 'addSupplier();');
+        $("#edit-supId").empty();
+        $("#addSupplierLabel").empty();
+        $("#addSupplierLabel").append("添加供应商信息");
+        $("#supName").val();
+        $("#supAddress").val();
+        $("#supTel").val();
+        $("#supEmail").val();
+    }
+
     //模态框清空
     $('#addSupplier').on('hidden.bs.modal', function () {
+        recoverInfo();
         clearForm($('#addSupplierForm'));
     });
 

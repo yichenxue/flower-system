@@ -98,7 +98,7 @@ public class GoodsController {
             String msg = FileUploadUtil.upload(path, file);
             if (!"图片格式错误".equals(msg) && !"图片上传错误".equals(msg)) {
                 goods.setGoodsPic(msg);
-                goodsService.save(goods);
+                goodsService.edit(goods);
                 return "success";
             } else {
                 return msg;

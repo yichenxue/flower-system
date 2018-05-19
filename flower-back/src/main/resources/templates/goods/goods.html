@@ -447,7 +447,27 @@
         clearForm($('#addGoodsForm'));
     });
 
-    //查找类别
+    function recoverInfo() {
+        $("#edit-goodsId").val();
+        $("#edit-goodsName").val();
+        $("#edit-goodsDesc").val();
+        $("#edit-goodsPic").attr("src", '');
+        $("#edit-goodsPic").attr("title", '');
+        $("#edit-goodsPic").empty();
+        $("#edit-goodsColor").val();
+        $("#edit-goodsMean").val();
+        $("#edit-goodsShijia").val();
+        $("#edit-goodsPurchasePrice").val();
+        $("#edit-goodsPrice").val();
+        $("#edit-goodsDiscount").val();
+        $("#edit-goodsMaterial").val();
+        $("#edit-brand").val();
+        $("#edit-pack").val();
+        $("#edit-remark").val();
+        $("#edit-").val();
+    }
+
+    //查找商品
     function findGoods() {
         var id = $(".checkchild:checked").val();
         if ($(".checkchild:checked").length < 1) {

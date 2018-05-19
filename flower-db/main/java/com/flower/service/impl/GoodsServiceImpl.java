@@ -81,6 +81,11 @@ public class GoodsServiceImpl implements GoodsService {
         stockDao.save(stock);
     }
 
+    @Transactional
+    public void edit(Goods goods) {
+        goodsDao.save(goods);
+    }
+
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = {Exception.class})
     public void delete(Integer goodsId, Integer stockId) {
         //删除库存信息

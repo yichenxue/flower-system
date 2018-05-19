@@ -39,7 +39,7 @@ public class Notice implements Serializable {
     }
 
     @Basic
-    @Column(name = "notice_content", nullable = true, length = 500)
+    @Column(name = "notice_content", nullable = true, length = 10000)
     public String getNoticeContent() {
         return noticeContent;
     }

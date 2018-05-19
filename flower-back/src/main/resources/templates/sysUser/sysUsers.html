@@ -352,9 +352,20 @@
 
     //模态框清空
     $('#addUser').on('hidden.bs.modal', function () {
+        recoverInfo();
         clearForm($('#addUser'));
     });
 
+    function recoverInfo() {
+        $("#addUserLabel").empty().html("添加用户信息");
+        $("#btn-edit").text('添加用户信息');
+        $("#btn-edit").unbind("click");
+        $("#btn-edit").attr('onclick', 'addUser()');
+        $("#password-form").add();
+        $("#edit-uid").empty();
+        $("#username").val();
+        $("#name").val();
+    }
 
     //查找用户
     function findUser() {
@@ -385,7 +396,7 @@
                 $("#edit-uid").append("<input type='hidden' name='uid' id='uid' value='" + data.uid + "'>");
                 $("#username").val(data.username);
                 $("#name").val(data.name);
-                $("#state option[value='" + data.state + "']").attr("checked", true);
+                $(".state option[value='" + data.state + "']").attr("checked", true);
             }
         });
         $('#addUser').modal();

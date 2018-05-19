@@ -154,6 +154,73 @@
         </div>
     </div>
 </div>
+
+//编辑
+<div class="modal fade" id="editPurchase" role="dialog" tabindex="-1" aria-labelledby="editPurchaseLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" aria-hidden="true">&times;
+                </button>
+                <h4 class="modal-title" id="editPurchaseLabel">编辑商品采购</h4>
+            </div>
+            <div class="modal-body">
+                <form id="editPurchaseForm" enctype="multipart/form-data" method="POST">
+                    <div style="width:45%;float:left;padding-left: 5%">
+                        <h2>采购信息</h2>
+                        <div class="form-group" id="editPurchase-id"></div>
+                        <div class="form-group" id="editPurchase-goods">
+                            <label class="control-label">商品编号:</label>
+                        </div>
+                        <div class="form-group" id="editPurchase-sup">
+                            <label class="control-label">供应商编号:</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">采购日期:</label>
+                            <div class="input-group date form_datetime" data-date-format="yyyy-mm-dd"
+                                 data-link-format="yyyy-mm-dd">
+                                <input type="text" class="form-control purchaseDate" id='editPurchase-purchaseDate'
+                                       name="purchaseDate">
+                                <span class="input-group-addon"><span
+                                        class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">采购数量:</label>
+                            <input type="number" class="form-control" name="purchaseNumber"
+                                   id="editPurchase-purchaseNumber"
+                                   placeholder="请输入采购数量" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">采购价格:</label>
+                            <input type="number" class="form-control" name="purchasePrice"
+                                   id="editPurchase-purchasePrice"
+                                   placeholder="采购价格" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">采购人员:</label>
+                            <input type="text" class="form-control" name="purchaseUser" id="editPurchase-purchaseUser"
+                                   placeholder="采购人员">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">采购人员联系方式:</label>
+                            <input type="text" class="form-control" name="purchaseUserTel"
+                                   id="editPurchase-purchaseUserTel"
+                                   placeholder="联系方式">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div style="clear:both;"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="editPurchase();" id="Purchase-btn-edit">编辑采购入库记录
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 <script src="../../static/js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
 <script src="../../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
 <script src="../../static/js/jquery.dataTables.min.js" th:src="@{/js/jquery.dataTables.min.js}"></script>
@@ -285,6 +352,7 @@
             url: '/purchase/toAddPurchase',
             dataType: "json",
             success: function (data) {
+                alert("123");
                 $("#addPurchase-goodsId").empty();
                 $("#addPurchase-supId").empty();
                 $("#Purchase-id").empty();
@@ -352,39 +420,37 @@
             url: '/purchase/findById',
             dataType: "json",
             success: function (data) {
-                $("#addPurchaseLabel").empty();
-                $("#addPurchaseLabel").append('商品采购入库');
-                $("#Purchase-btn-add").text('修改采购信息');
-                $("#Purchase-btn-add").unbind("click");
-                $("#Purchase-btn-add").attr('onclick', 'editPurchase()');
-                $("#Purchase-goods").empty();
-                $("#Purchase-sup").empty();
-                $("#Purchase-id").empty();
+
+
+                $("#editPurchase-goods").empty();
+                $("#editPurchase-sup").empty();
+                $("#editPurchase-id").empty();
                 var glable = "<label class='control-label'>商品编号:</label>";
                 glable += "<input type='text' class='form-control' name='goodsId' value='" + data.goods.goodsId + "' readonly/>";
-                $("#Purchase-goods").append(glable);
+                $("#editPurchase-goods").append(glable);
                 var slable = "<label class='control-label'>供应商编号:</label>";
                 slable += "<input type='text' class='form-control' name='supId' value='" + data.supplier.supId + "' readonly/>";
                 var pur = "<label class='control-label'>采购编号:</label>";
                 pur += "<input type='text' class='form-control' name='id' value='" + id + "' readonly/>";
-                $("#Purchase-sup").append(slable);
+                $("#editPurchase-sup").append(slable);
                 var oriPurchaseNumber = "<input type='hidden'  name='oriPurchaseNumber' value='" + data.purchaseNumber + "'/>";
-                $("#Purchase-id").append(pur);
-                $("#Purchase-id").append(oriPurchaseNumber);
-                $("#addPurchase-purchaseDate").val(data.purchaseDate);
-                $("#addPurchase-purchaseNumber").val(data.purchaseNumber);
-                $("#addPurchase-purchasePrice").val(data.purchasePrice);
-                $("#addPurchase-purchaseUser").val(data.purchaseUser);
-                $("#addPurchase-purchaseUserTel").val(data.purchaseUserTel);
+                $("#editPurchase-id").append(pur);
+                $("#editPurchase-id").append(oriPurchaseNumber);
+                $("#editPurchase-purchaseDate").val(data.purchaseDate);
+                $("#editPurchase-purchaseNumber").val(data.purchaseNumber);
+                $("#editPurchase-purchasePrice").val(data.purchasePrice);
+                $("#editPurchase-purchaseUser").val(data.purchaseUser);
+                $("#editPurchase-purchaseUserTel").val(data.purchaseUserTel);
             }
         });
-        $('#addPurchase').modal();
+        $('#editPurchase').modal();
     }
 
     //模态框清空
     $('#addPurchase').on('hidden.bs.modal', function () {
         clearForm($('#addPurchaseForm'));
-    })
+    });
+
 
     //编辑采购记录
     function editPurchase() {

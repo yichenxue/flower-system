@@ -17,6 +17,8 @@ public interface GoodsService {
 
     public void save(Goods goods);
 
+    public void edit(Goods goods);
+
     public void delete(Integer goodsId, Integer stockId);
 
     public List<Goods> findAll();
