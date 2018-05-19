@@ -91,16 +91,57 @@
             </div>
             <div class="modal-body">
                 <form id="addUserForm">
+                    <div class="form-group"></div>
+                    <div class="form-group">
+                        <label class="control-label">账户名:</label>
+                        <input type="text" class="form-control" name="username" placeholder="请输入用户名">
+                        <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip"
+                              data-placement="top" data-original-title="必填"><i></i></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">密码:</label>
+                        <input type="password" class="form-control" name="password" placeholder="请输入密码">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">真实姓名:</label>
+                        <input type="text" class="form-control" name="name" placeholder="请输入真实姓名">
+                    </div>
+                    <label class="control-label">用户状态:</label>
+                    <div class="form-group">
+                        <label class="radio-inline">
+                            <input type="radio" name="state" value="1" class="state"> 开启
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="state" class="state" value="0"> 未开启
+                        </label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="addUser();">添加用户</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--修改用户弹窗-->
+<div class="modal fade" id="editUser" role="dialog" tabindex="-1" aria-labelledby="editUserLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" aria-hidden="true">&times;
+                </button>
+                <h4 class="modal-title" id="editUserLabel">修改用户</h4>
+            </div>
+            <div class="modal-body">
+                <form id="editUserForm">
                     <div id="edit-uid" class="form-group"></div>
                     <div class="form-group">
                         <label class="control-label">账户名:</label>
                         <input type="text" class="form-control" name="username" id="username" placeholder="请输入用户名">
                         <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip"
                               data-placement="top" data-original-title="必填"><i></i></span>
-                    </div>
-                    <div class="form-group" id="password-form">
-                        <label class="control-label">密码:</label>
-                        <input type="password" class="form-control" name="password" id="password" placeholder="请输入密码">
                     </div>
                     <div class="form-group">
                         <label class="control-label">真实姓名:</label>
@@ -119,12 +160,11 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary" onclick="addUser();" id="btn-edit">添加用户</button>
+                <button type="button" class="btn btn-primary" onclick="editUser();" id="btn-edit">修改用户</button>
             </div>
         </div>
     </div>
 </div>
-
 
 <!--分配角色弹窗-->
 <div class="modal fade" id="selectRole" role="dialog" tabindex="-1" aria-labelledby="selectRoleLabel"
@@ -352,20 +392,9 @@
 
     //模态框清空
     $('#addUser').on('hidden.bs.modal', function () {
-        recoverInfo();
         clearForm($('#addUser'));
     });
 
-    function recoverInfo() {
-        $("#addUserLabel").empty().html("添加用户信息");
-        $("#btn-edit").text('添加用户信息');
-        $("#btn-edit").unbind("click");
-        $("#btn-edit").attr('onclick', 'addUser()');
-        $("#password-form").add();
-        $("#edit-uid").empty();
-        $("#username").val();
-        $("#name").val();
-    }
 
     //查找用户
     function findUser() {
@@ -378,11 +407,6 @@
             layer.msg('一次只能修改一条数据');
             return;
         }
-        $("#addUserLabel").empty().html("修改用户信息");
-        $("#btn-edit").text('修改用户信息');
-        $("#btn-edit").unbind("click");
-        $("#btn-edit").attr('onclick', 'editUser()');
-        $("#password-form").remove();
         $.ajax({
             async: false,
             type: "POST",
@@ -399,7 +423,7 @@
                 $(".state option[value='" + data.state + "']").attr("checked", true);
             }
         });
-        $('#addUser').modal();
+        $('#editUser').modal();
     }
 
     //修改用户信息
@@ -429,7 +453,7 @@
                     $('#addUser').modal('hide');
                 } else {
                     layer.msg('保存失败');
-                    $('#addUser').modal('hide');
+                    $('#editUser').modal('hide');
                 }
             }
         });
