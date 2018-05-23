@@ -90,7 +90,6 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = {Exception.class})
-    @CacheEvict
     public void addUserRole(Integer uid, Integer[] roleId) {
         //先删除原有的角色
         sysUserDao.deleteUserRoleByUid(uid);

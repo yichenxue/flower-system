@@ -3,6 +3,7 @@ package com.flower.controller;
 import com.flower.entity.Category;
 import com.flower.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -34,6 +35,7 @@ public class CategoryController {
 
     @RequestMapping("/categorys")
     @ResponseBody
+    @Cacheable
     public Map<String, Object> get(Category category, String draw,
                                    @RequestParam(required = false, defaultValue = "0") int start,
                                    @RequestParam(required = false, defaultValue = "10") int length) {
@@ -51,12 +53,14 @@ public class CategoryController {
     //类别树显示
     @RequestMapping("/findAll")
     @ResponseBody
+    @Cacheable
     public List<Category> findAll() {
         return categoryService.findAll();
     }
 
     @RequestMapping("/findById")
     @ResponseBody
+    @Cacheable
     public Category findById(Integer id) {
         return categoryService.findByCategoryId(id);
     }

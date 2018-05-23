@@ -6,6 +6,8 @@ import com.flower.service.SysUserService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -118,6 +120,7 @@ public class SysUserController {
     //删除用户
     @RequestMapping(value = "/delete")
     @ResponseBody
+    @CacheEvict
     public String delete(Integer id) {
         try {
             sysUserService.del(id);
@@ -132,6 +135,7 @@ public class SysUserController {
     //用户分页查询
     @RequestMapping("/users")
     @ResponseBody
+    @Cacheable
     public Map<String, Object> get(SysUser sysUser, String draw,
                                    @RequestParam(required = false, defaultValue = "0") int start,
                                    @RequestParam(required = false, defaultValue = "10") int length) {
@@ -149,6 +153,7 @@ public class SysUserController {
     //分配角色
     @RequestMapping(value = "/addUserRole")
     @ResponseBody
+    @CacheEvict
     public String addRole(Integer uid, @RequestParam("roleId") Integer[] roleId) {
         try {
             sysUserService.addUserRole(uid, roleId);
